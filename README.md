@@ -1,7 +1,7 @@
 # CantinaVerse
 
 <p align="center">
-<img src="./frontend/public/assets/logo_title_slogon.svg" width="500" alt="Name">
+<img src="./logo+title+slogan.svg" width="500" alt="Name">
 </p>
 
 - [CantinaVerse](#cantinaverse)
