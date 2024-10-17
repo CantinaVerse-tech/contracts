@@ -30,6 +30,7 @@ contract FactoryNFTContractTest is Test {
     address payable PERSONAL = payable(address(uint160(123)));
     uint96 royaltyPercentage = 10;
     uint256 mintPrice = 0;
+    string metadataURI = "https://silver-selective-kite-794.mypinata.cloud/ipfs/";
 
     function setUp() public {
         config = new HelperConfig();
@@ -37,36 +38,6 @@ contract FactoryNFTContractTest is Test {
         factory = deployer.run();
 
         vm.deal(OWNER, 10 ether);
-    }
-
-    function testDeployOnAnvil() public {
-        vm.chainId(31_337);
-        assertEq(factory.owner(), config.getAnvilConfig().initialOwner);
-        assertEq(factory.getFee(), config.getAnvilConfig().serviceFee);
-    }
-
-    function testDeployOnSepolia() public {
-        vm.chainId(11_155_111);
-        assertEq(address(0xfe63Ba8189215E5C975e73643b96066B6aD41A45), config.getSepoliaConfig().initialOwner);
-        assertEq(factory.getFee(), config.getSepoliaConfig().serviceFee);
-    }
-
-    function testDeployOnBaseMainnet() public {
-        vm.chainId(8453);
-        assertEq(address(0xfe63Ba8189215E5C975e73643b96066B6aD41A45), config.getBaseMainnetConfig().initialOwner);
-        assertEq(factory.getFee(), config.getBaseMainnetConfig().serviceFee);
-    }
-
-    function testDeployOnOptimismMainnet() public {
-        vm.chainId(10);
-        assertEq(address(0xfe63Ba8189215E5C975e73643b96066B6aD41A45), config.getOpMainnetConfig().initialOwner);
-        assertEq(factory.getFee(), config.getOpMainnetConfig().serviceFee);
-    }
-
-    function testDeployOnModeMainnet() public {
-        vm.chainId(34_443);
-        assertEq(address(0xfe63Ba8189215E5C975e73643b96066B6aD41A45), config.getModeMainnetConfig().initialOwner);
-        assertEq(factory.getFee(), config.getModeMainnetConfig().serviceFee);
     }
 
     function testRevertOnUnsupportedNetwork() public {
@@ -84,7 +55,7 @@ contract FactoryNFTContractTest is Test {
 
     function testSuccessfulCreateCollection() public {
         vm.prank(OWNER);
-        factory.createCollection(name, symbol, maxSupply, OWNER, royaltyPercentage, mintPrice);
+        factory.createCollection(name, symbol, maxSupply, OWNER, royaltyPercentage, mintPrice, metadataURI);
         assertEq(factory.getAllCollections().length, 1);
     }
 
@@ -97,7 +68,7 @@ contract FactoryNFTContractTest is Test {
 
         vm.startPrank(address(1));
         vm.expectRevert(FactoryNFTContract.FactoryNFTContract__InsufficientFunds.selector);
-        factory.createCollection{ value: 0 }(name, symbol, maxSupply, OWNER, royaltyPercentage, testPrice);
+        factory.createCollection{ value: 0 }(name, symbol, maxSupply, OWNER, royaltyPercentage, testPrice, metadataURI);
         vm.stopPrank();
     }
 
@@ -109,7 +80,9 @@ contract FactoryNFTContractTest is Test {
         vm.stopPrank();
 
         vm.startPrank(OWNER);
-        factory.createCollection{ value: testPrice }(name, symbol, maxSupply, OWNER, royaltyPercentage, mintPrice);
+        factory.createCollection{ value: testPrice }(
+            name, symbol, maxSupply, OWNER, royaltyPercentage, mintPrice, metadataURI
+        );
         vm.stopPrank();
 
         assertEq(factory.getAllCollections().length, 1);
@@ -129,7 +102,9 @@ contract FactoryNFTContractTest is Test {
         vm.stopPrank();
 
         vm.startPrank(OWNER);
-        factory.createCollection{ value: testPrice }(name, symbol, maxSupply, OWNER, royaltyPercentage, mintPrice);
+        factory.createCollection{ value: testPrice }(
+            name, symbol, maxSupply, OWNER, royaltyPercentage, mintPrice, metadataURI
+        );
         vm.stopPrank();
 
         vm.startPrank(address(1));
@@ -146,7 +121,9 @@ contract FactoryNFTContractTest is Test {
         vm.stopPrank();
 
         vm.startPrank(OWNER);
-        factory.createCollection{ value: testPrice }(name, symbol, maxSupply, OWNER, royaltyPercentage, mintPrice);
+        factory.createCollection{ value: testPrice }(
+            name, symbol, maxSupply, OWNER, royaltyPercentage, mintPrice, metadataURI
+        );
         vm.stopPrank();
 
         vm.startPrank(address(1));

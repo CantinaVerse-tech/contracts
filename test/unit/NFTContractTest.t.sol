@@ -26,10 +26,11 @@ contract NFTContractTest is Test {
     uint256 INITIAL_STARTING_BALABCE = 100 ether;
     uint256 mintPrice = 0 ether;
     uint256 mintTestPrice = 0.01 ether;
+    string metadataURI = "https://silver-selective-kite-794.mypinata.cloud/ipfs/";
 
     function setUp() public {
-        nftcontract = new NFTContract(name, symbol, maxSupply, OWNER, royaltyPercentage, mintPrice);
-        nftcontract2 = new NFTContract(name, symbol, maxSupply, OWNER, royaltyPercentage, mintTestPrice);
+        nftcontract = new NFTContract(name, symbol, maxSupply, OWNER, royaltyPercentage, mintPrice, metadataURI);
+        nftcontract2 = new NFTContract(name, symbol, maxSupply, OWNER, royaltyPercentage, mintTestPrice, metadataURI);
         vm.deal(MINTER, INITIAL_STARTING_BALABCE);
     }
 
@@ -58,7 +59,7 @@ contract NFTContractTest is Test {
         vm.expectRevert(NFTContract.NFTContract__MaxRoyaltyPercentageReached.selector);
 
         // Attempt to deploy the contract with the excessive royalty percentage
-        new NFTContract(name, symbol, maxSupply, msg.sender, excessiveRoyaltyPercentage, mintPrice);
+        new NFTContract(name, symbol, maxSupply, msg.sender, excessiveRoyaltyPercentage, mintPrice, metadataURI);
     }
 
     function testRevert_InsufficientFunds() public {

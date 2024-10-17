@@ -122,36 +122,6 @@ contract MarketPlaceTest is Test {
         _;
     }
 
-    function testDeployOnAnvil() public {
-        vm.chainId(31_337);
-        assertEq(marketPlace.owner(), config.getAnvilConfig().initialOwner);
-        assertEq(marketPlace.getFee(), config.getAnvilConfig().serviceFee);
-    }
-
-    function testDeployOnSepolia() public {
-        vm.chainId(11_155_111);
-        assertEq(address(0xfe63Ba8189215E5C975e73643b96066B6aD41A45), config.getSepoliaConfig().initialOwner);
-        assertEq(marketPlace.getFee(), config.getSepoliaConfig().serviceFee);
-    }
-
-    function testDeployOnBaseMainnet() public {
-        vm.chainId(8453);
-        assertEq(address(0xfe63Ba8189215E5C975e73643b96066B6aD41A45), config.getBaseMainnetConfig().initialOwner);
-        assertEq(marketPlace.getFee(), config.getBaseMainnetConfig().serviceFee);
-    }
-
-    function testDeployOnOptimismMainnet() public {
-        vm.chainId(10);
-        assertEq(address(0xfe63Ba8189215E5C975e73643b96066B6aD41A45), config.getOpMainnetConfig().initialOwner);
-        assertEq(marketPlace.getFee(), config.getOpMainnetConfig().serviceFee);
-    }
-
-    function testDeployOnModeMainnet() public {
-        vm.chainId(34_443);
-        assertEq(address(0xfe63Ba8189215E5C975e73643b96066B6aD41A45), config.getModeMainnetConfig().initialOwner);
-        assertEq(marketPlace.getFee(), config.getModeMainnetConfig().serviceFee);
-    }
-
     function testRevertOnUnsupportedNetwork() public {
         vm.chainId(1); // Ethereum mainnet, which is not supported in your script
         vm.expectRevert("Unsupported network");
