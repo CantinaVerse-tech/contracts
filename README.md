@@ -91,9 +91,9 @@ Our strategic roadmap highlights upcoming features and key goals to enhance Cant
 
 | Feature       | Completion Date |
 |---------------|-----------------|
-| NFT Marketplace | Q3 2024        |
+| NFT Marketplace | Q4 2024        |
 | ERC-20 Token Creation Platform | Q4 2024      |
-| Casino Gaming Platform | Q4 2024     |
+| Casino Gaming Platform | Q1 2025     |
 | Governance DAO Platform | Q1 2025   |
 
 ## Challenge
