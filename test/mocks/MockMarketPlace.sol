@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.24;
+pragma solidity 0.8.26;
 
 import { IMarketPlace } from "../../src/marketplace/interfaces/IMarketPlace.sol";
 import { IERC721 } from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
@@ -56,9 +56,7 @@ contract MockMarketPlace is IMarketPlace, IERC721Receiver {
         return s_auctionIdCounter;
     }
 
-    function getAuction(
-        uint256 auctionId
-    )
+    function getAuction(uint256 auctionId)
         external
         view
         returns (
