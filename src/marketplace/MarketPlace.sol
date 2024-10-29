@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.24;
+pragma solidity 0.8.26;
 
 import { IERC721 } from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import { IERC721Receiver } from "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
@@ -314,9 +314,7 @@ contract MarketPlace is Ownable, ReentrancyGuard, IERC721Receiver {
         return s_fee;
     }
 
-    function getListingDetails(
-        uint256 listingId
-    )
+    function getListingDetails(uint256 listingId)
         external
         view
         returns (address seller, address nftAddress, uint256 tokenId, uint256 price)
@@ -340,9 +338,7 @@ contract MarketPlace is Ownable, ReentrancyGuard, IERC721Receiver {
         return s_auctionIdCounter;
     }
 
-    function getAuction(
-        uint256 auctionId
-    )
+    function getAuction(uint256 auctionId)
         public
         view
         returns (

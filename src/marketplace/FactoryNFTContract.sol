@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.24;
+pragma solidity 0.8.26;
 
 /**
  * @title FactoryNFTContract
- * @author Shawn Rizo
+ * @author CantinaVerse
  * @notice A factory contract for creating and managing NFT collections, with fee management and reentrancy protection.
  * @dev This contract allows for the creation and management of NFT collections. It utilizes the NFTContract for
  * individual collections, ensuring ownership and reentrancy protection. The contract allows for fee setting for

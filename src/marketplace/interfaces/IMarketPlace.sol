@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.24;
+pragma solidity 0.8.26;
 
 import { MarketPlace } from "../MarketPlace.sol";
 
 interface IMarketPlace {
     function auctionIdsLength() external view returns (uint256);
-    function getAuction(
-        uint256 auctionId
-    )
+    function getAuction(uint256 auctionId)
         external
         view
         returns (

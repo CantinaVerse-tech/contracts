@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.24;
+pragma solidity 0.8.26;
 
 /**
  * @title NFTContract
- * @author Shawn Rizo
+ * @author CantinaVerse
  * @notice This contract supports creating, managing, and minting ERC721 tokens with built-in royalty information
  * following the ERC2981 standard. It includes functionality to cap the supply of tokens, update royalty
  * information, and manage token metadata.
