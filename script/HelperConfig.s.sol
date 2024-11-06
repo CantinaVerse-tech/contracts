@@ -21,15 +21,6 @@ contract HelperConfig is Script {
     /*//////////////////////////////////////////////////////////////
                                 CONFIGS
     //////////////////////////////////////////////////////////////*/
-    function getEthMainnetConfig() public view returns (NetworkConfig memory) {
-        NetworkConfig memory EthMainnetConfig = NetworkConfig({
-            initialOwner: msg.sender,
-            GelatoDedicatedMsgSender: 0x823F9f50f6A6E52CC4073Ff1493D4a8482D8Aba4,
-            serviceFee: 0
-        });
-        return EthMainnetConfig;
-    }
-
     function getSepoliaConfig() public view returns (NetworkConfig memory) {
         NetworkConfig memory SepoliaConfig = NetworkConfig({
             initialOwner: msg.sender,
@@ -37,6 +28,31 @@ contract HelperConfig is Script {
             serviceFee: 0
         });
         return SepoliaConfig;
+    }
+
+    function getBaseSepoliaConfig() public view returns (NetworkConfig memory) {
+        return NetworkConfig({
+            initialOwner: msg.sender,
+            GelatoDedicatedMsgSender: 0x823F9f50f6A6E52CC4073Ff1493D4a8482D8Aba4,
+            serviceFee: 0
+        });
+    }
+
+    function getOPSepoliaConfig() public view returns (NetworkConfig memory) {
+        return NetworkConfig({
+            initialOwner: msg.sender,
+            GelatoDedicatedMsgSender: 0x823F9f50f6A6E52CC4073Ff1493D4a8482D8Aba4,
+            serviceFee: 0
+        });
+    }
+
+    function getEthMainnetConfig() public view returns (NetworkConfig memory) {
+        NetworkConfig memory EthMainnetConfig = NetworkConfig({
+            initialOwner: msg.sender,
+            GelatoDedicatedMsgSender: 0x823F9f50f6A6E52CC4073Ff1493D4a8482D8Aba4,
+            serviceFee: 0
+        });
+        return EthMainnetConfig;
     }
 
     function getModeMainnetConfig() public view returns (NetworkConfig memory) {
@@ -55,23 +71,7 @@ contract HelperConfig is Script {
         });
     }
 
-    function getOPSepoliaConfig() public view returns (NetworkConfig memory) {
-        return NetworkConfig({
-            initialOwner: msg.sender,
-            GelatoDedicatedMsgSender: 0x823F9f50f6A6E52CC4073Ff1493D4a8482D8Aba4,
-            serviceFee: 0
-        });
-    }
-
     function getBaseMainnetConfig() public view returns (NetworkConfig memory) {
-        return NetworkConfig({
-            initialOwner: msg.sender,
-            GelatoDedicatedMsgSender: 0x823F9f50f6A6E52CC4073Ff1493D4a8482D8Aba4,
-            serviceFee: 0
-        });
-    }
-
-    function getBaseSepoliaConfig() public view returns (NetworkConfig memory) {
         return NetworkConfig({
             initialOwner: msg.sender,
             GelatoDedicatedMsgSender: 0x823F9f50f6A6E52CC4073Ff1493D4a8482D8Aba4,
