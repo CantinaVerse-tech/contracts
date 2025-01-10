@@ -55,6 +55,15 @@ contract HelperConfig is Script {
         return EthMainnetConfig;
     }
 
+    function getCeloMainnetConfig() public view returns (NetworkConfig memory) {
+        NetworkConfig memory CeloMainnetConfig = NetworkConfig({
+            initialOwner: msg.sender,
+            GelatoDedicatedMsgSender: 0x823F9f50f6A6E52CC4073Ff1493D4a8482D8Aba4,
+            serviceFee: 0
+        });
+        return CeloMainnetConfig;
+    }
+
     function getModeMainnetConfig() public view returns (NetworkConfig memory) {
         return NetworkConfig({
             initialOwner: msg.sender,
