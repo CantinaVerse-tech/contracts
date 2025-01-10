@@ -23,6 +23,8 @@ contract DeployMarketPlace is Script {
 
         if (block.chainid == 31_337) {
             config = helperConfig.getAnvilConfig();
+        } else if (block.chainid == 42_220) {
+            config = helperConfig.getCeloMainnetConfig();
         } else if (block.chainid == 11_155_111) {
             config = helperConfig.getSepoliaConfig();
         } else if (block.chainid == 84_532) {
