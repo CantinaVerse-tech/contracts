@@ -76,8 +76,8 @@ contract TokenContract is ERC20, ERC20Pausable, Ownable {
         bool _supplyCapEnabled
     )
         ERC20(tokenName, tokenSymbol)
-        Ownable(initialOwner)
     {
+        initialOwner = msg.sender;
         initialSupply = _initialSupply;
         maxSupply = _maxSupply;
         canMint = _canMint;
@@ -147,15 +147,7 @@ contract TokenContract is ERC20, ERC20Pausable, Ownable {
     ////////////////
     // Overrides //
     //////////////
-    /**
-     * @dev Overridden function to handle token transfers while pausing is enabled.
-     * Ensures that the token transfers are correctly restricted when the contract is paused.
-     *
-     * @param from The address from which tokens are being transferred.
-     * @param to The address to which tokens are being transferred.
-     * @param value The amount of tokens being transferred.
-     */
-    function _update(address from, address to, uint256 value) internal override(ERC20, ERC20Pausable) {
-        super._update(from, to, value);
+    function _beforeTokenTransfer(address from, address to, uint256 amount) internal override(ERC20, ERC20Pausable) {
+        super._beforeTokenTransfer(from, to, amount);
     }
 }

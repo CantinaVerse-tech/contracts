@@ -4,7 +4,7 @@ pragma solidity 0.8.26;
 import { IERC721 } from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import { IERC721Receiver } from "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
-import { ReentrancyGuard } from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import { ReentrancyGuard } from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 /**
  * @title MarketPlace
@@ -138,7 +138,8 @@ contract MarketPlace is Ownable, ReentrancyGuard, IERC721Receiver {
      * @param _GelatoDedicatedMsgSender The Gelato message sender for automated actions.
      * @param _setFee The marketplace fee in wei.
      */
-    constructor(address initialOwner, address _GelatoDedicatedMsgSender, uint256 _setFee) Ownable(initialOwner) {
+    constructor(address initialOwner, address _GelatoDedicatedMsgSender, uint256 _setFee) {
+        initialOwner = msg.sender;
         if (_GelatoDedicatedMsgSender == address(0)) {
             revert MarketPlace__CantBeZeroAddress();
         }

@@ -11,7 +11,7 @@ pragma solidity 0.8.26;
  */
 import { NFTContract } from "./NFTContract.sol";
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
-import { ReentrancyGuard } from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import { ReentrancyGuard } from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 contract FactoryNFTContract is Ownable, ReentrancyGuard {
     error FactoryNFTContract__InsufficientFunds();
@@ -59,7 +59,8 @@ contract FactoryNFTContract is Ownable, ReentrancyGuard {
      * @dev Initializes the contract by setting the initial owner.
      * @param initialOwner The address to be set as the initial owner of the contract.
      */
-    constructor(address initialOwner, uint256 _sFee) Ownable(initialOwner) {
+    constructor(address initialOwner, uint256 _sFee) {
+        initialOwner = msg.sender;
         s_fee = _sFee;
     }
 
@@ -70,22 +71,23 @@ contract FactoryNFTContract is Ownable, ReentrancyGuard {
      * @notice Allows for the creation of a new NFT collection with specified parameters.
      * @dev Creates a new NFT collection by deploying a new NFTContract. Requires payment of a fee set by the contract
      * owner.
-     * @param name Name of the NFT collection.
-     * @param symbol Symbol of the NFT collection.
-     * @param maxSupply Maximum number of NFTs that can be minted in the collection.
-     * @param owner Address that will own the created NFT collection.
-     * @param royaltyPercentage Royalty percentage for secondary sales.
-     * @param mintPrice Price for minting an NFT in the collection.
+     * @param _name Name of the NFT collection.
+     * @param _symbol Symbol of the NFT collection.
+     * @param _maxSupply Maximum number of NFTs that can be minted in the collection.
+     * @param _owner Address that will own the created NFT collection.
+     * @param _royaltyPercentage Royalty percentage for secondary sales.
+     * @param _mintPrice Price for minting an NFT in the collection.
+     * @param _metadataURI URI for the NFT metadata.
      * @custom:reverts FactoryNFTContract__InsufficientFunds if the sent value is less than the required fee.
      */
     function createCollection(
-        string memory name,
-        string memory symbol,
-        uint256 maxSupply,
-        address owner,
-        uint96 royaltyPercentage,
-        uint256 mintPrice,
-        string memory metadataURI
+        string memory _name,
+        string memory _symbol,
+        uint256 _maxSupply,
+        address _owner,
+        uint96 _royaltyPercentage,
+        uint256 _mintPrice,
+        string memory _metadataURI
     )
         external
         payable
@@ -95,22 +97,22 @@ contract FactoryNFTContract is Ownable, ReentrancyGuard {
             revert FactoryNFTContract__InsufficientFunds();
         }
         NFTContract newCollection =
-            new NFTContract(name, symbol, maxSupply, msg.sender, royaltyPercentage, mintPrice, metadataURI);
+            new NFTContract(_name, _symbol, _maxSupply, msg.sender, _royaltyPercentage, _mintPrice, _metadataURI);
         s_collections.push(address(newCollection));
         s_collectionsDetails.push(
             NFTCollection({
                 collectionAddress: address(newCollection),
-                name: name,
-                symbol: symbol,
-                maxSupply: maxSupply,
-                owner: msg.sender, // The address that deployed the collection
-                royaltyPercentage: royaltyPercentage,
-                mintPrice: mintPrice,
-                metadataURI: metadataURI
+                name: _name,
+                symbol: _symbol,
+                maxSupply: _maxSupply,
+                owner: _owner, // The address that deployed the collection
+                royaltyPercentage: _royaltyPercentage,
+                mintPrice: _mintPrice,
+                metadataURI: _metadataURI
             })
         );
         emit CollectionCreated(
-            address(newCollection), name, symbol, maxSupply, owner, royaltyPercentage, mintPrice, metadataURI
+            address(newCollection), _name, _symbol, _maxSupply, _owner, _royaltyPercentage, _mintPrice, _metadataURI
         );
     }
 

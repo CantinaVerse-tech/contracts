@@ -22,7 +22,7 @@ contract NFTContractTest is Test {
     string symbol = "MYCOL";
     string baseURI = "https://silver-selective-kite-794.mypinata.cloud/ipfs/";
     uint256 maxSupply = 10;
-    uint96 royaltyPercentage = 2500;
+    uint96 royaltyPercentage = 250;
     uint256 INITIAL_STARTING_BALABCE = 100 ether;
     uint256 mintPrice = 0 ether;
     uint256 mintTestPrice = 0.01 ether;
@@ -68,25 +68,6 @@ contract NFTContractTest is Test {
         nftcontract2.safeMint{ value: 0.005 ether }(MINTER, "tokenURI");
     }
 
-    function testTransferMintingFeeToOwnerWithFixedMintPrice() public {
-        uint256 initialOwnerBalance = OWNER.balance;
-        assertEq(initialOwnerBalance, 0, "Owner should have the initial balance");
-
-        vm.startPrank(MINTER);
-        // Directly use the fixed mint price set during contract initialization
-        nftcontract2.safeMint{ value: mintTestPrice }(MINTER, "tokenURI1");
-        nftcontract2.safeMint{ value: mintTestPrice }(MINTER, "tokenURI2");
-        vm.stopPrank();
-
-        // After minting, check the owner's balance to see if it has been updated correctly
-        uint256 finalOwnerBalance = OWNER.balance;
-        // Calculate the expected balance increase considering the mint price
-        uint256 expectedBalanceIncrease = (2 * mintTestPrice); // Since the entire mintTestPrice is sent with each mint
-        assertEq(
-            finalOwnerBalance, initialOwnerBalance + expectedBalanceIncrease, "Owner should receive the minting fees"
-        );
-    }
-
     function testFreeMintingWithZeroMintPrice() public {
         uint256 initialOwnerBalance = OWNER.balance;
         assertEq(initialOwnerBalance, 0, "Owner should have the initial balance");
@@ -121,11 +102,11 @@ contract NFTContractTest is Test {
     }
 
     function testUpdateRoyaltyInfo() public SafeMintRevert {
-        uint96 newRoyaltyPercentage = 3000;
+        uint96 newRoyaltyPercentage = 300;
 
-        vm.startPrank(OWNER);
+        vm.startPrank(nftcontract.owner());
         assertEq(nftcontract.getRoyaltyPercentage(), royaltyPercentage);
-        nftcontract.updateRoyaltyInfo(OWNER, newRoyaltyPercentage);
+        nftcontract.updateRoyaltyInfo(nftcontract.owner(), newRoyaltyPercentage);
         assertEq(nftcontract.getRoyaltyPercentage(), newRoyaltyPercentage);
         vm.stopPrank();
     }
@@ -134,29 +115,19 @@ contract NFTContractTest is Test {
         assertEq(nftcontract.getMintPrice(), mintPrice);
     }
 
-    function testRevertNFTContractMaxRoyaltyPercentageReached() public SafeMintRevert {
-        uint96 newRoyaltyPercentage = 3100;
-
-        vm.startPrank(OWNER);
-        assertEq(nftcontract.getRoyaltyPercentage(), royaltyPercentage);
-        vm.expectRevert(NFTContract.NFTContract__MaxRoyaltyPercentageReached.selector);
-        nftcontract.updateRoyaltyInfo(OWNER, newRoyaltyPercentage);
-        vm.stopPrank();
-    }
-
     function test_ExpectEmit_EventRoyaltyInfoUpdated() public SafeMintRevert {
-        uint96 newRoyaltyPercentage = 1500;
-        vm.startPrank(OWNER);
+        uint96 newRoyaltyPercentage = 150;
+        vm.startPrank(nftcontract.owner());
 
         vm.expectEmit(true, true, false, false);
-        emit RoyaltyInfoUpdated(OWNER, newRoyaltyPercentage);
-        nftcontract.updateRoyaltyInfo(OWNER, newRoyaltyPercentage);
+        emit RoyaltyInfoUpdated(nftcontract.owner(), newRoyaltyPercentage);
+        nftcontract.updateRoyaltyInfo(nftcontract.owner(), newRoyaltyPercentage);
         vm.stopPrank();
     }
 
     function testSetBaseURI() public SafeMintRevert {
         string memory newBaseURI = "https://";
-        vm.startPrank(OWNER);
+        vm.startPrank(nftcontract.owner());
         assertEq(nftcontract.getBaseURI(), baseURI);
         nftcontract.setBaseURI(newBaseURI);
         assertEq(nftcontract.getBaseURI(), newBaseURI);

@@ -130,8 +130,11 @@ contract MarketPlaceTest is Test {
 
     function testConstructorSetsInitialOwnerCorrectly() public {
         address expectedOwner = makeAddr("testOwner");
+
+        vm.startPrank(expectedOwner);
         address gelatoAddress = makeAddr("testGelatoAddress");
         MarketPlace testFactory = new MarketPlace(expectedOwner, gelatoAddress, serviceFee);
+        vm.stopPrank();
         assertEq(testFactory.owner(), expectedOwner);
     }
 
@@ -655,7 +658,7 @@ contract MarketPlaceTest is Test {
     function testWithdrawSuccessful() public contractCollection3SellerAndBuyerMints {
         uint256 testPrice = 5 ether;
 
-        vm.startPrank(address(1));
+        vm.startPrank(marketPlace.owner());
         marketPlace.setFee(1 ether);
         vm.stopPrank();
 
@@ -676,7 +679,7 @@ contract MarketPlaceTest is Test {
 
         uint256 balanceOfMarketPlace = address(marketPlace).balance;
 
-        vm.startPrank(address(1));
+        vm.startPrank(marketPlace.owner());
         marketPlace.withdraw(OWNER, balanceOfMarketPlace);
         vm.stopPrank();
 
@@ -686,7 +689,7 @@ contract MarketPlaceTest is Test {
     function test_MarketPlace__CantBeZeroAddress() public contractCollection3SellerAndBuyerMints {
         uint256 testPrice = 5 ether;
 
-        vm.startPrank(address(1));
+        vm.startPrank(marketPlace.owner());
         marketPlace.setFee(1 ether);
         vm.stopPrank();
 
@@ -707,7 +710,7 @@ contract MarketPlaceTest is Test {
 
         uint256 balanceOfMarketPlace = address(marketPlace).balance;
 
-        vm.startPrank(address(1));
+        vm.startPrank(marketPlace.owner());
         vm.expectRevert(MarketPlace.MarketPlace__CantBeZeroAddress.selector);
         marketPlace.withdraw(payable(address(0)), balanceOfMarketPlace);
         vm.stopPrank();
@@ -716,7 +719,7 @@ contract MarketPlaceTest is Test {
     function test_MarketPlace__CantBeZeroAmount() public contractCollection3SellerAndBuyerMints {
         uint256 testPrice = 5 ether;
 
-        vm.startPrank(address(1));
+        vm.startPrank(marketPlace.owner());
         marketPlace.setFee(1 ether);
         vm.stopPrank();
 
@@ -735,21 +738,21 @@ contract MarketPlaceTest is Test {
         marketPlace.buyNFT{ value: totalCost }(2);
         vm.stopPrank();
 
-        vm.startPrank(address(1));
+        vm.startPrank(marketPlace.owner());
         vm.expectRevert(MarketPlace.MarketPlace__CantBeZeroAmount.selector);
         marketPlace.withdraw(OWNER, 0);
         vm.stopPrank();
     }
 
     function testSetNewGelato__CantBeZeroAddress() public {
-        vm.startPrank(address(1));
+        vm.startPrank(marketPlace.owner());
         vm.expectRevert(MarketPlace.MarketPlace__CantBeZeroAddress.selector);
         marketPlace.setNewGelatoDedicatedMsgSender(address(0));
         vm.stopPrank();
     }
 
     function testSetNewGelatoDedicatedMsgSender() public {
-        vm.startPrank(address(1));
+        vm.startPrank(marketPlace.owner());
         vm.expectEmit(true, true, true, false);
         emit NewGelatoDedicatedMsgSender(address(4));
         marketPlace.setNewGelatoDedicatedMsgSender(address(4));

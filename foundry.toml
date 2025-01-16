@@ -6,8 +6,11 @@ solc = "0.8.26"
 auto_detect_solc = true
 via-ir = true
 remappings = [
-    "@openzeppelin/contracts=lib/openzeppelin-contracts/contracts/",
+    "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
     "@foundry-rs/=lib/foundry-rs/",
+    "@uma/core/contracts/=lib/protocol/packages/core/contracts/",
+    "@v3-core/contracts/=lib/v3-core/contracts/",
+    "@v3-periphery/contracts/=lib/v3-periphery/contracts/",
 ]
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
