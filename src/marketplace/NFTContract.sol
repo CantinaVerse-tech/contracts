@@ -16,7 +16,7 @@ import { ERC2981 } from "@openzeppelin/contracts/token/common/ERC2981.sol";
 import { ERC721Enumerable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import { ERC721URIStorage } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
-import { ReentrancyGuard } from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import { ReentrancyGuard } from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 contract NFTContract is ERC721, ERC2981, ERC721Enumerable, ERC721URIStorage, Ownable, ReentrancyGuard {
     /////////////
@@ -33,7 +33,7 @@ contract NFTContract is ERC721, ERC2981, ERC721Enumerable, ERC721URIStorage, Own
     string private s_baseURI = "https://silver-selective-kite-794.mypinata.cloud/ipfs/";
     string private s_metadataURI;
     uint256 private immutable i_maxSupply;
-    uint96 private constant MAX_ROYALTY_PERCENTAGE = 3000; // 30% => (30 / 100) * 10000 = 3000
+    uint96 private constant MAX_ROYALTY_PERCENTAGE = 300; // 30% => (30 / 100) * 10000 = 3000
     uint96 private s_royaltyPercentage;
     uint256 private s_mintPrice;
 
@@ -49,8 +49,8 @@ contract NFTContract is ERC721, ERC2981, ERC721Enumerable, ERC721URIStorage, Own
     /**
      * @dev Initializes the contract with specified parameters, setting up the NFT's name, symbol, base URI, max supply,
      *      initial owner, and royalty percentage. Validates the initial royalty percentage against the maximum allowed.
-     * @param name Name of the NFT collection.
-     * @param symbol Symbol of the NFT collection.
+     * @param _name Name of the NFT collection.
+     * @param _symbol Symbol of the NFT collection.
      * @param maxSupply Maximum number of tokens that can be minted.
      * @param initialOwner Address of the initial owner, who is also set as the default royalty recipient.
      * @param royaltyPercentage Initial royalty percentage for secondary sales.
@@ -58,17 +58,17 @@ contract NFTContract is ERC721, ERC2981, ERC721Enumerable, ERC721URIStorage, Own
      * @param metadataURI URI for the NFT metadata.
      */
     constructor(
-        string memory name,
-        string memory symbol,
+        string memory _name,
+        string memory _symbol,
         uint256 maxSupply,
         address initialOwner,
         uint96 royaltyPercentage,
         uint256 mintPrice,
         string memory metadataURI
     )
-        ERC721(name, symbol)
-        Ownable(initialOwner)
+        ERC721(_name, _symbol)
     {
+        initialOwner = msg.sender;
         if (royaltyPercentage > MAX_ROYALTY_PERCENTAGE) {
             revert NFTContract__MaxRoyaltyPercentageReached();
         }
@@ -212,35 +212,6 @@ contract NFTContract is ERC721, ERC2981, ERC721Enumerable, ERC721URIStorage, Own
     }
 
     /**
-     * @dev Overrides the default implementation of the `_update` function to transfer a token between addresses.
-     * @param to The address to transfer the token to.
-     * @param tokenId The ID of the token to transfer.
-     * @param auth The authorization address, used for validation.
-     * @return address The address of the new owner of the token.
-     */
-    function _update(
-        address to,
-        uint256 tokenId,
-        address auth
-    )
-        internal
-        override(ERC721, ERC721Enumerable)
-        returns (address)
-    {
-        return super._update(to, tokenId, auth);
-    }
-
-    /**
-     * @dev Overrides the default implementation of the `_increaseBalance` function to increase the balance of an
-     * account.
-     * @param account The account whose balance will be increased.
-     * @param value The amount by which the balance will be increased.
-     */
-    function _increaseBalance(address account, uint128 value) internal override(ERC721, ERC721Enumerable) {
-        super._increaseBalance(account, value);
-    }
-
-    /**
      * @dev Overrides the default implementation of the `tokenURI` function to return the URI for a given token's
      * metadata.
      * @param tokenId The ID of the token.
@@ -262,12 +233,22 @@ contract NFTContract is ERC721, ERC2981, ERC721Enumerable, ERC721URIStorage, Own
         return string(abi.encodePacked(baseURI, _tokenURI));
     }
 
-    /**
-     * @dev Overrides the default implementation of the `supportsInterface` function to check if the contract supports a
-     * given interface.
-     * @param interfaceId The ID of the interface to check support for.
-     * @return bool Whether the contract supports the specified interface.
-     */
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 tokenId,
+        uint256 batchSize
+    )
+        internal
+        override(ERC721, ERC721Enumerable)
+    {
+        super._beforeTokenTransfer(from, to, tokenId, batchSize);
+    }
+
+    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
+        super._burn(tokenId);
+    }
+
     function supportsInterface(bytes4 interfaceId)
         public
         view

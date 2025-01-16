@@ -26,7 +26,6 @@ contract FactoryNFTContractTest is Test {
     string symbol = "MYCOL";
     string baseURI = "https://silver-selective-kite-794.mypinata.cloud/ipfs/";
     uint256 maxSupply = 10;
-    address OWNER = makeAddr("owner");
     address payable PERSONAL = payable(address(uint160(123)));
     uint96 royaltyPercentage = 10;
     uint256 mintPrice = 0;
@@ -37,7 +36,7 @@ contract FactoryNFTContractTest is Test {
         deployer = new DeployFactoryNFTContract();
         factory = deployer.run();
 
-        vm.deal(OWNER, 10 ether);
+        vm.deal(factory.owner(), 10 ether);
     }
 
     function testRevertOnUnsupportedNetwork() public {
@@ -46,48 +45,51 @@ contract FactoryNFTContractTest is Test {
         deployer.run();
     }
 
-    function testConstructorSetsInitialOwnerCorrectly() public {
-        console2.log(factory.owner());
-        address expectedOwner = makeAddr("testOwner");
-        FactoryNFTContract testFactory = new FactoryNFTContract(expectedOwner, 0);
-        assertEq(testFactory.owner(), expectedOwner);
+    function testFactoryConstructorSetsInitialOwnerCorrectly() public {
+        vm.startPrank(msg.sender);
+        FactoryNFTContract testFactory = new FactoryNFTContract(msg.sender, 0);
+        assertEq(testFactory.owner(), msg.sender);
+        vm.stopPrank();
     }
 
     function testSuccessfulCreateCollection() public {
-        vm.prank(OWNER);
-        factory.createCollection(name, symbol, maxSupply, OWNER, royaltyPercentage, mintPrice, metadataURI);
+        vm.prank(factory.owner());
+        factory.createCollection(name, symbol, maxSupply, factory.owner(), royaltyPercentage, mintPrice, metadataURI);
         assertEq(factory.getAllCollections().length, 1);
     }
 
     function test_FactoryNFTContract__InsufficientFunds() public {
         uint256 testPrice = 1 ether;
 
-        vm.startPrank(address(1));
+        vm.startPrank(factory.owner());
         factory.setFee(1 ether);
+        assertEq(factory.getFee(), 1 ether, "Fee was not set correctly");
         vm.stopPrank();
 
-        vm.startPrank(address(1));
+        vm.startPrank(PERSONAL);
         vm.expectRevert(FactoryNFTContract.FactoryNFTContract__InsufficientFunds.selector);
-        factory.createCollection{ value: 0 }(name, symbol, maxSupply, OWNER, royaltyPercentage, testPrice, metadataURI);
+        factory.createCollection{ value: 0 ether }(
+            name, symbol, maxSupply, PERSONAL, royaltyPercentage, testPrice, metadataURI
+        );
         vm.stopPrank();
     }
 
     function test_FactoryNFTContract_WithdrawSuccessful() public {
         uint256 testPrice = 1 ether;
 
-        vm.startPrank(address(1));
+        vm.startPrank(factory.owner());
         factory.setFee(1 ether);
         vm.stopPrank();
 
-        vm.startPrank(OWNER);
+        vm.startPrank(factory.owner());
         factory.createCollection{ value: testPrice }(
-            name, symbol, maxSupply, OWNER, royaltyPercentage, mintPrice, metadataURI
+            name, symbol, maxSupply, factory.owner(), royaltyPercentage, mintPrice, metadataURI
         );
         vm.stopPrank();
 
         assertEq(factory.getAllCollections().length, 1);
 
-        vm.startPrank(address(1));
+        vm.startPrank(factory.owner());
         factory.withdraw(PERSONAL, testPrice);
         vm.stopPrank();
 
@@ -97,17 +99,17 @@ contract FactoryNFTContractTest is Test {
     function test_FactoryNFTContract__CantBeZeroAddress() public {
         uint256 testPrice = 1 ether;
 
-        vm.startPrank(address(1));
+        vm.startPrank(factory.owner());
         factory.setFee(1 ether);
         vm.stopPrank();
 
-        vm.startPrank(OWNER);
+        vm.startPrank(factory.owner());
         factory.createCollection{ value: testPrice }(
-            name, symbol, maxSupply, OWNER, royaltyPercentage, mintPrice, metadataURI
+            name, symbol, maxSupply, factory.owner(), royaltyPercentage, mintPrice, metadataURI
         );
         vm.stopPrank();
 
-        vm.startPrank(address(1));
+        vm.startPrank(factory.owner());
         vm.expectRevert(FactoryNFTContract.FactoryNFTContract__CantBeZeroAddress.selector);
         factory.withdraw(payable(address(0)), testPrice);
         vm.stopPrank();
@@ -116,24 +118,24 @@ contract FactoryNFTContractTest is Test {
     function test_FactoryNFTContract__CantBeZeroAmount() public {
         uint256 testPrice = 1 ether;
 
-        vm.startPrank(address(1));
+        vm.startPrank(factory.owner());
         factory.setFee(1 ether);
         vm.stopPrank();
 
-        vm.startPrank(OWNER);
+        vm.startPrank(factory.owner());
         factory.createCollection{ value: testPrice }(
-            name, symbol, maxSupply, OWNER, royaltyPercentage, mintPrice, metadataURI
+            name, symbol, maxSupply, factory.owner(), royaltyPercentage, mintPrice, metadataURI
         );
         vm.stopPrank();
 
-        vm.startPrank(address(1));
+        vm.startPrank(factory.owner());
         vm.expectRevert(FactoryNFTContract.FactoryNFTContract__CantBeZeroAmount.selector);
         factory.withdraw(PERSONAL, 0);
         vm.stopPrank();
     }
 
     function testSetFee() public {
-        vm.startPrank(address(1));
+        vm.startPrank(factory.owner());
         uint256 expectedFee = 1 ether;
         factory.setFee(expectedFee);
         vm.stopPrank();

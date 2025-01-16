@@ -7,5 +7,5 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract VestingContract is Ownable {
     using SafeERC20 for IERC20;
 
-    constructor(address initialOwner) Ownable(initialOwner) { }
+    constructor(address initialOwner) { }
 }
