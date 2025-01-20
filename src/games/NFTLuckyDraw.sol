@@ -11,8 +11,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  * @dev Random winners are selected based on block data, pseudo-randomly.
  * @dev Chainlink VRF is used for true-randomness, which is in the future scope of this contract.
  */
-
-contract LuckyDrawGame is ERC721Enumerable, Ownable {
+contract NFTLuckyDraw is ERC721Enumerable, Ownable {
     /// @notice Mint fee.
     uint256 public mintFee = 0.0001 ether;
     /// @notice Prize pool, collected by minting fee for lucky card NFT.
@@ -21,20 +20,16 @@ contract LuckyDrawGame is ERC721Enumerable, Ownable {
     bool public gameActive = true;
 
     event Mint(address indexed player, uint256 tokenId);
-    event WinnerSelected(
-        address indexed winner,
-        uint256 tokenId,
-        uint256 prize
-    );
+    event WinnerSelected(address indexed winner, uint256 tokenId, uint256 prize);
 
-    constructor() ERC721("LuckyDrawNFT", "LDNFT") {}
+    constructor() ERC721("LuckyDrawNFT", "LDNFT") { }
 
     // Mint a new Lucky Draw NFT
-    function mintLuckyCard() external payable {
+    function mintLuckyCard() external payable returns (uint256 tokenId) {
         require(gameActive, "Game is not active");
         require(msg.value == mintFee, "Incorrect mint fee");
 
-        uint256 tokenId = totalSupply() + 1;
+        tokenId = totalSupply() + 1;
         _mint(msg.sender, tokenId);
 
         prizePool += msg.value;
@@ -43,28 +38,22 @@ contract LuckyDrawGame is ERC721Enumerable, Ownable {
     }
 
     // Select a random winner
-    function selectWinner() external onlyOwner {
+    function selectWinner() external onlyOwner returns (address winner) {
         require(totalSupply() > 0, "No NFTs minted");
         require(prizePool > 0, "No prize pool available");
+        uint256 winningTokenId;
 
         // Pseudo-random number based on block data
-        uint256 random = uint256(
-            keccak256(
-                abi.encodePacked(
-                    block.timestamp,
-                    block.prevrandao,
-                    totalSupply()
-                )
-            )
-        );
-        uint256 winningTokenId = (random % totalSupply()) + 1;
+        uint256 random = uint256(keccak256(abi.encodePacked(block.timestamp, block.prevrandao, totalSupply())));
+        winningTokenId = (random % totalSupply()) + 1;
 
-        address winner = ownerOf(winningTokenId);
+        winner = ownerOf(winningTokenId);
 
         // Transfer the prize pool to the winner
         uint256 prize = prizePool;
         prizePool = 0;
-        payable(winner).transfer(prize);
+        (bool success,) = payable(winner).call{ value: prize }("");
+        require(success, "Transfer to winner failed");
 
         emit WinnerSelected(winner, winningTokenId, prize);
     }
@@ -82,5 +71,5 @@ contract LuckyDrawGame is ERC721Enumerable, Ownable {
     }
 
     // Receive fallback
-    receive() external payable {}
+    receive() external payable { }
 }
