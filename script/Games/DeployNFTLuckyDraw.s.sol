@@ -1,22 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.26;
 
-/**
- * @title DeployFactoryNFTContract
- * @author Shawn Rizo
- * @notice A script to deploy the NFTLuckyDraw game with configurations fetched from a HelperConfig contract.
- */
 import { Script, console2 } from "forge-std/Script.sol";
 import { HelperConfig } from "../HelperConfig.s.sol";
 import { NFTLuckyDraw } from "../../../src/games/NFTLuckyDraw.sol";
 
 contract DeployNFTLuckyDraw is Script {
-    /**
-     * @notice Deploys the FactoryNFTContract with the active network configuration.
-     * @dev Fetches the active network configuration from the HelperConfig contract and uses it to deploy the
-     * FactoryNFTContract.
-     * @return The address of the newly deployed FactoryNFTContract.
-     */
     function run() external returns (NFTLuckyDraw) {
         HelperConfig helperConfig = new HelperConfig();
         HelperConfig.NetworkConfig memory config;
