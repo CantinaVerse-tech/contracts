@@ -13,6 +13,7 @@
     - [NFT Marketplace](#nft-marketplace)
     - [ERC-20 Token Creation Platform](#erc-20-token-creation-platform)
     - [Casino Gaming Platform](#casino-gaming-platform)
+      - [Game Portfolio](#game-portfolio)
     - [Governance DAO Platform](#governance-dao-platform)
   - [Roadmap](#roadmap)
   - [Challenge](#challenge)
@@ -82,6 +83,19 @@ CantinaVerse includes four main sections to create a multifaceted blockchain eco
     - **Fair Gameplay**: Transparent mechanics with verifiable outcomes on the blockchain
     - **NFT Integration**: Novel gameplay mechanics that incorporate NFTs as game elements
     - **Security-Focused**: Built with industry-standard security practices including OpenZeppelin contracts
+
+#### Game Portfolio
+1. **Coin Flip**: A classic blockchain-based gambling game where players bet on heads or tails.
+  - **Game Mechanics**:
+    - Place bets on heads or tails within configurable bet limits
+    - Win payouts when predictions are correct, subject to a house edge
+    - Transparent game statistics including total flips and ETH wagered
+  - **Technical Features**:
+    - Configurable house edge (initially set to 3%)
+    - Customizable minimum and maximum bet amounts
+    - Advanced security with ReentrancyGuard protection
+    - House balance management system
+    - Full event logging for front-end integration
 
 ### Governance DAO Platform
 
