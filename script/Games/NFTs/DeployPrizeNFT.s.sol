@@ -2,11 +2,11 @@
 pragma solidity 0.8.26;
 
 import { Script, console2 } from "forge-std/Script.sol";
-import { HelperConfig } from "../HelperConfig.s.sol";
-import { NFTLuckyDraw } from "../../src/games/NFTLuckyDraw.sol";
+import { HelperConfig } from "../../HelperConfig.s.sol";
+import { PrizeNFT } from "../../../src/games/NFTRoulette/PrizeNFT.sol";
 
-contract DeployNFTLuckyDraw is Script {
-    function run() external returns (NFTLuckyDraw) {
+contract DeployPrizeNFT is Script {
+    function run() external returns (PrizeNFT) {
         HelperConfig helperConfig = new HelperConfig();
         HelperConfig.NetworkConfig memory config;
 
@@ -29,10 +29,10 @@ contract DeployNFTLuckyDraw is Script {
         }
 
         vm.startBroadcast();
-        NFTLuckyDraw game = new NFTLuckyDraw();
+        PrizeNFT game = new PrizeNFT("TestPrizeNFT", "TPN", "https://ipfs.io/ipfs/");
         vm.stopBroadcast();
 
-        console2.log("NFTLuckyDraw deployed at:", address(game));
+        console2.log("PrizeNFT deployed at:", address(game));
         console2.log("Initial owner:", config.initialOwner);
         console2.log("Service fee:", config.serviceFee);
 
