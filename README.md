@@ -97,6 +97,17 @@ CantinaVerse includes four main sections to create a multifaceted blockchain eco
     - House balance management system
     - Full event logging for front-end integration
 
+2. **Evolvable NFT & Staking System**: A gamified NFT experience combining collectibles with evolutionary gameplay.
+  - **NFT Features**:
+    - Mint unique creature NFTs across five species (Dragon, Phoenix, Griffin, Unicorn, Hydra)
+    - Five rarity tiers: Common (60%), Uncommon (25%), Rare (10%), Epic (4%), Legendary (1%)
+    - Maximum supply cap of 10,000 NFTs
+  - **Evolution Mechanics**:
+    - Stake NFTs to earn evolution points (10 points per day by default)
+    - Evolve creatures to higher levels when reaching point thresholds
+    - Dynamic metadata that reflects current evolution level
+    - Progressive difficulty with each evolution level
+
 ### Governance DAO Platform
 
 - **Voting Mechanism**: Empowers users to vote on various platform improvements, including new game integrations, feature upgrades, community incentives, and more.
