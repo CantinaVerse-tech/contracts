@@ -75,10 +75,13 @@ CantinaVerse includes four main sections to create a multifaceted blockchain eco
 
 ### Casino Gaming Platform
 
-- **Overview**: A suite of blockchain-based gaming experiences, including casino games, prediction markets, and Web3 gaming.
+- **Overview**: A robust suite of blockchain-based gaming experiences powered by secure smart contracts that provide provably fair gameplay and transparent mechanics.
 - **Key Features**:
     - **Casino and Prediction Markets**: Users can enjoy fair, blockchain-secured games supported by Gelato’s oracle contracts for transparency.
-    - **User Engagement**: Games are designed to appeal to gamers, gamblers, and enthusiasts of prediction markets, fostering a fun, interactive experience.
+    - **Multiple Game Types**: Four distinct blockchain casino games catering to different player preferences
+    - **Fair Gameplay**: Transparent mechanics with verifiable outcomes on the blockchain
+    - **NFT Integration**: Novel gameplay mechanics that incorporate NFTs as game elements
+    - **Security-Focused**: Built with industry-standard security practices including OpenZeppelin contracts
 
 ### Governance DAO Platform
 
