@@ -121,16 +121,30 @@ CantinaVerse includes four main sections to create a multifaceted blockchain eco
     - Full event logging for maximum transparency
 
 4. **NFT Roulette System**: A novel gambling system where players stake existing NFTs in roulette-style games.
-- **Game Mechanics**:
-  - Stake NFTs along with entry fees to participate in rounds
-  - Each NFT receives a random number assignment
-  - Winning number is randomly selected when rounds complete
-  - Winner receives the entire ETH prize pool
-  - All staked NFTs return to their owners after round completion
-- **Bonus Reward System**:
-  - Winners may receive special prize NFTs in addition to ETH rewards
-  - Prize NFTs come in different tiers (common, uncommon, rare, etc.)
-  - Complementary PrizeNFT contract manages specialized reward NFTs
+  - **Game Mechanics**:
+    - Stake NFTs along with entry fees to participate in rounds
+    - Each NFT receives a random number assignment
+    - Winning number is randomly selected when rounds complete
+    - Winner receives the entire ETH prize pool
+    - All staked NFTs return to their owners after round completion
+  - **Bonus Reward System**:
+    - Winners may receive special prize NFTs in addition to ETH rewards
+    - Prize NFTs come in different tiers (common, uncommon, rare, etc.)
+    - Complementary PrizeNFT contract manages specialized reward NFTs
+
+**Security Considerations**:
+Our gaming platform is built with security as a priority:
+- All contracts include appropriate validation and access control
+- ReentrancyGuard implementation to prevent common attack vectors
+- For production deployment, the platform will integrate Chainlink VRF for truly random number generation
+- Batch processing for NFT returns to prevent gas limit issues
+- Emergency functions for critical situations
+
+**Future Enhancements**
+- Integration with more sophisticated randomness sources like Chainlink VRF
+- Enhanced game analytics and statistics dashboard
+- Tournament structures and seasonal competitions
+- Additional game types and variations
 
 ### Governance DAO Platform
 
