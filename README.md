@@ -120,6 +120,18 @@ CantinaVerse includes four main sections to create a multifaceted blockchain eco
     - Clear separation between prize pools and platform fees
     - Full event logging for maximum transparency
 
+4. **NFT Roulette System**: A novel gambling system where players stake existing NFTs in roulette-style games.
+- **Game Mechanics**:
+  - Stake NFTs along with entry fees to participate in rounds
+  - Each NFT receives a random number assignment
+  - Winning number is randomly selected when rounds complete
+  - Winner receives the entire ETH prize pool
+  - All staked NFTs return to their owners after round completion
+- **Bonus Reward System**:
+  - Winners may receive special prize NFTs in addition to ETH rewards
+  - Prize NFTs come in different tiers (common, uncommon, rare, etc.)
+  - Complementary PrizeNFT contract manages specialized reward NFTs
+
 ### Governance DAO Platform
 
 - **Voting Mechanism**: Empowers users to vote on various platform improvements, including new game integrations, feature upgrades, community incentives, and more.
