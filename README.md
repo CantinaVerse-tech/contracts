@@ -108,6 +108,18 @@ CantinaVerse includes four main sections to create a multifaceted blockchain eco
     - Dynamic metadata that reflects current evolution level
     - Progressive difficulty with each evolution level
 
+3. **NFT Lucky Draw**: A lottery/raffle system using NFTs as entry tickets.
+  - **Game Mechanics**:
+    - Multiple concurrent lottery games with independent prize pools
+    - Enter games by minting NFT tickets
+    - Random winner selection from participating NFT holders
+    - Transparent prize pool accumulation
+  - **Platform Features**:
+    - Comprehensive game lifecycle management
+    - Configurable mint fees per game
+    - Clear separation between prize pools and platform fees
+    - Full event logging for maximum transparency
+
 ### Governance DAO Platform
 
 - **Voting Mechanism**: Empowers users to vote on various platform improvements, including new game integrations, feature upgrades, community incentives, and more.
