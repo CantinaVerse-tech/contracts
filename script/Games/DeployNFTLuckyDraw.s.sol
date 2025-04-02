@@ -3,7 +3,7 @@ pragma solidity 0.8.26;
 
 import { Script, console2 } from "forge-std/Script.sol";
 import { HelperConfig } from "../HelperConfig.s.sol";
-import { NFTLuckyDraw } from "../../../src/games/NFTLuckyDraw.sol";
+import { NFTLuckyDraw } from "../../src/games/NFTLuckyDraw.sol";
 
 contract DeployNFTLuckyDraw is Script {
     function run() external returns (NFTLuckyDraw) {

@@ -11,7 +11,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  * @dev Random winners are selected based on block data, pseudo-randomly.
  * @dev Chainlink VRF is recommended for true-randomness in production.
  */
-contract MultiGameNFTLuckyDraw is ERC721Enumerable, Ownable {
+contract NFTLuckyDraw is ERC721Enumerable, Ownable {
     /// @notice Default mint fee
     uint256 public defaultMintFee = 0.0001 ether;
 
