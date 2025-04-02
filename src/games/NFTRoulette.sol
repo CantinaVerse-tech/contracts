@@ -6,7 +6,7 @@ interface IERC721 {
     function transferFrom(address from, address to, uint256 tokenId) external;
 }
 
-contract ImprovedNFTRoulette {
+contract NFTRoulette {
     address public owner;
     address public prizeNFTContract; // NFT contract for bonus prize
 

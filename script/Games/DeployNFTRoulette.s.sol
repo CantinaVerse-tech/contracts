@@ -3,10 +3,10 @@ pragma solidity 0.8.26;
 
 import { Script, console2 } from "forge-std/Script.sol";
 import { HelperConfig } from "../HelperConfig.s.sol";
-import { NFTStakingEvolution } from "../../../src/games/NFTStakingEvolution.sol";
+import { NFTRoulette } from "../../src/games/NFTRoulette.sol";
 
-contract DeployStakingEvolution is Script {
-    function run() external returns (NFTStakingEvolution) {
+contract DeployNFTRoulette is Script {
+    function run() external returns (NFTRoulette) {
         HelperConfig helperConfig = new HelperConfig();
         HelperConfig.NetworkConfig memory config;
 
@@ -29,10 +29,10 @@ contract DeployStakingEvolution is Script {
         }
 
         vm.startBroadcast();
-        NFTStakingEvolution game = new NFTStakingEvolution(0xd09a3146860F77334DB024313fA18F54E4C286a2);
+        NFTRoulette game = new NFTRoulette(0x0C007e2aF454d05BEd6b60E226BD9E480441d1B1);
         vm.stopBroadcast();
 
-        console2.log("NFTStakingEvolution deployed at:", address(game));
+        console2.log("NFTRoulette deployed at:", address(game));
         console2.log("Initial owner:", config.initialOwner);
         console2.log("Service fee:", config.serviceFee);
 
