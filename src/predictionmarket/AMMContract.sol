@@ -28,6 +28,16 @@ contract AMMContract is Ownable {
     ISwapRouter public immutable swapRouter;
     INonfungiblePositionManager public immutable nonFungiblePositionManager;
 
+    /// @notice Struct to store pool-related data
+    struct PoolData {
+        bytes32 marketId; // Unique identifier for the prediction market
+        address pool; // Address of the Uniswap V3 pool
+        address tokenA; // Address of the first token in the pool
+        address tokenB; // Address of the second token in the pool
+        uint24 fee; // Fee tier for the pool
+        bool poolInitialized; // Flag to check if the pool is initialized
+    }
+
     constructor(address _uniswapV3Factory, address _uniswapSwapRouter, address _uniswapNonFungiblePositionManager) {
         magicFactory = IUniswapV3Factory(_uniswapV3Factory);
         swapRouter = ISwapRouter(_uniswapSwapRouter);
