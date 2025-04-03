@@ -326,4 +326,37 @@ contract AMMContract is Ownable {
         /// @dev Increase liquidity to the existing position.
         (liquidity, amount0, amount1) = nonFungiblePositionManager.increaseLiquidity(increaseLiquidityParams);
     }
+
+    /**
+     * @notice Internal Function to refund the user if there is a difference between liquidity added actually and
+     * liquidity added in the params.
+     * @param poolData PoolData struct containing pool information.
+     * @param amount0 Amount of tokenA in the position.
+     * @param amount1 Amount of tokenB in the position.
+     * @param _amount0 Amount of tokenA to add.
+     * @param _amount1 Amount of tokenB to add.
+     */
+    function _refundExtraLiquidityWhileMinting(
+        PoolData memory poolData,
+        uint256 amount0,
+        uint256 amount1,
+        uint256 _amount0,
+        uint256 _amount1
+    )
+        internal
+        returns (uint256 amount0Refunded, uint256 amount1Refunded)
+    {
+        if (amount0 > _amount0) {
+            IERC20(poolData.tokenA).approve(address(nonFungiblePositionManager), amount0 - _amount0);
+            bool success = IERC20(poolData.tokenA).transferFrom(address(this), msg.sender, amount0 - _amount0);
+            require(success, "Transfer failed");
+            amount0Refunded = amount0 - _amount0;
+        }
+        if (amount1 > _amount1) {
+            IERC20(poolData.tokenB).approve(address(nonFungiblePositionManager), amount1 - _amount1);
+            bool success = IERC20(poolData.tokenB).transferFrom(address(this), msg.sender, amount1 - _amount1);
+            require(success, "Transfer failed");
+            amount1Refunded = amount1 - _amount1;
+        }
+    }
 }
