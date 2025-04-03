@@ -12,7 +12,7 @@ import { FinderInterface } from "@uma/core/contracts/data-verification-mechanism
 
 /**
  * @title PMLibrary
- * @author Arenium Social
+ * @author CantinaVerse
  * @notice A library containing core logic and data structures for prediction market operations.
  * @dev This library handles payout calculations, claim composition, and outcome token management.
  */
