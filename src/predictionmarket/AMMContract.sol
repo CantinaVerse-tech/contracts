@@ -243,4 +243,53 @@ contract AMMContract is Ownable {
 
         emit PoolInitialized(poolData.marketId, poolData.pool, poolData.tokenA, poolData.tokenB, poolData.fee);
     }
+
+    /**
+     * @notice Internal Function to mint a new position for a user.
+     * @notice User must not have a position in the pool to mint a new position.
+     * @dev Position is minted to this contract, but in the contract data user's position is stored.
+     * @param poolData PoolData struct containing pool information.
+     * @param _user Address of the user.
+     * @param _amount0 Amount of tokenA to add.
+     * @param _amount1 Amount of tokenB to add.
+     * @param _tickLower Lower tick bound for the liquidity position.
+     * @param _tickUpper Upper tick bound for the liquidity position.
+     */
+    function _mintNewPosition(
+        PoolData memory poolData,
+        address _user,
+        uint256 _amount0,
+        uint256 _amount1,
+        int24 _tickLower,
+        int24 _tickUpper
+    )
+        internal
+        returns (uint256 tokenId, uint128 liquidity, uint256 amount0, uint256 amount1)
+    {
+        require(userAddressToMarketIdToPositionId[_user][poolData.marketId] == 0, "User already has a position");
+        /// @dev Approve the pool to spend tokens
+        IERC20(poolData.tokenA).approve(address(nonFungiblePositionManager), _amount0);
+        IERC20(poolData.tokenB).approve(address(nonFungiblePositionManager), _amount1);
+
+        /// @dev Calculate the liquidity
+        INonfungiblePositionManager.MintParams memory params = INonfungiblePositionManager.MintParams({
+            token0: poolData.tokenA,
+            token1: poolData.tokenB,
+            fee: poolData.fee,
+            tickLower: _tickLower,
+            tickUpper: _tickUpper,
+            amount0Desired: _amount0,
+            amount1Desired: _amount1,
+            amount0Min: _amount0,
+            amount1Min: _amount1,
+            recipient: address(this),
+            deadline: block.timestamp
+        });
+
+        /// @dev Mint a new liquidity position and update user's position id
+        (tokenId, liquidity, amount0, amount1) = nonFungiblePositionManager.mint(params);
+        userAddressToMarketIdToPositionId[_user][poolData.marketId] = tokenId;
+
+        emit NewPositionMinted(_user, poolData.marketId, _amount0, _amount1);
+    }
 }
