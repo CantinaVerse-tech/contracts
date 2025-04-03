@@ -430,4 +430,38 @@ contract AMMContract is Ownable {
 
         emit TokensCollected(_user, amount0Collected, amount1Collected);
     }
+
+    /**
+     * @notice Internal Function to execute a swap.
+     * @param _inputToken Address of the input token.
+     * @param _outputToken Address of the output token.
+     * @param _amountIn Amount of input tokens to swap.
+     * @param _amountOutMinimum Minimum amount of output tokens to receive.
+     * @param _marketId Unique identifier for the prediction market.
+     */
+    function _executeSwap(
+        address _inputToken,
+        address _outputToken,
+        uint256 _amountIn,
+        uint256 _amountOutMinimum,
+        bytes32 _marketId
+    )
+        internal
+    {
+        IERC20(_inputToken).approve(address(swapRouter), _amountIn);
+        ISwapRouter.ExactInputSingleParams memory params = ISwapRouter.ExactInputSingleParams({
+            tokenIn: _inputToken,
+            tokenOut: _outputToken,
+            fee: marketIdToPool[_marketId].fee,
+            recipient: msg.sender,
+            deadline: block.timestamp,
+            amountIn: _amountIn,
+            amountOutMinimum: _amountOutMinimum,
+            sqrtPriceLimitX96: 0
+        });
+
+        swapRouter.exactInputSingle(params);
+
+        emit TokensSwapped(_marketId, _inputToken, _outputToken, _amountIn, _amountOutMinimum);
+    }
 }
