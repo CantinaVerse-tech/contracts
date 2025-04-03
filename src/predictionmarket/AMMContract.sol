@@ -38,6 +38,19 @@ contract AMMContract is Ownable {
         bool poolInitialized; // Flag to check if the pool is initialized
     }
 
+    /// @notice Array to store all pools
+    PoolData[] public pools;
+
+    mapping(bytes32 => PoolData) public marketIdToPool;
+
+    /// @dev Maps marketId to PoolData
+    mapping(address => PoolData) public poolAddressToPool;
+    /// @dev Maps pool address to PoolData
+    mapping(address => mapping(address => address)) public tokenPairToPoolAddress;
+    /// @dev Maps token pairs to pool addresses
+    mapping(address => mapping(bytes32 => uint256)) public userAddressToMarketIdToPositionId;
+    /// @dev Maps user address to their position token id in the respective market
+
     constructor(address _uniswapV3Factory, address _uniswapSwapRouter, address _uniswapNonFungiblePositionManager) {
         magicFactory = IUniswapV3Factory(_uniswapV3Factory);
         swapRouter = ISwapRouter(_uniswapSwapRouter);
