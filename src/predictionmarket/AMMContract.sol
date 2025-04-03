@@ -140,4 +140,31 @@ contract AMMContract is Ownable {
 
         emit LiquidityAdded(_marketId, amount0, amount1);
     }
+
+    /**
+     * @notice Abstract Function to remove liquidity and collect tokens from an existing position.
+     * @param _marketId Unique identifier for the prediction market.
+     * @param _user Address of the user.
+     * @param _liquidity Liquidity to decrease.
+     * @param _amount0Min Minimum amount of tokenA to receive.
+     * @param _amount1Min Minimum amount of tokenB to receive.
+     * @return amount0Decreased Amount of tokenA decreased.
+     * @return amount1Decreased Amount of tokenB decreased.
+     * @return amount0Collected Amount of tokenA collected.
+     * @return amount1Collected Amount of tokenB collected.
+     */
+    function removeLiquidity(
+        bytes32 _marketId,
+        address _user,
+        uint128 _liquidity,
+        uint256 _amount0Min,
+        uint256 _amount1Min
+    )
+        external
+        returns (uint256 amount0Decreased, uint256 amount1Decreased, uint256 amount0Collected, uint256 amount1Collected)
+    {
+        (amount0Decreased, amount1Decreased) =
+            _decreaseLiquidity(marketIdToPool[_marketId], _user, _liquidity, _amount0Min, _amount1Min);
+        (amount0Collected, amount1Collected) = _collectTokensFromPosition(marketIdToPool[_marketId], _user);
+    }
 }
