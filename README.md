@@ -13,6 +13,7 @@
     - [NFT Marketplace](#nft-marketplace)
       - [NFTContract](#nftcontract)
       - [NFTFactory](#nftfactory)
+      - [NFT Marketplace](#nft-marketplace-1)
     - [ERC-20 Token Creation Platform](#erc-20-token-creation-platform)
     - [Casino Gaming Platform](#casino-gaming-platform)
       - [Game Portfolio](#game-portfolio)
@@ -104,6 +105,25 @@ Our NFT Factory contract enables seamless creation of new NFT collections with c
   - **One-Click Deployment**: Create collections without technical knowledge
   - **Full Ownership**: Deployed collections are fully owned by their creators
   - **Parameter Flexibility**: Customize all aspects of your NFT collection
+
+#### NFT Marketplace
+The Marketplace contract enables secure trading of NFTs through both fixed-price listings and auctions:
+- **Trading Mechanisms**:
+  - **Direct Listings**: Sell NFTs at fixed prices for immediate purchase
+  - **Timed Auctions**: Create competitive bidding environments with time limits
+  - **Bid Management**: Secure placement and tracking of auction bids
+- **Security Architecture**:
+  - **Non-Reentrancy Protection**: Prevention of transaction-based attacks
+  - **Ownership Verification**: Only legitimate NFT owners can create listings
+  - **Transparent Fee Structure**: Clear and adjustable marketplace fees
+  - **Automated Auction Resolution**: Trustless settlement via Gelato Network
+- **User Workflows**:
+  - **Selling**: List at fixed price or create auctions with customizable parameters
+  - **Buying**: Purchase listed NFTs directly or place competitive bids
+  - **Collection Management**: Easily track and manage your NFT portfolio
+  - **Auction Participation**: Bid on time-limited auctions with automatic resolution
+
+The integration of these three contracts creates a comprehensive, secure, and user-friendly NFT ecosystem within the CantinaVerse platform, enabling creators and collectors to participate in the digital asset economy with confidence.
 
 ### ERC-20 Token Creation Platform
 
