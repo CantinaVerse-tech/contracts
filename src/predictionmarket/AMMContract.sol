@@ -88,4 +88,56 @@ contract AMMContract is Ownable {
             })
         );
     }
+
+    /**
+     * @notice Abstract function to add liquidity to a pool.
+     * @param _marketId Unique identifier for the prediction market.
+     * @param _user Address of the user.
+     * @param _amount0 Amount of tokenA to add.
+     * @param _amount1 Amount of tokenB to add.
+     * @param _tickLower Lower tick bound for the liquidity position.
+     * @param _tickUpper Upper tick bound for the liquidity position.
+     * @return tokenId The token ID of the position.
+     * @return liquidity The liquidity of the position.
+     * @return amount0 The amount of tokenA in the position.
+     * @return amount1 The amount of tokenB in the position.
+     */
+    function addLiquidity(
+        bytes32 _marketId,
+        address _user,
+        uint256 _amount0,
+        uint256 _amount1,
+        int24 _tickLower,
+        int24 _tickUpper
+    )
+        external
+        returns (uint256 tokenId, uint128 liquidity, uint256 amount0, uint256 amount1)
+    {
+        PoolData storage poolData = marketIdToPool[_marketId];
+        require(poolData.poolInitialized, "Pool not active");
+
+        /// @dev Transfer tokens from the sender to this contract
+        IERC20(poolData.tokenA).transferFrom(msg.sender, address(this), _amount0);
+        IERC20(poolData.tokenB).transferFrom(msg.sender, address(this), _amount1);
+
+        /// @dev Mint a new position if the user doesn't have a position.
+        if (userAddressToMarketIdToPositionId[_user][_marketId] == 0) {
+            (tokenId,,,) =
+                _mintNewPosition(marketIdToPool[_marketId], _user, _amount0, _amount1, _tickLower, _tickUpper);
+        }
+        /// @dev Else add liquidity to the existing position.
+        else if (userAddressToMarketIdToPositionId[_user][_marketId] != 0) {
+            _addLiquidityToExistingPosition(marketIdToPool[_marketId], _user, _amount0, _amount1);
+            tokenId = userAddressToMarketIdToPositionId[_user][_marketId];
+        }
+
+        /// @dev Refund the user if there is a difference between liquidity added actually and liquidity added in the
+        /// params.
+        _refundExtraLiquidityWhileMinting(marketIdToPool[_marketId], amount0, amount1, _amount0, _amount1);
+
+        /// @dev Call getter and return current user holdings.
+        (,,,, liquidity,,,,, amount0, amount1) = getUserPositionInPool(_user, _marketId);
+
+        emit LiquidityAdded(_marketId, amount0, amount1);
+    }
 }
