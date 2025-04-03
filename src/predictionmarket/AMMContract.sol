@@ -56,4 +56,36 @@ contract AMMContract is Ownable {
         swapRouter = ISwapRouter(_uniswapSwapRouter);
         nonFungiblePositionManager = INonfungiblePositionManager(_uniswapNonFungiblePositionManager);
     }
+
+    /**
+     * @notice Abstract function to create, initialize and update pool data in this contract.
+     * @param _tokenA Address of the first token.
+     * @param _tokenB Address of the second token.
+     * @param _fee Fee tier for the pool.
+     * @param _marketId Unique identifier for the prediction market.
+     */
+    function initializePool(
+        address _tokenA,
+        address _tokenB,
+        uint24 _fee,
+        bytes32 _marketId
+    )
+        external
+        returns (address poolAddress)
+    {
+        /// @dev Create the pool
+        poolAddress = _createPool(_marketId, _tokenA, _tokenB, _fee);
+
+        /// @dev Initialize pool and update pool data in this contract
+        _initializePoolAndUpdateContract(
+            PoolData({
+                marketId: _marketId,
+                pool: poolAddress,
+                tokenA: _tokenA,
+                tokenB: _tokenB,
+                fee: _fee,
+                poolInitialized: false
+            })
+        );
+    }
 }
