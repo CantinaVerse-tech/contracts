@@ -403,4 +403,31 @@ contract AMMContract is Ownable {
 
         emit LiquidityRemoved(_user, _liquidity, amount0Decreased, amount1Decreased);
     }
+
+    /**
+     * @notice Internal Function to collect tokens from an existing position.
+     * @param _user Address of the user.
+     * @return amount0Collected Amount of tokenA collected.
+     * @return amount1Collected Amount of tokenB collected.
+     */
+    function _collectTokensFromPosition(
+        PoolData memory poolData,
+        address _user
+    )
+        internal
+        returns (uint256 amount0Collected, uint256 amount1Collected)
+    {
+        /// @dev Prepare collect params.
+        INonfungiblePositionManager.CollectParams memory collectParams = INonfungiblePositionManager.CollectParams({
+            tokenId: userAddressToMarketIdToPositionId[_user][poolData.marketId],
+            recipient: _user,
+            amount0Max: type(uint128).max,
+            amount1Max: type(uint128).max
+        });
+
+        /// @dev Collect tokens (including fees) from the position and transfer to user.
+        (amount0Collected, amount1Collected) = nonFungiblePositionManager.collect(collectParams);
+
+        emit TokensCollected(_user, amount0Collected, amount1Collected);
+    }
 }
