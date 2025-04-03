@@ -42,7 +42,6 @@ contract AMMContract is Ownable {
     PoolData[] public pools;
 
     mapping(bytes32 => PoolData) public marketIdToPool;
-
     /// @dev Maps marketId to PoolData
     mapping(address => PoolData) public poolAddressToPool;
     /// @dev Maps pool address to PoolData
@@ -50,6 +49,18 @@ contract AMMContract is Ownable {
     /// @dev Maps token pairs to pool addresses
     mapping(address => mapping(bytes32 => uint256)) public userAddressToMarketIdToPositionId;
     /// @dev Maps user address to their position token id in the respective market
+
+    event PoolCreated(address indexed pool);
+    event PoolInitialized(bytes32 indexed marketId, address indexed pool, address tokenA, address tokenB, uint24 fee);
+    event NewPositionMinted(address indexed user, bytes32 indexed marketId, uint256 amount0, uint256 amount1);
+    event LiquidityAdded(bytes32 indexed marketId, uint256 indexed amount0, uint256 indexed amount1);
+    event LiquidityRemoved(address user, uint128 liquidity, uint256 amount0Decreased, uint256 amount1Decreased);
+    event TokensCollected(address user, uint256 amount0Collected, uint256 amount1Collected);
+    event TokensSwapped(
+        bytes32 indexed marketId, address indexed tokenIn, address indexed tokenOut, uint256 amountIn, uint256 amountOut
+    );
+    event ProtocolFeeCollected(address recipient, uint256 amountA, uint256 amountB);
+    event FeeCollected(address recipient, bytes32 indexed marketId, uint256 amountA, uint256 amountB);
 
     constructor(address _uniswapV3Factory, address _uniswapSwapRouter, address _uniswapNonFungiblePositionManager) {
         magicFactory = IUniswapV3Factory(_uniswapV3Factory);
@@ -463,5 +474,71 @@ contract AMMContract is Ownable {
         swapRouter.exactInputSingle(params);
 
         emit TokensSwapped(_marketId, _inputToken, _outputToken, _amountIn, _amountOutMinimum);
+    }
+
+    /**
+     * @notice Retrieves the position details for a given token ID.
+     * @param _user The ID of the position to retrieve.
+     * @return operator The operator of the position.
+     * @return token0 The address of the first token in the position.
+     * @return token1 The address of the second token in the position.
+     * @return fee The fee tier of the position.
+     * @return liquidity The liquidity of the position.
+     * @return tickLower The lower tick bound of the position.
+     * @return tickUpper The upper tick bound of the position.
+     * @return tokensOwed0 The uncollected amount of token0 owed to the position.
+     * @return tokensOwed1 The uncollected amount of token1 owed to the position.
+     * @return amount0 The amount of token0 in the position.
+     * @return amount1 The amount of token1 in the position.
+     */
+    function getUserPositionInPool(
+        address _user,
+        bytes32 _marketId
+    )
+        public
+        view
+        returns (
+            address operator,
+            address token0,
+            address token1,
+            uint24 fee,
+            uint128 liquidity,
+            int24 tickLower,
+            int24 tickUpper,
+            uint128 tokensOwed0,
+            uint128 tokensOwed1,
+            uint256 amount0,
+            uint256 amount1
+        )
+    {
+        (, operator, token0, token1, fee, tickLower, tickUpper, liquidity,,, tokensOwed0, tokensOwed1) =
+            nonFungiblePositionManager.positions(userAddressToMarketIdToPositionId[_user][_marketId]);
+        (amount0, amount1) = getAmountsForLiquidityHelper(fee, tickLower, tickUpper, liquidity);
+    }
+
+    /**
+     * @notice Internal Function to get the amount of tokenA and tokenB in a user's position.
+     * @param fee Fee tier for the pool.
+     * @param tickLower Lower tick bound for the liquidity position.
+     * @param tickUpper Upper tick bound for the liquidity position.
+     * @param liquidity Liquidity in the position.
+     * @return amount0 Amount of tokenA in the position.
+     * @return amount1 Amount of tokenB in the position.
+     */
+    function getAmountsForLiquidityHelper(
+        uint24 fee,
+        int24 tickLower,
+        int24 tickUpper,
+        uint128 liquidity
+    )
+        public
+        pure
+        returns (uint256 amount0, uint256 amount1)
+    {
+        uint160 sqrtPriceX96 = TickMath.getSqrtRatioAtTick(int24(fee));
+        uint160 sqrtPriceAX96 = TickMath.getSqrtRatioAtTick(tickLower);
+        uint160 sqrtPriceBX96 = TickMath.getSqrtRatioAtTick(tickUpper);
+        (amount0, amount1) =
+            LiquidityAmounts.getAmountsForLiquidity(sqrtPriceX96, sqrtPriceAX96, sqrtPriceBX96, liquidity);
     }
 }
