@@ -167,4 +167,26 @@ contract AMMContract is Ownable {
             _decreaseLiquidity(marketIdToPool[_marketId], _user, _liquidity, _amount0Min, _amount1Min);
         (amount0Collected, amount1Collected) = _collectTokensFromPosition(marketIdToPool[_marketId], _user);
     }
+
+    /**
+     * @notice Abstract Function to swap tokens in a specified pool.
+     * @dev The swap is executed using the Uniswap V3 swap router.
+     * @param _marketId Unique identifier for the prediction market.
+     * @param _amountIn Amount of input tokens to swap.
+     * @param _amountOutMinimum Minimum amount of output tokens to receive.
+     * @param _zeroForOne Direction of the swap (true for tokenA to tokenB, false for tokenB to tokenA).
+     */
+    function swap(bytes32 _marketId, uint256 _amountIn, uint256 _amountOutMinimum, bool _zeroForOne) external {
+        PoolData storage poolData = marketIdToPool[_marketId];
+        require(poolData.poolInitialized, "Pool not active");
+
+        address inputToken = _zeroForOne ? poolData.tokenA : poolData.tokenB;
+        address outputToken = _zeroForOne ? poolData.tokenB : poolData.tokenA;
+
+        /// @dev Transfer input tokens to the contract and approve the swap router
+        IERC20(inputToken).transferFrom(msg.sender, address(this), _amountIn);
+
+        /// @dev Execute the swap
+        _executeSwap(inputToken, outputToken, _amountIn, _amountOutMinimum, _marketId);
+    }
 }
