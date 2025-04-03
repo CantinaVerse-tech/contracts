@@ -11,6 +11,9 @@
     - [Key Benefits:](#key-benefits)
   - [Current Features](#current-features)
     - [NFT Marketplace](#nft-marketplace)
+      - [NFTContract](#nftcontract)
+      - [NFTFactory](#nftfactory)
+      - [NFT Marketplace](#nft-marketplace-1)
     - [ERC-20 Token Creation Platform](#erc-20-token-creation-platform)
     - [Casino Gaming Platform](#casino-gaming-platform)
       - [Game Portfolio](#game-portfolio)
@@ -64,6 +67,63 @@ CantinaVerse includes four main sections to create a multifaceted blockchain eco
     - **Explorer Pages**: Users can explore new NFT collections, view details, and browse all deployed collections.
     - **Listing Page**: A space to view and participate in NFT Listings.
     - **Auction Page**: A space to view and participate in NFT auctions.
+
+The NFT Marketplace is powered by three key smart contracts that work together to create a comprehensive NFT ecosystem:
+
+#### NFTContract
+The core contract for creating and managing NFT collections, including minting and transfer.
+- **Core Functionality**:
+  - **ERC721 Compliance**: Full implementation of the standard ERC721 interface
+  - **Supply Management**: Configurable maximum supply cap for token scarcity
+  - **Royalty Support**: ERC2981 implementation for creator royalties (up to 30%)
+  - **Enumerable Extension**: On-chain enumeration of tokens via ERC721Enumerable
+  - **Metadata Management**: Flexible token URI handling with ERC721URIStorage
+  - **IPFS Integration**: Seamless compatibility with IPFS via Pinata
+- **Security Features**:
+  - **Ownership Controls**: Access-restricted functions via OpenZeppelin's Ownable
+  - **Reentrancy Protection**: Transaction safety with ReentrancyGuard
+  - **Secure Fund Management**: Protected ETH transactions for minting operations
+  - **Comprehensive Error Handling**: Clear error messages for all failure scenarios
+- **Creator Benefits**:
+  - **Perpetual Royalties**: Creators earn from secondary sales automatically
+  - **Metadata Control**: Flexible URI management for content updates
+  - **Supply Limitations**: Scarcity controls to maintain collection value
+
+#### NFTFactory
+Our NFT Factory contract enables seamless creation of new NFT collections with customizable parameters:
+- **Key Capabilities**:
+  - **Collection Creation**: Deploy new NFT collections with personalized settings
+  - **Fee Management**: Fair and transparent creation fee system
+  - **Collection Registry**: Comprehensive tracking of all deployed collections
+  - **Parameter Customization**: Configure name, symbol, supply, royalties, and pricing
+- **Technical Implementation**:
+  - **Factory Pattern Design**: Efficient contract deployment architecture
+  - **Security Features**: Reentrancy protection and ownership controls
+  - **Event Tracking**: Detailed event logging for collection creation
+  - **Access Controls**: Owner-restricted administrative functions
+- **User Experience**:
+  - **One-Click Deployment**: Create collections without technical knowledge
+  - **Full Ownership**: Deployed collections are fully owned by their creators
+  - **Parameter Flexibility**: Customize all aspects of your NFT collection
+
+#### NFT Marketplace
+The Marketplace contract enables secure trading of NFTs through both fixed-price listings and auctions:
+- **Trading Mechanisms**:
+  - **Direct Listings**: Sell NFTs at fixed prices for immediate purchase
+  - **Timed Auctions**: Create competitive bidding environments with time limits
+  - **Bid Management**: Secure placement and tracking of auction bids
+- **Security Architecture**:
+  - **Non-Reentrancy Protection**: Prevention of transaction-based attacks
+  - **Ownership Verification**: Only legitimate NFT owners can create listings
+  - **Transparent Fee Structure**: Clear and adjustable marketplace fees
+  - **Automated Auction Resolution**: Trustless settlement via Gelato Network
+- **User Workflows**:
+  - **Selling**: List at fixed price or create auctions with customizable parameters
+  - **Buying**: Purchase listed NFTs directly or place competitive bids
+  - **Collection Management**: Easily track and manage your NFT portfolio
+  - **Auction Participation**: Bid on time-limited auctions with automatic resolution
+
+The integration of these three contracts creates a comprehensive, secure, and user-friendly NFT ecosystem within the CantinaVerse platform, enabling creators and collectors to participate in the digital asset economy with confidence.
 
 ### ERC-20 Token Creation Platform
 
