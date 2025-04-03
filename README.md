@@ -11,6 +11,7 @@
     - [Key Benefits:](#key-benefits)
   - [Current Features](#current-features)
     - [NFT Marketplace](#nft-marketplace)
+      - [NFTContract](#nftcontract)
     - [ERC-20 Token Creation Platform](#erc-20-token-creation-platform)
     - [Casino Gaming Platform](#casino-gaming-platform)
       - [Game Portfolio](#game-portfolio)
@@ -64,6 +65,27 @@ CantinaVerse includes four main sections to create a multifaceted blockchain eco
     - **Explorer Pages**: Users can explore new NFT collections, view details, and browse all deployed collections.
     - **Listing Page**: A space to view and participate in NFT Listings.
     - **Auction Page**: A space to view and participate in NFT auctions.
+
+The NFT Marketplace is powered by three key smart contracts that work together to create a comprehensive NFT ecosystem:
+
+#### NFTContract
+The core contract for creating and managing NFT collections, including minting and transfer.
+- **Core Functionality**:
+  - **ERC721 Compliance**: Full implementation of the standard ERC721 interface
+  - **Supply Management**: Configurable maximum supply cap for token scarcity
+  - **Royalty Support**: ERC2981 implementation for creator royalties (up to 30%)
+  - **Enumerable Extension**: On-chain enumeration of tokens via ERC721Enumerable
+  - **Metadata Management**: Flexible token URI handling with ERC721URIStorage
+  - **IPFS Integration**: Seamless compatibility with IPFS via Pinata
+- **Security Features**:
+  - **Ownership Controls**: Access-restricted functions via OpenZeppelin's Ownable
+  - **Reentrancy Protection**: Transaction safety with ReentrancyGuard
+  - **Secure Fund Management**: Protected ETH transactions for minting operations
+  - **Comprehensive Error Handling**: Clear error messages for all failure scenarios
+- **Creator Benefits**:
+  - **Perpetual Royalties**: Creators earn from secondary sales automatically
+  - **Metadata Control**: Flexible URI management for content updates
+  - **Supply Limitations**: Scarcity controls to maintain collection value
 
 ### ERC-20 Token Creation Platform
 
