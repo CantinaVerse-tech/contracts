@@ -12,6 +12,7 @@
   - [Current Features](#current-features)
     - [NFT Marketplace](#nft-marketplace)
       - [NFTContract](#nftcontract)
+      - [NFTFactory](#nftfactory)
     - [ERC-20 Token Creation Platform](#erc-20-token-creation-platform)
     - [Casino Gaming Platform](#casino-gaming-platform)
       - [Game Portfolio](#game-portfolio)
@@ -86,6 +87,23 @@ The core contract for creating and managing NFT collections, including minting a
   - **Perpetual Royalties**: Creators earn from secondary sales automatically
   - **Metadata Control**: Flexible URI management for content updates
   - **Supply Limitations**: Scarcity controls to maintain collection value
+
+#### NFTFactory
+Our NFT Factory contract enables seamless creation of new NFT collections with customizable parameters:
+- **Key Capabilities**:
+  - **Collection Creation**: Deploy new NFT collections with personalized settings
+  - **Fee Management**: Fair and transparent creation fee system
+  - **Collection Registry**: Comprehensive tracking of all deployed collections
+  - **Parameter Customization**: Configure name, symbol, supply, royalties, and pricing
+- **Technical Implementation**:
+  - **Factory Pattern Design**: Efficient contract deployment architecture
+  - **Security Features**: Reentrancy protection and ownership controls
+  - **Event Tracking**: Detailed event logging for collection creation
+  - **Access Controls**: Owner-restricted administrative functions
+- **User Experience**:
+  - **One-Click Deployment**: Create collections without technical knowledge
+  - **Full Ownership**: Deployed collections are fully owned by their creators
+  - **Parameter Flexibility**: Customize all aspects of your NFT collection
 
 ### ERC-20 Token Creation Platform
 
