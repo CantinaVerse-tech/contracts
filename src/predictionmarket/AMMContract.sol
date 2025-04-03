@@ -359,4 +359,48 @@ contract AMMContract is Ownable {
             amount1Refunded = amount1 - _amount1;
         }
     }
+
+    /**
+     * @notice Internal Function to decrease liquidity from an existing position.
+     * @param _user Address of the user.
+     * @param _liquidity Liquidity to decrease.
+     * @param _amount0Min Minimum amount of tokenA to receive.
+     * @param _amount1Min Minimum amount of tokenB to receive.
+     * @return amount0Decreased Amount of tokenA decreased.
+     * @return amount1Decreased Amount of tokenB decreased.
+     */
+    function _decreaseLiquidity(
+        PoolData memory poolData,
+        address _user,
+        uint128 _liquidity,
+        uint256 _amount0Min,
+        uint256 _amount1Min
+    )
+        internal
+        returns (uint256 amount0Decreased, uint256 amount1Decreased)
+    {
+        require(
+            userAddressToMarketIdToPositionId[_user][poolData.marketId] != 0,
+            "No positions to decrease liquidity, try adding liquidity first"
+        );
+        /// @dev Call getter and return current user holdings.
+        (,,,, uint128 liquidity,,,,, uint256 amount0, uint256 amount1) = getUserPositionInPool(_user, poolData.marketId);
+        require(liquidity >= _liquidity, "Not enough liquidity to decrease, try adding liquidity first");
+        require(amount0 >= _amount0Min, "Not enough tokenA to decrease, try adding more tokenA");
+        require(amount1 >= _amount1Min, "Not enough tokenB to decrease, try adding more tokenB");
+        /// @dev Prepare decreaseLiquidity params.
+        INonfungiblePositionManager.DecreaseLiquidityParams memory decreaseParams = INonfungiblePositionManager
+            .DecreaseLiquidityParams({
+            tokenId: userAddressToMarketIdToPositionId[_user][poolData.marketId],
+            liquidity: _liquidity,
+            amount0Min: _amount0Min,
+            amount1Min: _amount1Min,
+            deadline: block.timestamp
+        });
+
+        /// @dev Decrease liquidity from the existing position.
+        (amount0Decreased, amount1Decreased) = nonFungiblePositionManager.decreaseLiquidity(decreaseParams);
+
+        emit LiquidityRemoved(_user, _liquidity, amount0Decreased, amount1Decreased);
+    }
 }
