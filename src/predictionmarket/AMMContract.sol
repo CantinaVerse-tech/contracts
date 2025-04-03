@@ -219,4 +219,28 @@ contract AMMContract is Ownable {
         require(poolAddress != address(0), "Pool Creation Failed");
         emit PoolCreated(poolAddress);
     }
+
+    /**
+     * @notice Internal Function to initialize the pool and update pool data in this contract.
+     * @dev The pool is created with a price of 1 (equal weights for both tokens).
+     * @param poolData PoolData struct containing pool information.
+     */
+    function _initializePoolAndUpdateContract(PoolData memory poolData) internal {
+        require(marketIdToPool[poolData.marketId].pool == address(0), "Pool already initialised");
+        /// @dev Initialize the pool with a price of 1 (equal weights for both tokens).
+        IUniswapV3Pool pool = IUniswapV3Pool(poolData.pool);
+        uint160 sqrtPriceX96 = 79_228_162_514_264_337_593_543_950_336;
+        /// @param sqrtPriceX96 sqrt(1) * 2^96
+        pool.initialize(sqrtPriceX96);
+
+        /// @dev Update pool data in this contract
+        poolData.poolInitialized = true;
+        marketIdToPool[poolData.marketId] = poolData;
+        poolAddressToPool[poolData.pool] = poolData;
+        tokenPairToPoolAddress[poolData.tokenA][poolData.tokenB] = poolData.pool;
+        tokenPairToPoolAddress[poolData.tokenB][poolData.tokenA] = poolData.pool;
+        pools.push(poolData);
+
+        emit PoolInitialized(poolData.marketId, poolData.pool, poolData.tokenA, poolData.tokenB, poolData.fee);
+    }
 }
