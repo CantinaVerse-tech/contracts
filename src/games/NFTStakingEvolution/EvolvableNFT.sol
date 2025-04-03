@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.26;
+pragma solidity 0.8.16;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -120,7 +120,7 @@ contract EvolvableNFT is ERC721Enumerable, Ownable {
      */
     function determineRarity() internal view returns (uint256) {
         uint256 randomValue =
-            uint256(keccak256(abi.encodePacked(block.timestamp, block.prevrandao, msg.sender, totalSupply()))) % 100;
+            uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty, msg.sender, totalSupply()))) % 100;
 
         // 60% common, 25% uncommon, 10% rare, 4% epic, 1% legendary
         if (randomValue < 60) {

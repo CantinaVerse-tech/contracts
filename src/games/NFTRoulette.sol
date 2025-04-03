@@ -71,7 +71,7 @@ contract NFTRoulette {
         // Assign a random number to the NFT
         uint256 assignedNumber = uint256(
             keccak256(
-                abi.encodePacked(block.timestamp, block.prevrandao, msg.sender, tokenId, rounds[roundId].entries.length)
+                abi.encodePacked(block.timestamp, block.difficulty, msg.sender, tokenId, rounds[roundId].entries.length)
             )
         ) % rounds[roundId].maxRange;
 
@@ -101,7 +101,7 @@ contract NFTRoulette {
 
         // Generate a random number
         uint256 winningNumber = uint256(
-            keccak256(abi.encodePacked(block.timestamp, block.prevrandao, roundId, round.entries.length))
+            keccak256(abi.encodePacked(block.timestamp, block.difficulty, roundId, round.entries.length))
         ) % round.maxRange;
 
         // Find the winner

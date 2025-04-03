@@ -122,7 +122,7 @@ contract NFTLuckyDraw is ERC721Enumerable, Ownable {
         require(tokenCount > 0, "No tokens in this game");
 
         // Pseudo-random number based on block data
-        uint256 random = uint256(keccak256(abi.encodePacked(block.timestamp, block.prevrandao, gameId, tokenCount)));
+        uint256 random = uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty, gameId, tokenCount)));
         uint256 winningTokenId = game.startTokenId + (random % tokenCount);
 
         // Ensure the token belongs to this game (in case of any edge cases)

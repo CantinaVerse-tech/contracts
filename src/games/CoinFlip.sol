@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.26;
+pragma solidity 0.8.16;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
@@ -82,7 +82,7 @@ contract CoinFlip is Ownable, ReentrancyGuard {
      */
     function generateRandomBool() internal view returns (bool) {
         uint256 randomValue =
-            uint256(keccak256(abi.encodePacked(block.timestamp, block.prevrandao, msg.sender, totalFlips)));
+            uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty, msg.sender, totalFlips)));
 
         return randomValue % 2 == 0;
     }

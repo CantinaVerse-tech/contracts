@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.26;
+pragma solidity 0.8.16;
 
 import { IMarketPlace } from "../../src/marketplace/interfaces/IMarketPlace.sol";
 import { IERC721 } from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
