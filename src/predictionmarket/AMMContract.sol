@@ -189,4 +189,34 @@ contract AMMContract is Ownable {
         /// @dev Execute the swap
         _executeSwap(inputToken, outputToken, _amountIn, _amountOutMinimum, _marketId);
     }
+
+    /**
+     * @notice Internal Function to create a new Uniswap V3 pool for a given market.
+     * @param _marketId Unique identifier for the prediction market.
+     * @param _tokenA Address of the first token.
+     * @param _tokenB Address of the second token.
+     * @param _fee Fee tier for the pool.
+     */
+    function _createPool(
+        bytes32 _marketId,
+        address _tokenA,
+        address _tokenB,
+        uint24 _fee
+    )
+        internal
+        returns (address poolAddress)
+    {
+        require(_tokenA != _tokenB, "Tokens Must Be Different");
+        require(marketIdToPool[_marketId].pool == address(0), "Pool Already Exists");
+
+        /// @dev Ensure token order for pool creation.
+        if (_tokenA > _tokenB) {
+            (_tokenA, _tokenB) = (_tokenB, _tokenA);
+        }
+
+        /// @dev Create the pool
+        poolAddress = magicFactory.createPool(_tokenA, _tokenB, _fee);
+        require(poolAddress != address(0), "Pool Creation Failed");
+        emit PoolCreated(poolAddress);
+    }
 }
