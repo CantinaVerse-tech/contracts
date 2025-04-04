@@ -263,4 +263,11 @@ contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownab
         }
         delete assertedMarkets[assertionId];
     }
+
+    /**
+     * @notice Callback function triggered when an assertion is disputed.
+     * @dev This function does nothing as disputes are handled by the Optimistic Oracle.
+     * @param assertionId Unique identifier for the assertion.
+     */
+    function assertionDisputedCallback(bytes32 assertionId) external { }
 }
