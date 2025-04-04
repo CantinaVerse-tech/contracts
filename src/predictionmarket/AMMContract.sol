@@ -489,6 +489,16 @@ contract AMMContract is Ownable {
     }
 
     /**
+     * @notice Retrieves pool data using the market ID.
+     * @param marketId Unique identifier for the prediction market.
+     * @return pool PoolData struct containing pool information.
+     */
+    function getPoolUsingMarketId(bytes32 marketId) external view returns (PoolData memory pool) {
+        pool = marketIdToPool[marketId];
+        return pool;
+    }
+
+    /**
      * @notice Retrieves the position details for a given token ID.
      * @param _user The ID of the position to retrieve.
      * @return operator The operator of the position.
