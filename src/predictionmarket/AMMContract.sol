@@ -499,6 +499,16 @@ contract AMMContract is Ownable {
     }
 
     /**
+     * @notice Retrieves pool data using the pool address.
+     * @param poolAddress Address of the pool.
+     * @return pool PoolData struct containing pool information.
+     */
+    function getPoolUsingAddress(address poolAddress) external view returns (PoolData memory pool) {
+        pool = poolAddressToPool[poolAddress];
+        return pool;
+    }
+
+    /**
      * @notice Retrieves the position details for a given token ID.
      * @param _user The ID of the position to retrieve.
      * @return operator The operator of the position.
