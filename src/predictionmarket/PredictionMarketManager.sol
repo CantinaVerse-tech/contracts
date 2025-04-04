@@ -13,6 +13,7 @@ import { PMLibrary } from "./lib/PMLibrary.sol";
 contract PredictionMarketManager is Ownable {
     // Custom errors
     error MarketFactory__CallerNotWhitelisted();
+    error MarketFactory__AddressAlreadyWhitelisted();
 
     // Whitelist state
     mapping(address => bool) public whitelistedAddresses;
@@ -31,5 +32,17 @@ contract PredictionMarketManager is Ownable {
             revert MarketFactory__CallerNotWhitelisted();
         }
         _;
+    }
+
+    /**
+     * @notice Adds an address to the whitelist, allowing it to create markets.
+     * @dev Only callable by the contract owner.
+     * @param account Address to add to the whitelist.
+     */
+    function addToWhitelist(address account) external onlyOwner {
+        if (whitelistedAddresses[account]) {
+            revert MarketFactory__AddressAlreadyWhitelisted();
+        }
+        whitelistedAddresses[account] = true;
     }
 }
