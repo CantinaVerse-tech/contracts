@@ -477,6 +477,18 @@ contract AMMContract is Ownable {
     }
 
     /**
+     * @notice Retrieves the pool address using token addresses and fee tier.
+     * @param tokenA Address of the first token.
+     * @param tokenB Address of the second token.
+     * @param fee Fee tier for the pool.
+     * @return pool Address of the pool.
+     */
+    function getPoolUsingParams(address tokenA, address tokenB, uint24 fee) external view returns (address pool) {
+        pool = magicFactory.getPool(tokenA, tokenB, fee);
+        return pool;
+    }
+
+    /**
      * @notice Retrieves the position details for a given token ID.
      * @param _user The ID of the position to retrieve.
      * @return operator The operator of the position.
