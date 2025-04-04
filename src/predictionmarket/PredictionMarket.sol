@@ -33,6 +33,7 @@ contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownab
     error PredictionMarket__MarketDoesNotExist();
     error PredictionMarket__InvalidAssertionOutcome();
     error PredictionMarket__NotAuthorized();
+    error PredictionMarket__MarketNotResolved();
 
     // Libraries
     using SafeERC20 for IERC20;
@@ -68,6 +69,9 @@ contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownab
     event TokensCreated(bytes32 indexed marketId, address account, uint256 tokensCreated);
     event MarketAsserted(bytes32 indexed marketId, string assertedOutcome, bytes32 assertionId);
     event MarketResolved(bytes32 indexed marketId);
+    event TokensSettled(
+        bytes32 indexed marketId, address account, uint256 payout, uint256 outcome1Tokens, uint256 outcome2Tokens
+    );
 
     /**
      * @notice Constructor to initialize the contract with required dependencies.
@@ -270,4 +274,26 @@ contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownab
      * @param assertionId Unique identifier for the assertion.
      */
     function assertionDisputedCallback(bytes32 assertionId) external { }
+
+    /**
+     * @notice Settles outcome tokens and calculates the payout based on the resolved market outcome.
+     * @param marketId Unique identifier for the market.
+     * @return payout Amount of currency tokens received.
+     */
+    function settleOutcomeTokens(bytes32 marketId) external returns (uint256 payout) {
+        PMLibrary.Market storage market = markets[marketId];
+        if (!market.resolved) {
+            revert PredictionMarket__MarketNotResolved();
+        }
+        uint256 outcome1Balance = market.outcome1Token.balanceOf(msg.sender);
+        uint256 outcome2Balance = market.outcome2Token.balanceOf(msg.sender);
+
+        payout = PMLibrary.calculatePayout(market, outcome1Balance, outcome2Balance);
+
+        market.outcome1Token.burnFrom(msg.sender, outcome1Balance);
+        market.outcome2Token.burnFrom(msg.sender, outcome2Balance);
+        currency.safeTransfer(msg.sender, payout);
+
+        emit TokensSettled(marketId, msg.sender, payout, outcome1Balance, outcome2Balance);
+    }
 }
