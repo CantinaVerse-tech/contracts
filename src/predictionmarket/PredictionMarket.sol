@@ -32,6 +32,7 @@ contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownab
     error PredictionMarket__MarketAlreadyExists();
     error PredictionMarket__MarketDoesNotExist();
     error PredictionMarket__InvalidAssertionOutcome();
+    error PredictionMarket__NotAuthorized();
 
     // Libraries
     using SafeERC20 for IERC20;
@@ -66,6 +67,7 @@ contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownab
     );
     event TokensCreated(bytes32 indexed marketId, address account, uint256 tokensCreated);
     event MarketAsserted(bytes32 indexed marketId, string assertedOutcome, bytes32 assertionId);
+    event MarketResolved(bytes32 indexed marketId);
 
     /**
      * @notice Constructor to initialize the contract with required dependencies.
@@ -235,5 +237,30 @@ contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownab
         assertedMarkets[assertionId] = PMLibrary.AssertedMarket({ asserter: msg.sender, marketId: marketId });
 
         emit MarketAsserted(marketId, assertedOutcome, assertionId);
+    }
+
+    /**
+     * @notice Callback function triggered when an assertion is resolved.
+     * @dev If the assertion is resolved truthfully, the market is marked as resolved and the asserter receives the
+     * reward.
+     * @param assertionId Unique identifier for the assertion.
+     * @param assertedTruthfully Whether the assertion was resolved truthfully.
+     */
+    function assertionResolvedCallback(bytes32 assertionId, bool assertedTruthfully) external {
+        if (msg.sender != address(optimisticOracle)) {
+            revert PredictionMarket__NotAuthorized();
+        }
+        PMLibrary.Market storage market = markets[assertedMarkets[assertionId].marketId];
+
+        if (assertedTruthfully) {
+            market.resolved = true;
+            if (market.reward > 0) {
+                currency.safeTransfer(assertedMarkets[assertionId].asserter, market.reward);
+            }
+            emit MarketResolved(assertedMarkets[assertionId].marketId);
+        } else {
+            market.assertedOutcomeId = bytes32(0);
+        }
+        delete assertedMarkets[assertionId];
     }
 }
