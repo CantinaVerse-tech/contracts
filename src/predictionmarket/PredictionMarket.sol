@@ -44,4 +44,20 @@ contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownab
     // Storage
     mapping(bytes32 => PMLibrary.Market) private markets; // Maps marketId to Market struct.
     mapping(bytes32 => PMLibrary.AssertedMarket) private assertedMarkets; // Maps assertionId to AssertedMarket.
+
+    /**
+     * @notice Constructor to initialize the contract with required dependencies.
+     * @param _finder Address of the UMA Finder contract.
+     * @param _currency Address of the currency token used for rewards and bonds.
+     * @param _optimisticOracleV3 Address of the UMA Optimistic Oracle V3 contract.
+     * @param _ammContract Address of the Uniswap V3 AMM contract.
+     */
+    constructor(address _finder, address _currency, address _optimisticOracleV3, address _ammContract) {
+        finder = FinderInterface(_finder);
+        require(PMLibrary.getCollateralWhitelist(finder).isOnWhitelist(_currency), "Unsupported currency");
+        currency = IERC20(_currency);
+        optimisticOracle = OptimisticOracleV3Interface(_optimisticOracleV3);
+        defaultIdentifier = optimisticOracle.defaultIdentifier();
+        amm = IAMMContract(_ammContract);
+    }
 }
