@@ -31,6 +31,7 @@ contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownab
     error PredictionMarket__OutcomesAreTheSame();
     error PredictionMarket__MarketAlreadyExists();
     error PredictionMarket__MarketDoesNotExist();
+    error PredictionMarket__InvalidAssertionOutcome();
 
     // Libraries
     using SafeERC20 for IERC20;
@@ -64,6 +65,7 @@ contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownab
         string imageURL
     );
     event TokensCreated(bytes32 indexed marketId, address account, uint256 tokensCreated);
+    event MarketAsserted(bytes32 indexed marketId, string assertedOutcome, bytes32 assertionId);
 
     /**
      * @notice Constructor to initialize the contract with required dependencies.
@@ -195,5 +197,43 @@ contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownab
         emit TokensCreated(marketId, msg.sender, tokensToCreate);
 
         return tokenId;
+    }
+
+    /**
+     * @notice Asserts the market outcome using UMA's Optimistic Oracle V3.
+     * @dev Only one concurrent assertion per market is allowed.
+     * @param marketId Unique identifier for the market.
+     * @param assertedOutcome The outcome being asserted.
+     * @return assertionId Unique identifier for the assertion.
+     */
+    function assertMarket(bytes32 marketId, string memory assertedOutcome) external returns (bytes32 assertionId) {
+        PMLibrary.Market storage market = markets[marketId];
+        if (market.outcome1Token == ExpandedIERC20(address(0))) {
+            revert PredictionMarket__MarketDoesNotExist();
+        }
+        bytes32 assertedOutcomeId = keccak256(bytes(assertedOutcome));
+        if (!PMLibrary.isValidOutcome(assertedOutcomeId, market.outcome1, market.outcome2)) {
+            revert PredictionMarket__InvalidAssertionOutcome();
+        }
+
+        market.assertedOutcomeId = assertedOutcomeId;
+        uint256 minimumBond = optimisticOracle.getMinimumBond(address(currency));
+        uint256 bond = market.requiredBond > minimumBond ? market.requiredBond : minimumBond;
+
+        // Transfer bond and make the assertion
+        currency.safeTransferFrom(msg.sender, address(this), bond);
+        currency.forceApprove(address(optimisticOracle), bond);
+
+        bytes memory claim = PMLibrary.composeClaim(assertedOutcome, market.description, block.timestamp);
+
+        // Use the library function to assert truth
+        assertionId = PMLibrary.assertTruthWithDefaults(
+            optimisticOracle, claim, msg.sender, address(this), currency, bond, defaultIdentifier
+        );
+
+        // Store the asserter and marketId for the callback
+        assertedMarkets[assertionId] = PMLibrary.AssertedMarket({ asserter: msg.sender, marketId: marketId });
+
+        emit MarketAsserted(marketId, assertedOutcome, assertionId);
     }
 }
