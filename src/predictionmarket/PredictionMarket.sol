@@ -30,6 +30,7 @@ contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownab
     // Custom errors
     error PredictionMarket__OutcomesAreTheSame();
     error PredictionMarket__MarketAlreadyExists();
+    error PredictionMarket__MarketDoesNotExist();
 
     // Libraries
     using SafeERC20 for IERC20;
@@ -62,6 +63,7 @@ contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownab
         uint24 poolFee,
         string imageURL
     );
+    event TokensCreated(bytes32 indexed marketId, address account, uint256 tokensCreated);
 
     /**
      * @notice Constructor to initialize the contract with required dependencies.
@@ -152,5 +154,46 @@ contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownab
             poolFee,
             imageURL
         );
+    }
+
+    /**
+     * @notice Creates outcome tokens and adds liquidity to the Uniswap V3 pool.
+     * @dev The caller must approve this contract to spend the currency tokens.
+     * @param marketId Unique identifier for the market.
+     * @param tokensToCreate Amount of tokens to create.
+     * @param tickLower Lower tick bound for the liquidity position.
+     * @param tickUpper Upper tick bound for the liquidity position.
+     */
+    function createOutcomeTokensLiquidity(
+        bytes32 marketId,
+        uint256 tokensToCreate,
+        int24 tickLower,
+        int24 tickUpper
+    )
+        external
+        returns (uint256 tokenId)
+    {
+        PMLibrary.Market storage market = markets[marketId];
+        if (market.outcome1Token == ExpandedIERC20(address(0))) {
+            revert PredictionMarket__MarketDoesNotExist();
+        }
+
+        // Create outcome tokens and mint them to this contract so that we can add liquidity to the Uniswap V3 pool.
+        PMLibrary.createOutcomeTokensInsideCreateOutcomeTokensLiquidityFunc(
+            market, msg.sender, tokensToCreate, currency
+        );
+
+        uint256 liquidityAmount = tokensToCreate / 2;
+
+        // Approve AMM contract to spend the outcome tokens
+        market.outcome1Token.approve(address(amm), liquidityAmount);
+        market.outcome2Token.approve(address(amm), liquidityAmount);
+
+        // Add liquidity to the Uniswap V3 pool and get the tokenId
+        (tokenId,,,) = amm.addLiquidity(marketId, msg.sender, liquidityAmount, liquidityAmount, tickLower, tickUpper);
+
+        emit TokensCreated(marketId, msg.sender, tokensToCreate);
+
+        return tokenId;
     }
 }
