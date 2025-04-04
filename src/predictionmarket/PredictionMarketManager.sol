@@ -14,6 +14,7 @@ contract PredictionMarketManager is Ownable {
     // Custom errors
     error MarketFactory__CallerNotWhitelisted();
     error MarketFactory__AddressAlreadyWhitelisted();
+    error MarketFactory__AddressNotWhitelisted();
 
     // Whitelist state
     mapping(address => bool) public whitelistedAddresses;
@@ -44,5 +45,17 @@ contract PredictionMarketManager is Ownable {
             revert MarketFactory__AddressAlreadyWhitelisted();
         }
         whitelistedAddresses[account] = true;
+    }
+
+    /**
+     * @notice Removes an address from the whitelist, revoking its ability to create markets.
+     * @dev Only callable by the contract owner.
+     * @param account Address to remove from the whitelist.
+     */
+    function removeFromWhitelist(address account) external onlyOwner {
+        if (!whitelistedAddresses[account]) {
+            revert MarketFactory__AddressNotWhitelisted();
+        }
+        whitelistedAddresses[account] = false;
     }
 }
