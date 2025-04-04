@@ -26,4 +26,15 @@ import { PredictionMarketManager } from "./PredictionMarketManager.sol";
  * @dev The contract integrates with Uniswap V3 for liquidity provision and UMA's Optimistic Oracle V3 for dispute
  * resolution.
  */
-contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownable, PredictionMarketManager { }
+contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownable, PredictionMarketManager {
+    // Libraries
+    using SafeERC20 for IERC20;
+    using PMLibrary for PMLibrary.Market;
+
+    // Immutable state variables
+    FinderInterface public immutable finder; // UMA Finder contract to locate other UMA contracts.
+    OptimisticOracleV3Interface public immutable optimisticOracle; // UMA Optimistic Oracle V3 for dispute resolution.
+    IAMMContract public immutable amm; // Uniswap V3 AMM contract for liquidity provision.
+    IERC20 public immutable currency; // Currency token used for rewards and bonds.
+    bytes32 public immutable defaultIdentifier; // Default identifier for UMA Optimistic Oracle assertions.
+}
