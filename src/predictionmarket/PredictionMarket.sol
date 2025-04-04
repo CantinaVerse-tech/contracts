@@ -37,4 +37,11 @@ contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownab
     IAMMContract public immutable amm; // Uniswap V3 AMM contract for liquidity provision.
     IERC20 public immutable currency; // Currency token used for rewards and bonds.
     bytes32 public immutable defaultIdentifier; // Default identifier for UMA Optimistic Oracle assertions.
+
+    // Constants
+    uint256 public constant MAX_FEE = 10_000; // 100% in basis points.
+
+    // Storage
+    mapping(bytes32 => PMLibrary.Market) private markets; // Maps marketId to Market struct.
+    mapping(bytes32 => PMLibrary.AssertedMarket) private assertedMarkets; // Maps assertionId to AssertedMarket.
 }
