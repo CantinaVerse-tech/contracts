@@ -10,4 +10,12 @@ import { PMLibrary } from "./lib/PMLibrary.sol";
  * @notice This contract is responsible for managing prediction markets.
  * @dev The contract allows whitelisted addresses to create prediction markets.
  */
-contract PredictionMarketManager is Ownable { }
+contract PredictionMarketManager is Ownable {
+    // Whitelist state
+    mapping(address => bool) public whitelistedAddresses;
+
+    /**
+     * @notice Constructor to initialize the factory contract
+     */
+    constructor() { }
+}
