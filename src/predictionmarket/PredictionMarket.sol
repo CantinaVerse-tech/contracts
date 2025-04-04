@@ -32,6 +32,8 @@ contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownab
     error PredictionMarket__MarketAlreadyExists();
     error PredictionMarket__MarketDoesNotExist();
     error PredictionMarket__InvalidAssertionOutcome();
+    error PredictionMarket__NotAuthorized();
+    error PredictionMarket__MarketNotResolved();
 
     // Libraries
     using SafeERC20 for IERC20;
@@ -66,6 +68,10 @@ contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownab
     );
     event TokensCreated(bytes32 indexed marketId, address account, uint256 tokensCreated);
     event MarketAsserted(bytes32 indexed marketId, string assertedOutcome, bytes32 assertionId);
+    event MarketResolved(bytes32 indexed marketId);
+    event TokensSettled(
+        bytes32 indexed marketId, address account, uint256 payout, uint256 outcome1Tokens, uint256 outcome2Tokens
+    );
 
     /**
      * @notice Constructor to initialize the contract with required dependencies.
@@ -235,5 +241,59 @@ contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownab
         assertedMarkets[assertionId] = PMLibrary.AssertedMarket({ asserter: msg.sender, marketId: marketId });
 
         emit MarketAsserted(marketId, assertedOutcome, assertionId);
+    }
+
+    /**
+     * @notice Callback function triggered when an assertion is resolved.
+     * @dev If the assertion is resolved truthfully, the market is marked as resolved and the asserter receives the
+     * reward.
+     * @param assertionId Unique identifier for the assertion.
+     * @param assertedTruthfully Whether the assertion was resolved truthfully.
+     */
+    function assertionResolvedCallback(bytes32 assertionId, bool assertedTruthfully) external {
+        if (msg.sender != address(optimisticOracle)) {
+            revert PredictionMarket__NotAuthorized();
+        }
+        PMLibrary.Market storage market = markets[assertedMarkets[assertionId].marketId];
+
+        if (assertedTruthfully) {
+            market.resolved = true;
+            if (market.reward > 0) {
+                currency.safeTransfer(assertedMarkets[assertionId].asserter, market.reward);
+            }
+            emit MarketResolved(assertedMarkets[assertionId].marketId);
+        } else {
+            market.assertedOutcomeId = bytes32(0);
+        }
+        delete assertedMarkets[assertionId];
+    }
+
+    /**
+     * @notice Callback function triggered when an assertion is disputed.
+     * @dev This function does nothing as disputes are handled by the Optimistic Oracle.
+     * @param assertionId Unique identifier for the assertion.
+     */
+    function assertionDisputedCallback(bytes32 assertionId) external { }
+
+    /**
+     * @notice Settles outcome tokens and calculates the payout based on the resolved market outcome.
+     * @param marketId Unique identifier for the market.
+     * @return payout Amount of currency tokens received.
+     */
+    function settleOutcomeTokens(bytes32 marketId) external returns (uint256 payout) {
+        PMLibrary.Market storage market = markets[marketId];
+        if (!market.resolved) {
+            revert PredictionMarket__MarketNotResolved();
+        }
+        uint256 outcome1Balance = market.outcome1Token.balanceOf(msg.sender);
+        uint256 outcome2Balance = market.outcome2Token.balanceOf(msg.sender);
+
+        payout = PMLibrary.calculatePayout(market, outcome1Balance, outcome2Balance);
+
+        market.outcome1Token.burnFrom(msg.sender, outcome1Balance);
+        market.outcome2Token.burnFrom(msg.sender, outcome2Balance);
+        currency.safeTransfer(msg.sender, payout);
+
+        emit TokensSettled(marketId, msg.sender, payout, outcome1Balance, outcome2Balance);
     }
 }
