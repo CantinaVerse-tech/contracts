@@ -296,4 +296,64 @@ contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownab
 
         emit TokensSettled(marketId, msg.sender, payout, outcome1Balance, outcome2Balance);
     }
+
+    /**
+     * @notice Retrieves simplified market data.
+     * @param marketId Unique identifier for the market.
+     * @return resolved Whether the market is resolved.
+     * @return outcome1Token Address of the first outcome token.
+     * @return outcome2Token Address of the second outcome token.
+     * @return outcome1 First outcome of the market.
+     * @return outcome2 Second outcome of the market.
+     */
+    function getMarket(bytes32 marketId)
+        external
+        view
+        returns (
+            bool resolved,
+            address outcome1Token,
+            address outcome2Token,
+            bytes memory outcome1,
+            bytes memory outcome2
+        )
+    {
+        PMLibrary.Market storage market = markets[marketId];
+        if (address(market.outcome1Token) == address(0)) {
+            revert PredictionMarket__MarketDoesNotExist();
+        }
+
+        return (
+            market.resolved,
+            address(market.outcome1Token),
+            address(market.outcome2Token),
+            market.outcome1,
+            market.outcome2
+        );
+    }
+
+    function getMarketStruct(bytes32 marketId) external view returns (PMLibrary.Market memory) {
+        return markets[marketId];
+    }
+
+    function getUserLiquidityInMarket(
+        address user,
+        bytes32 marketId
+    )
+        external
+        view
+        returns (
+            address operator,
+            address token0,
+            address token1,
+            uint24 fee,
+            uint128 liquidity,
+            uint128 tokensOwed0,
+            uint128 tokensOwed1,
+            uint256 amount0,
+            uint256 amount1
+        )
+    {
+        (operator, token0, token1, fee, liquidity, tokensOwed0, tokensOwed1, amount0, amount1) =
+            amm.getUserPositionInPool(user, marketId);
+    }
 }
