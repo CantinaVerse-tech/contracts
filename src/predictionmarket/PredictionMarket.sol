@@ -296,4 +296,38 @@ contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownab
 
         emit TokensSettled(marketId, msg.sender, payout, outcome1Balance, outcome2Balance);
     }
+
+    /**
+     * @notice Retrieves simplified market data.
+     * @param marketId Unique identifier for the market.
+     * @return resolved Whether the market is resolved.
+     * @return outcome1Token Address of the first outcome token.
+     * @return outcome2Token Address of the second outcome token.
+     * @return outcome1 First outcome of the market.
+     * @return outcome2 Second outcome of the market.
+     */
+    function getMarket(bytes32 marketId)
+        external
+        view
+        returns (
+            bool resolved,
+            address outcome1Token,
+            address outcome2Token,
+            bytes memory outcome1,
+            bytes memory outcome2
+        )
+    {
+        PMLibrary.Market storage market = markets[marketId];
+        if (address(market.outcome1Token) == address(0)) {
+            revert PredictionMarket__MarketDoesNotExist();
+        }
+
+        return (
+            market.resolved,
+            address(market.outcome1Token),
+            address(market.outcome2Token),
+            market.outcome1,
+            market.outcome2
+        );
+    }
 }
