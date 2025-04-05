@@ -36,9 +36,8 @@ contract DeployAMMContract is Script {
         );
         vm.stopBroadcast();
 
-        console2.log("FactoryNFTContract deployed at:", address(amm));
+        console2.log("AMMContract deployed at:", address(amm));
         console2.log("Initial owner:", config.initialOwner);
-        console2.log("Service fee:", config.serviceFee);
 
         return amm;
     }
