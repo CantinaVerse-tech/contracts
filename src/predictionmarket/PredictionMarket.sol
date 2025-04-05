@@ -330,4 +330,30 @@ contract PredictionMarket is OptimisticOracleV3CallbackRecipientInterface, Ownab
             market.outcome2
         );
     }
+
+    function getMarketStruct(bytes32 marketId) external view returns (PMLibrary.Market memory) {
+        return markets[marketId];
+    }
+
+    function getUserLiquidityInMarket(
+        address user,
+        bytes32 marketId
+    )
+        external
+        view
+        returns (
+            address operator,
+            address token0,
+            address token1,
+            uint24 fee,
+            uint128 liquidity,
+            uint128 tokensOwed0,
+            uint128 tokensOwed1,
+            uint256 amount0,
+            uint256 amount1
+        )
+    {
+        (operator, token0, token1, fee, liquidity, tokensOwed0, tokensOwed1, amount0, amount1) =
+            amm.getUserPositionInPool(user, marketId);
+    }
 }
