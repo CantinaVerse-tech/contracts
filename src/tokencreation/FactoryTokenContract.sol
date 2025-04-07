@@ -134,4 +134,11 @@ contract FactoryTokenContract is Ownable {
 
         return tokenAddr;
     }
+
+    /**
+     * @notice This function returns all tokens
+     */
+    function getAllTokens() external view returns (address[] memory) {
+        return deployedTokens;
+    }
 }
