@@ -7,5 +7,25 @@ import { TokenContract } from "./TokenContract.sol";
 import { ILiquidityManager } from "./interfaces/ILiquidityManager.sol";
 
 contract FactoryTokenContract is Ownable {
-    constructor() { }
+    // @notice Array of deployed tokens
+    address[] public deployedTokens;
+
+    // @notice Liquidity manager
+    address public liquidityManager;
+
+    // @notice USDT address
+    address public usdtAddress;
+
+    // @notice Map of tokens by creator
+    mapping(address => address[]) public tokensByCreator;
+
+    /**
+     * @notice This constructor takes in the liquidity manager and USDT address
+     * @param _liquidityManager Is the liquidity manager
+     * @param _usdtAddress Is the USDT address
+     */
+    constructor(address _liquidityManager, address _usdtAddress) {
+        liquidityManager = _liquidityManager;
+        usdtAddress = _usdtAddress;
+    }
 }
