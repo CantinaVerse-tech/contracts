@@ -28,4 +28,8 @@ contract FactoryTokenContract is Ownable {
         liquidityManager = _liquidityManager;
         usdtAddress = _usdtAddress;
     }
+
+    function setLiquidityManager(address _liquidityManager) external onlyOwner {
+        liquidityManager = _liquidityManager;
+    }
 }
