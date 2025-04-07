@@ -141,4 +141,12 @@ contract FactoryTokenContract is Ownable {
     function getAllTokens() external view returns (address[] memory) {
         return deployedTokens;
     }
+
+    /**
+     * @notice This function returns all tokens by creator
+     * @param creator The creator of the token
+     */
+    function getTokensByCreator(address creator) external view returns (address[] memory) {
+        return tokensByCreator[creator];
+    }
 }
