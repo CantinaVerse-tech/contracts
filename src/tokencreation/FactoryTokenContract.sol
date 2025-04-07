@@ -29,7 +29,19 @@ contract FactoryTokenContract is Ownable {
         usdtAddress = _usdtAddress;
     }
 
+    /**
+     * @notice This function takes in the liquidity manager
+     * @param _liquidityManager Is the liquidity manager
+     */
     function setLiquidityManager(address _liquidityManager) external onlyOwner {
         liquidityManager = _liquidityManager;
+    }
+
+    /**
+     * @notice This function takes in the USDT address
+     * @param _usdtAddress Is the USDT address
+     */
+    function setUSDTAddress(address _usdtAddress) external onlyOwner {
+        usdtAddress = _usdtAddress;
     }
 }
