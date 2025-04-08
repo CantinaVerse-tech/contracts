@@ -95,4 +95,16 @@ contract VestingVault is Ownable {
             return (vesting.totalAmount * elapsed) / vesting.duration;
         }
     }
+
+    /**
+     * @notice View how much is claimable by a user.
+     * @param user The user address
+     */
+    function getClaimable(address user) external view returns (uint256) {
+        VestingSchedule memory vesting = schedules[user];
+        if (block.timestamp < vesting.cliffTime) return 0;
+
+        uint256 vested = _vestedAmount(vesting);
+        return vested - vesting.claimedAmount;
+    }
 }
