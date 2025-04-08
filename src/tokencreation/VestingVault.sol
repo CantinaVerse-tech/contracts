@@ -24,6 +24,9 @@ contract VestingVault is Ownable {
     // @notice Emitted when a vesting schedule is created
     event VestingAllocated(address indexed beneficiary, uint256 totalAmount);
 
+    // @notice Emitted when tokens are claimed
+    event TokensClaimed(address indexed beneficiary, uint256 amountClaimed);
+
     /**
      * @notice Constructor to set the token address
      * @param _token The token being held in the vault
@@ -58,5 +61,23 @@ contract VestingVault is Ownable {
         });
 
         emit VestingAllocated(beneficiary, totalAmount);
+    }
+
+    /**
+     * @notice Claim vested tokens according to the vesting schedule.
+     */
+    function claim() external {
+        VestingSchedule storage vesting = schedules[msg.sender];
+        require(vesting.totalAmount > 0, "No vesting");
+        require(block.timestamp >= vesting.cliffTime, "Cliff not reached");
+
+        uint256 vested = _vestedAmount(vesting);
+        uint256 claimable = vested - vesting.claimedAmount;
+        require(claimable > 0, "Nothing to claim");
+
+        vesting.claimedAmount += claimable;
+        token.transfer(msg.sender, claimable);
+
+        emit TokensClaimed(msg.sender, claimable);
     }
 }
