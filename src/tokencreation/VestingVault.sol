@@ -20,11 +20,43 @@ contract VestingVault is Ownable {
     // @notice The vesting schedules for each user
     mapping(address => VestingSchedule) public schedules;
 
+    // Events
+    // @notice Emitted when a vesting schedule is created
+    event VestingAllocated(address indexed beneficiary, uint256 totalAmount);
+
     /**
      * @notice Constructor to set the token address
      * @param _token The token being held in the vault
      */
     constructor(address _token) {
         token = IERC20(_token);
+    }
+
+    /**
+     * @notice Sets a vesting schedule for a user.
+     * Can only be called by the owner (factory, launch contract, etc).
+     */
+    function setVesting(
+        address beneficiary,
+        uint256 totalAmount,
+        uint256 cliffDuration, // in seconds
+        uint256 vestingDuration // in seconds (e.g., 10 months = 10 * 30 * 24 * 60 * 60)
+    )
+        external
+        onlyOwner
+    {
+        require(schedules[beneficiary].totalAmount == 0, "Already vested");
+        require(totalAmount > 0, "No amount");
+
+        uint256 start = block.timestamp;
+        schedules[beneficiary] = VestingSchedule({
+            totalAmount: totalAmount,
+            claimedAmount: 0,
+            startTime: start,
+            cliffTime: start + cliffDuration,
+            duration: vestingDuration
+        });
+
+        emit VestingAllocated(beneficiary, totalAmount);
     }
 }
