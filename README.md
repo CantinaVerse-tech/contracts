@@ -9,17 +9,17 @@
   - [Quick Start](#quick-start)
   - [About](#about)
   - [Current Deployments](#current-deployments)
-    - [Gaming:](#gaming)
-    - [Prediction Market:](#prediction-market)
-    - [NFT Marketplace:](#nft-marketplace)
-    - [Token Creation:](#token-creation)
-    - [Governance:](#governance)
+    - [Gaming Ecosystem:](#gaming-ecosystem)
+    - [Prediction Market Ecosystem:](#prediction-market-ecosystem)
+    - [NFT Marketplace Ecosystem:](#nft-marketplace-ecosystem)
+    - [Token Creation Ecosystem:](#token-creation-ecosystem)
+    - [Governance Ecosystem:](#governance-ecosystem)
     - [Key Benefits:](#key-benefits)
   - [Current Features](#current-features)
-    - [NFT Marketplace](#nft-marketplace-1)
+    - [NFT Marketplace](#nft-marketplace)
       - [NFTContract](#nftcontract)
       - [NFTFactory](#nftfactory)
-      - [NFT Marketplace](#nft-marketplace-2)
+      - [NFT Marketplace](#nft-marketplace-1)
     - [ERC-20 Token Creation Platform](#erc-20-token-creation-platform)
     - [Casino Gaming Platform](#casino-gaming-platform)
       - [Game Portfolio](#game-portfolio)
@@ -53,7 +53,7 @@ Get started with CantinaVerse in minutes!
 CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in multiple aspects of blockchain culture. Our platform is designed for both novice and experienced crypto users, making it easy to create, trade, game, and participate in governance—all underpinned by the secure, efficient Superchain infrastructure.
 
 ## Current Deployments
-### Gaming:
+### Gaming Ecosystem:
   - [CoinFlip Contract](https://base-sepolia.blockscout.com/address/0x5ab86C17393E54eA9bd33A2c27B848e1700999F4)
   - [NFTLuckyDraw Contract](https://base-sepolia.blockscout.com/address/0x95AA195D948a029e47Eff73da878F92580e78866)
   - [PrizeNFT](https://base-sepolia.blockscout.com/address/0xb76910f20a9B1833Ef926173aEe2F199E2615e95)
@@ -61,16 +61,16 @@ CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in 
   - [EvolvableNFT](https://base-sepolia.blockscout.com/address/0xD8ba362250ACB686837441a53d901E93D39A2ab5)
   - [NFTStakingEvolution](https://base-sepolia.blockscout.com/address/0xE8D747a772047c001343Ab985a0846e5fA353549)
 
-### Prediction Market:
+### Prediction Market Ecosystem:
 - TBA
 
-### NFT Marketplace:
+### NFT Marketplace Ecosystem:
 - TBA
 
-### Token Creation:
+### Token Creation Ecosystem:
 - TBA
 
-### Governance:
+### Governance Ecosystem:
 - TBA
 
 ### Key Benefits:
