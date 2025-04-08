@@ -10,12 +10,16 @@
   - [About](#about)
   - [Current Deployments](#current-deployments)
     - [Gaming:](#gaming)
+    - [Prediction Market:](#prediction-market)
+    - [NFT Marketplace:](#nft-marketplace)
+    - [Token Creation:](#token-creation)
+    - [Governance:](#governance)
     - [Key Benefits:](#key-benefits)
   - [Current Features](#current-features)
-    - [NFT Marketplace](#nft-marketplace)
+    - [NFT Marketplace](#nft-marketplace-1)
       - [NFTContract](#nftcontract)
       - [NFTFactory](#nftfactory)
-      - [NFT Marketplace](#nft-marketplace-1)
+      - [NFT Marketplace](#nft-marketplace-2)
     - [ERC-20 Token Creation Platform](#erc-20-token-creation-platform)
     - [Casino Gaming Platform](#casino-gaming-platform)
       - [Game Portfolio](#game-portfolio)
@@ -56,6 +60,18 @@ CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in 
   - [NFTRoulette](https://base-sepolia.blockscout.com/address/0x4303055d666d4A97E999389532046Dee1d0FAc13)
   - [EvolvableNFT](https://base-sepolia.blockscout.com/address/0xD8ba362250ACB686837441a53d901E93D39A2ab5)
   - [NFTStakingEvolution](https://base-sepolia.blockscout.com/address/0xE8D747a772047c001343Ab985a0846e5fA353549)
+
+### Prediction Market:
+- TBA
+
+### NFT Marketplace:
+- TBA
+
+### Token Creation:
+- TBA
+
+### Governance:
+- TBA
 
 ### Key Benefits:
 
