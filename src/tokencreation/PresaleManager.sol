@@ -68,4 +68,14 @@ contract PresaleManager is Ownable {
         vault = _vestingVault;
         liquidityManager = _liquidityManager;
     }
+
+    /**
+     * @notice Whitelist users
+     * @param users The users to whitelist
+     */
+    function whitelistAddresses(address[] calldata users) external onlyOwner {
+        for (uint256 i = 0; i < users.length; i++) {
+            whitelisted[users[i]] = true;
+        }
+    }
 }
