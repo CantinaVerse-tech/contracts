@@ -8,6 +8,12 @@
   - [Overview](#overview)
   - [Quick Start](#quick-start)
   - [About](#about)
+  - [Current Deployments](#current-deployments)
+    - [Gaming Ecosystem:](#gaming-ecosystem)
+    - [Prediction Market Ecosystem:](#prediction-market-ecosystem)
+    - [NFT Marketplace Ecosystem:](#nft-marketplace-ecosystem)
+    - [Token Creation Ecosystem:](#token-creation-ecosystem)
+    - [Governance Ecosystem:](#governance-ecosystem)
     - [Key Benefits:](#key-benefits)
   - [Current Features](#current-features)
     - [NFT Marketplace](#nft-marketplace)
@@ -45,6 +51,27 @@ Get started with CantinaVerse in minutes!
 ## About
 
 CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in multiple aspects of blockchain culture. Our platform is designed for both novice and experienced crypto users, making it easy to create, trade, game, and participate in governance—all underpinned by the secure, efficient Superchain infrastructure.
+
+## Current Deployments
+### Gaming Ecosystem:
+  - [CoinFlip Contract](https://base-sepolia.blockscout.com/address/0x5ab86C17393E54eA9bd33A2c27B848e1700999F4)
+  - [NFTLuckyDraw Contract](https://base-sepolia.blockscout.com/address/0x95AA195D948a029e47Eff73da878F92580e78866)
+  - [PrizeNFT](https://base-sepolia.blockscout.com/address/0xb76910f20a9B1833Ef926173aEe2F199E2615e95)
+  - [NFTRoulette](https://base-sepolia.blockscout.com/address/0x4303055d666d4A97E999389532046Dee1d0FAc13)
+  - [EvolvableNFT](https://base-sepolia.blockscout.com/address/0xD8ba362250ACB686837441a53d901E93D39A2ab5)
+  - [NFTStakingEvolution](https://base-sepolia.blockscout.com/address/0xE8D747a772047c001343Ab985a0846e5fA353549)
+
+### Prediction Market Ecosystem:
+- TBA
+
+### NFT Marketplace Ecosystem:
+- TBA
+
+### Token Creation Ecosystem:
+- TBA
+
+### Governance Ecosystem:
+- TBA
 
 ### Key Benefits:
 
