@@ -54,4 +54,18 @@ contract PresaleManager is Ownable {
 
     // @notice The participants
     address[] public participants;
+
+    /**
+     * @notice Constructor to initialize the contract
+     * @param _usdt The address of the USDT token
+     * @param _token The token being held in the vault
+     * @param _vestingVault The VestingVault contract
+     * @param _liquidityManager The LiquidityManager contract
+     */
+    constructor(address _usdt, address _token, address _vestingVault, address _liquidityManager) {
+        usdt = IERC20(_usdt);
+        token = IERC20(_token);
+        vault = _vestingVault;
+        liquidityManager = _liquidityManager;
+    }
 }
