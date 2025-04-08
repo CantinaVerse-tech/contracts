@@ -80,4 +80,19 @@ contract VestingVault is Ownable {
 
         emit TokensClaimed(msg.sender, claimable);
     }
+
+    /**
+     * @dev Internal logic to calculate total vested tokens till now.
+     * @param vesting The vesting schedule for the user
+     */
+    function _vestedAmount(VestingSchedule memory vesting) internal view returns (uint256) {
+        if (block.timestamp < vesting.cliffTime) {
+            return 0;
+        } else if (block.timestamp >= vesting.startTime + vesting.duration) {
+            return vesting.totalAmount;
+        } else {
+            uint256 elapsed = block.timestamp - vesting.startTime;
+            return (vesting.totalAmount * elapsed) / vesting.duration;
+        }
+    }
 }
