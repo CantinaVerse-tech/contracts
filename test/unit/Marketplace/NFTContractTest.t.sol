@@ -3,9 +3,9 @@
 pragma solidity 0.8.16;
 
 import { Test, console2, Vm } from "forge-std/Test.sol";
-import { NFTContract } from "../../src/marketplace/NFTContract.sol";
-import { HelperConfig } from "../../script/HelperConfig.s.sol";
-import { MockERC721 } from "../mocks/MockERC721.sol";
+import { NFTContract } from "../../../src/marketplace/NFTContract.sol";
+import { HelperConfig } from "../../../script/HelperConfig.s.sol";
+import { MockERC721 } from "../../mocks/MockERC721.sol";
 import { ERC721Enumerable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
 contract NFTContractTest is Test {

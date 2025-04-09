@@ -2,13 +2,13 @@
 pragma solidity 0.8.16;
 
 import { Test, console2, Vm } from "forge-std/Test.sol";
-import { MarketPlace } from "../../src/marketplace/MarketPlace.sol";
-import { IMarketPlace } from "../../src/marketplace/interfaces/IMarketPlace.sol";
-import { AuctionEndChecker } from "../../src/marketplace/AuctionEndChecker.sol";
-import { DeployMarketPlace } from "../../script/DeployMarketPlace.s.sol";
-import { HelperConfig } from "../../script/HelperConfig.s.sol";
-import { MockMarketPlace } from "../mocks/MockMarketPlace.sol";
-import { MockERC721 } from "../mocks/MockERC721.sol";
+import { MarketPlace } from "../../../src/marketplace/MarketPlace.sol";
+import { IMarketPlace } from "../../../src/marketplace/interfaces/IMarketPlace.sol";
+import { AuctionEndChecker } from "../../../src/marketplace/AuctionEndChecker.sol";
+import { DeployMarketPlace } from "../../../script/Marketplace/DeployMarketPlace.s.sol";
+import { HelperConfig } from "../../../script/HelperConfig.s.sol";
+import { MockMarketPlace } from "../../mocks/MockMarketPlace.sol";
+import { MockERC721 } from "../../mocks/MockERC721.sol";
 
 contract MarketPlaceTest is Test {
     MarketPlace marketPlace;
