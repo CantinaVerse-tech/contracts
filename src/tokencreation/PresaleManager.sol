@@ -175,4 +175,14 @@ contract PresaleManager is Ownable {
         require(finalized, "Not finalized");
         usdt.transfer(to, usdt.balanceOf(address(this)));
     }
+
+    /**
+     * @notice Withdraw the remaining tokens from the contract
+     * @param to The address to send the remaining tokens
+     * @dev Only the owner can withdraw the remaining tokens
+     */
+    function withdrawRemainingTokens(address to) external onlyOwner {
+        require(finalized, "Not finalized");
+        token.transfer(to, token.balanceOf(address(this)));
+    }
 }
