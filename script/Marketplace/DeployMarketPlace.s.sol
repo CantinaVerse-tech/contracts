@@ -3,7 +3,7 @@ pragma solidity 0.8.16;
 
 import { Script, console2 } from "forge-std/Script.sol";
 import { MarketPlace } from "../../../src/marketplace/MarketPlace.sol";
-import { HelperConfig } from "./HelperConfig.s.sol";
+import { HelperConfig } from "../HelperConfig.s.sol";
 
 contract DeployMarketPlace is Script {
     function run() external returns (MarketPlace) {

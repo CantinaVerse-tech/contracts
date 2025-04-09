@@ -2,9 +2,9 @@
 pragma solidity 0.8.16;
 
 import { Script, console2 } from "forge-std/Script.sol";
-import { HelperConfig } from "./HelperConfig.s.sol";
-import { AuctionEndChecker } from "../src/marketplace/AuctionEndChecker.sol";
-import { IMarketPlace } from "../src/marketplace/interfaces/IMarketPlace.sol";
+import { HelperConfig } from "../HelperConfig.s.sol";
+import { AuctionEndChecker } from "../../src/marketplace/AuctionEndChecker.sol";
+import { IMarketPlace } from "../../src/marketplace/interfaces/IMarketPlace.sol";
 
 contract DeployAuctionEndChecker is Script {
     function run() external returns (AuctionEndChecker) {
