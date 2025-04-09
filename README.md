@@ -62,10 +62,14 @@ CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in 
   - [NFTStakingEvolution](https://base-sepolia.blockscout.com/address/0xE8D747a772047c001343Ab985a0846e5fA353549)
 
 ### Prediction Market Ecosystem:
-- TBA
+- [Prediction Marketplace Contract](https://base-sepolia.blockscout.com/address/0xd936563Be8272CCd9d8192AFB4513f7Cbf2965C4)
+- [Prediction Market Manager Contract](https://base-sepolia.blockscout.com/address/0x056756dd6E2Fc850F1fD5D46841E2838e39bCc40)
+- [AMM Contract](https://base-sepolia.blockscout.com/address/0x93e5362ab593baAfa3252D34650fC57B1fbc38A4)
 
 ### NFT Marketplace Ecosystem:
-- TBA
+- [NFT Marketplace Contract](https://base-sepolia.blockscout.com/address/0x394582e1eeEf03117Abc33D0718cd8F80379d64b)
+- [FactoryNFT Contract](https://base-sepolia.blockscout.com/address/0xf84dF28B2F29cc88B3758bf976ab6F8f963e8f3D)
+- [AuctionEndChecker Contract](https://base-sepolia.blockscout.com/address/0xD28324d884CC0cD15AD1Af509975D2594f23099C)
 
 ### Token Creation Ecosystem:
 - TBA
