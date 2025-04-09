@@ -55,6 +55,10 @@ contract PresaleManager is Ownable {
     // @notice The participants
     address[] public participants;
 
+    // Events
+    // @notice Emitted when a user deposits
+    event Deposited(address indexed user, uint256 usdtAmount, uint256 tokenAmount);
+
     /**
      * @notice Constructor to initialize the contract
      * @param _usdt The address of the USDT token
@@ -77,5 +81,28 @@ contract PresaleManager is Ownable {
         for (uint256 i = 0; i < users.length; i++) {
             whitelisted[users[i]] = true;
         }
+    }
+
+    /**
+     * @notice Finalize the presale
+     */
+    function deposit() external {
+        require(!finalized, "Presale ended");
+        require(whitelisted[msg.sender], "Not whitelisted");
+        require(!hasParticipated[msg.sender], "Already participated");
+        require(totalParticipants < maxUsers, "Max reached");
+
+        require(usdt.transferFrom(msg.sender, address(this), allocationPerUser), "USDT transfer failed");
+
+        uint256 tokenAmount = (allocationPerUser * 1e18) / tokenPrice;
+
+        hasParticipated[msg.sender] = true;
+        totalParticipants++;
+        totalRaised += allocationPerUser;
+        participants.push(msg.sender);
+
+        emit Deposited(msg.sender, allocationPerUser, tokenAmount);
+
+        // Vesting will be set on finalize or batch call
     }
 }
