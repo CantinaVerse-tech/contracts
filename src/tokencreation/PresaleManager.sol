@@ -59,6 +59,9 @@ contract PresaleManager is Ownable {
     // @notice Emitted when a user deposits
     event Deposited(address indexed user, uint256 usdtAmount, uint256 tokenAmount);
 
+    // @notice Emitted when the presale is finalized
+    event Finalized(uint256 totalUSDT, uint256 totalTokens);
+
     /**
      * @notice Constructor to initialize the contract
      * @param _usdt The address of the USDT token
@@ -104,5 +107,35 @@ contract PresaleManager is Ownable {
         emit Deposited(msg.sender, allocationPerUser, tokenAmount);
 
         // Vesting will be set on finalize or batch call
+    }
+
+    /**
+     * @notice Finalize the presale
+     * @param liquidityUSDT The amount of USDT to send to the liquidity manager
+     * @param liquidityTokens The amount of tokens to send to the liquidity manager
+     */
+    function finalizePresale(uint256 liquidityUSDT, uint256 liquidityTokens) external onlyOwner {
+        require(!finalized, "Already finalized");
+        require(totalRaised >= minCap, "Cap not met, enable refunds");
+
+        usdt.approve(liquidityManager, liquidityUSDT);
+        token.approve(liquidityManager, liquidityTokens);
+
+        ILiquidityManager(liquidityManager).addLiquidityToUniswap(address(token), liquidityTokens, liquidityUSDT);
+
+        finalized = true;
+
+        // Set vesting for all participants
+        address[] memory users = new address[](participants.length);
+        uint256[] memory amounts = new uint256[](participants.length);
+
+        for (uint256 i = 0; i < participants.length; i++) {
+            users[i] = participants[i];
+            amounts[i] = (allocationPerUser * 1e18) / tokenPrice;
+        }
+
+        IVestingVault(vault).batchSetVesting(users, amounts, 30 days, 300 days);
+
+        emit Finalized(liquidityUSDT, liquidityTokens);
     }
 }
