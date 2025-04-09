@@ -185,4 +185,11 @@ contract PresaleManager is Ownable {
         require(finalized, "Not finalized");
         token.transfer(to, token.balanceOf(address(this)));
     }
+
+    /**
+     * @notice Get the participants of the presale
+     */
+    function getParticipants() external view returns (address[] memory) {
+        return participants;
+    }
 }
