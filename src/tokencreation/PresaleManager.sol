@@ -62,6 +62,9 @@ contract PresaleManager is Ownable {
     // @notice Emitted when the presale is finalized
     event Finalized(uint256 totalUSDT, uint256 totalTokens);
 
+    // @notice Emitted when a user is refunded
+    event Refunded(address indexed user, uint256 amount);
+
     /**
      * @notice Constructor to initialize the contract
      * @param _usdt The address of the USDT token
@@ -148,5 +151,19 @@ contract PresaleManager is Ownable {
         require(!finalized, "Already finalized");
         require(totalRaised < minCap, "Cap met");
         refundsEnabled = true;
+    }
+
+    /**
+     * @notice Claim a refund for the presale
+     * @dev Users can claim a refund
+     */
+    function claimRefund() external {
+        require(refundsEnabled, "Refunds disabled");
+        require(hasParticipated[msg.sender], "No deposit");
+        require(!refunded[msg.sender], "Already refunded");
+
+        refunded[msg.sender] = true;
+        usdt.transfer(msg.sender, allocationPerUser);
+        emit Refunded(msg.sender, allocationPerUser);
     }
 }
