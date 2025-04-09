@@ -166,4 +166,13 @@ contract PresaleManager is Ownable {
         usdt.transfer(msg.sender, allocationPerUser);
         emit Refunded(msg.sender, allocationPerUser);
     }
+
+    /**
+     * @notice Withdraw the remaining USDT from the contract
+     * @param to The address to send the remaining USDT
+     */
+    function withdrawRemainingUSDT(address to) external onlyOwner {
+        require(finalized, "Not finalized");
+        usdt.transfer(to, usdt.balanceOf(address(this)));
+    }
 }
