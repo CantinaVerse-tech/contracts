@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity 0.8.16;
 
 contract DiceRollCasino {
     address public owner;
@@ -7,12 +7,7 @@ contract DiceRollCasino {
     uint256 public jackpot;
 
     // Event to notify of a new game result
-    event GameResult(
-        address indexed player,
-        uint256 betAmount,
-        uint256 diceRoll,
-        bool won
-    );
+    event GameResult(address indexed player, uint256 betAmount, uint256 diceRoll, bool won);
 
     constructor(uint256 _minimumBet) {
         owner = msg.sender;
@@ -29,9 +24,7 @@ contract DiceRollCasino {
         jackpot += betAmount;
 
         // Simulate a dice roll
-        uint256 diceRoll = (uint256(
-            keccak256(abi.encodePacked(block.timestamp, msg.sender))
-        ) % 6) + 1;
+        uint256 diceRoll = (uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender))) % 6) + 1;
 
         bool won = _guess == diceRoll;
         if (won) {
@@ -55,10 +48,7 @@ contract DiceRollCasino {
 
     // Function to change the minimum bet amount
     function changeMinimumBet(uint256 _newMinimumBet) public {
-        require(
-            msg.sender == owner,
-            "Only the owner can change the minimum bet."
-        );
+        require(msg.sender == owner, "Only the owner can change the minimum bet.");
         minimumBet = _newMinimumBet;
     }
 }

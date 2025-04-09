@@ -55,6 +55,16 @@ contract PresaleManager is Ownable {
     // @notice The participants
     address[] public participants;
 
+    // Events
+    // @notice Emitted when a user deposits
+    event Deposited(address indexed user, uint256 usdtAmount, uint256 tokenAmount);
+
+    // @notice Emitted when the presale is finalized
+    event Finalized(uint256 totalUSDT, uint256 totalTokens);
+
+    // @notice Emitted when a user is refunded
+    event Refunded(address indexed user, uint256 amount);
+
     /**
      * @notice Constructor to initialize the contract
      * @param _usdt The address of the USDT token
@@ -77,5 +87,109 @@ contract PresaleManager is Ownable {
         for (uint256 i = 0; i < users.length; i++) {
             whitelisted[users[i]] = true;
         }
+    }
+
+    /**
+     * @notice Finalize the presale
+     */
+    function deposit() external {
+        require(!finalized, "Presale ended");
+        require(whitelisted[msg.sender], "Not whitelisted");
+        require(!hasParticipated[msg.sender], "Already participated");
+        require(totalParticipants < maxUsers, "Max reached");
+
+        require(usdt.transferFrom(msg.sender, address(this), allocationPerUser), "USDT transfer failed");
+
+        uint256 tokenAmount = (allocationPerUser * 1e18) / tokenPrice;
+
+        hasParticipated[msg.sender] = true;
+        totalParticipants++;
+        totalRaised += allocationPerUser;
+        participants.push(msg.sender);
+
+        emit Deposited(msg.sender, allocationPerUser, tokenAmount);
+
+        // Vesting will be set on finalize or batch call
+    }
+
+    /**
+     * @notice Finalize the presale
+     * @param liquidityUSDT The amount of USDT to send to the liquidity manager
+     * @param liquidityTokens The amount of tokens to send to the liquidity manager
+     * @dev Only the owner can finalize the presale
+     */
+    function finalizePresale(uint256 liquidityUSDT, uint256 liquidityTokens) external onlyOwner {
+        require(!finalized, "Already finalized");
+        require(totalRaised >= minCap, "Cap not met, enable refunds");
+
+        usdt.approve(liquidityManager, liquidityUSDT);
+        token.approve(liquidityManager, liquidityTokens);
+
+        ILiquidityManager(liquidityManager).addLiquidityToUniswap(address(token), liquidityTokens, liquidityUSDT);
+
+        finalized = true;
+
+        // Set vesting for all participants
+        address[] memory users = new address[](participants.length);
+        uint256[] memory amounts = new uint256[](participants.length);
+
+        for (uint256 i = 0; i < participants.length; i++) {
+            users[i] = participants[i];
+            amounts[i] = (allocationPerUser * 1e18) / tokenPrice;
+        }
+
+        IVestingVault(vault).batchSetVesting(users, amounts, 30 days, 300 days);
+
+        emit Finalized(liquidityUSDT, liquidityTokens);
+    }
+
+    /**
+     * @notice Enable refunds for the presale
+     * @dev Only the owner can enable refunds
+     */
+    function enableRefunds() external onlyOwner {
+        require(!finalized, "Already finalized");
+        require(totalRaised < minCap, "Cap met");
+        refundsEnabled = true;
+    }
+
+    /**
+     * @notice Claim a refund for the presale
+     * @dev Users can claim a refund
+     */
+    function claimRefund() external {
+        require(refundsEnabled, "Refunds disabled");
+        require(hasParticipated[msg.sender], "No deposit");
+        require(!refunded[msg.sender], "Already refunded");
+
+        refunded[msg.sender] = true;
+        usdt.transfer(msg.sender, allocationPerUser);
+        emit Refunded(msg.sender, allocationPerUser);
+    }
+
+    /**
+     * @notice Withdraw the remaining USDT from the contract
+     * @param to The address to send the remaining USDT
+     */
+    function withdrawRemainingUSDT(address to) external onlyOwner {
+        require(finalized, "Not finalized");
+        usdt.transfer(to, usdt.balanceOf(address(this)));
+    }
+
+    /**
+     * @notice Withdraw the remaining tokens from the contract
+     * @param to The address to send the remaining tokens
+     * @dev Only the owner can withdraw the remaining tokens
+     */
+    function withdrawRemainingTokens(address to) external onlyOwner {
+        require(finalized, "Not finalized");
+        token.transfer(to, token.balanceOf(address(this)));
+    }
+
+    /**
+     * @notice Get the participants of the presale
+     */
+    function getParticipants() external view returns (address[] memory) {
+        return participants;
     }
 }
