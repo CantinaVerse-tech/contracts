@@ -113,6 +113,7 @@ contract PresaleManager is Ownable {
      * @notice Finalize the presale
      * @param liquidityUSDT The amount of USDT to send to the liquidity manager
      * @param liquidityTokens The amount of tokens to send to the liquidity manager
+     * @dev Only the owner can finalize the presale
      */
     function finalizePresale(uint256 liquidityUSDT, uint256 liquidityTokens) external onlyOwner {
         require(!finalized, "Already finalized");
@@ -137,5 +138,15 @@ contract PresaleManager is Ownable {
         IVestingVault(vault).batchSetVesting(users, amounts, 30 days, 300 days);
 
         emit Finalized(liquidityUSDT, liquidityTokens);
+    }
+
+    /**
+     * @notice Enable refunds for the presale
+     * @dev Only the owner can enable refunds
+     */
+    function enableRefunds() external onlyOwner {
+        require(!finalized, "Already finalized");
+        require(totalRaised < minCap, "Cap met");
+        refundsEnabled = true;
     }
 }
