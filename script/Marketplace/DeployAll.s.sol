@@ -32,5 +32,25 @@ contract DeployAll is Script {
         } else {
             revert("Unsupported network");
         }
+
+        vm.startBroadcast();
+        MarketPlace marketPlace =
+            new MarketPlace(config.initialOwner, config.GelatoDedicatedMsgSender, config.serviceFee);
+        IMarketPlace iMarketPlace = IMarketPlace(address(marketPlace));
+        AuctionEndChecker auctionEndChecker = new AuctionEndChecker(iMarketPlace);
+        FactoryNFTContract factory = new FactoryNFTContract(config.initialOwner, config.serviceFee);
+        vm.stopBroadcast();
+
+        console2.log("marketPlace deployed at:", address(marketPlace));
+        console2.log("Initial owner:", config.initialOwner);
+        console2.log("GelatoDedicatedMsgSender:", config.GelatoDedicatedMsgSender);
+        console2.log("Service fee:", config.serviceFee);
+
+        console2.log("AuctionEndChecker deployed at:", address(auctionEndChecker));
+        console2.log("Marketplace Address:", address(iMarketPlace));
+
+        console2.log("FactoryNFTContract deployed at:", address(factory));
+        console2.log("Initial owner:", config.initialOwner);
+        console2.log("Service fee:", config.serviceFee);
     }
 }
