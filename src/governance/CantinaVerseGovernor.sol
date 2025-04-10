@@ -24,4 +24,21 @@ contract CantinaVerseGovernor is
     GovernorVotes,
     GovernorVotesQuorumFraction,
     GovernorTimelockControl
-{ }
+{
+    /**
+     * @notice Constructor for CantinaVerseGovernor
+     * @param _token The token used for voting
+     * @param _timelock The timelock controller used for proposal execution
+     */
+    constructor(
+        IVotes _token,
+        TimelockController _timelock
+    )
+        Governor("CantinaVerse")
+        // 1 day voting delay, 1 week voting period, 3 token threshold
+        GovernorSettings(1 days, 1 weeks, 3 * 10 ** 18)
+        GovernorVotes(_token)
+        GovernorVotesQuorumFraction(4) // 4% quorum
+        GovernorTimelockControl(_timelock)
+    { }
+}
