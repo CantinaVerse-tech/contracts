@@ -130,4 +130,14 @@ contract CantinaToken is ERC20, ERC20Permit, ERC20Votes, Ownable {
             return (teamAllocation * (block.timestamp - vestingStart)) / VESTING_PERIOD;
         }
     }
+
+    /**
+     * @notice Updates the treasury address
+     * @param newTreasuryAddress The new treasury address
+     * @dev Only callable by owner
+     */
+    function setTreasuryAddress(address newTreasuryAddress) external onlyOwner {
+        require(newTreasuryAddress != address(0), "Zero address not allowed");
+        treasuryAddress = newTreasuryAddress;
+    }
 }
