@@ -10,6 +10,7 @@ import { GovernorVotesQuorumFraction } from
     "@openzeppelin/contracts/governance/extensions/GovernorVotesQuorumFraction.sol";
 import { IVotes } from "@openzeppelin/contracts/governance/utils/IVotes.sol";
 import { TimelockController } from "@openzeppelin/contracts/governance/TimelockController.sol";
+import { IGovernor } from "@openzeppelin/contracts/governance/IGovernor.sol";
 
 /**
  * @title CantinaVerseGovernor
@@ -25,78 +26,103 @@ contract CantinaVerseGovernor is
     GovernorVotesQuorumFraction,
     GovernorTimelockControl
 {
-    // Events
-    event GovernanceParametersUpdated(uint256 votingDelay, uint256 votingPeriod, uint256 proposalThreshold);
-    event QuorumUpdated(uint256 newQuorum);
-
-    /**
-     * @notice Constructor for CantinaVerseGovernor
-     * @param _token The token used for voting
-     * @param _timelock The timelock controller used for proposal execution
-     */
     constructor(
         IVotes _token,
         TimelockController _timelock
     )
-        Governor("CantinaVerse")
-        // 1 day voting delay, 1 week voting period, 3 token threshold
-        GovernorSettings(1 days, 1 weeks, 3 * 10 ** 18)
+        Governor("CantinaVerseGovernor")
+        GovernorSettings(1 days, 1 weeks, 3e18)
         GovernorVotes(_token)
-        GovernorVotesQuorumFraction(4) // 4% quorum
+        GovernorVotesQuorumFraction(4)
         GovernorTimelockControl(_timelock)
     { }
 
-    /**
-     * @notice Updates governance parameters
-     * @param newVotingDelay New voting delay
-     * @param newVotingPeriod New voting period
-     * @param newProposalThreshold New proposal threshold
-     * @dev Only callable via governance process
-     */
-    function updateGovernanceParameters(
-        uint256 newVotingDelay,
-        uint256 newVotingPeriod,
-        uint256 newProposalThreshold
+    // Override required due to multiple inheritance of _execute
+    function _execute(
+        uint256 proposalId,
+        address[] memory targets,
+        uint256[] memory values,
+        bytes[] memory calldatas,
+        bytes32 descriptionHash
     )
-        external
-        onlyGovernance
+        internal
+        override(Governor, GovernorTimelockControl)
     {
-        _setVotingDelay(newVotingDelay);
-        _setVotingPeriod(newVotingPeriod);
-        _setProposalThreshold(newProposalThreshold);
-
-        emit GovernanceParametersUpdated(newVotingDelay, newVotingPeriod, newProposalThreshold);
+        super._execute(proposalId, targets, values, calldatas, descriptionHash);
     }
 
-    /**
-     * @notice Updates the quorum numerator (percentage)
-     * @param newQuorumNumerator New quorum numerator
-     * @dev Only callable via governance process
-     */
-    function updateQuorumNumerator(uint256 newQuorumNumerator) external onlyGovernance {
-        _updateQuorumNumerator(newQuorumNumerator);
-
-        emit QuorumUpdated(newQuorumNumerator);
+    // Override required due to multiple inheritance of supportsInterface
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        override(Governor, GovernorTimelockControl)
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceId);
     }
 
-    /**
-     * @notice Allows users to see what they can currently vote on
-     * @param voter The address to check
-     * @return activeProposalIds Array of active proposal IDs
-     */
-    function getActiveProposalsForVoter(address voter) external view returns (uint256[] memory activeProposalIds) {
-        // Get total proposals count from storage
-        uint256 proposalCount = proposalCount();
+    // The following functions are overrides required by Solidity.
 
-        // First pass to count active proposals
-        uint256 activeCount = 0;
-        for (uint256 i = 0; i < proposalCount; i++) {
-            uint256 proposalId = proposalAt(i);
-            ProposalState proposalState = state(proposalId);
+    function votingDelay() public view override(IGovernor, GovernorSettings) returns (uint256) {
+        return super.votingDelay();
+    }
 
-            if (proposalState == ProposalState.Active && !hasVoted(proposalId, voter)) {
-                activeCount++;
-            }
-        }
+    function votingPeriod() public view override(IGovernor, GovernorSettings) returns (uint256) {
+        return super.votingPeriod();
+    }
+
+    function quorum(uint256 blockNumber)
+        public
+        view
+        override(IGovernor, GovernorVotesQuorumFraction)
+        returns (uint256)
+    {
+        return super.quorum(blockNumber);
+    }
+
+    function state(uint256 proposalId)
+        public
+        view
+        override(Governor, GovernorTimelockControl)
+        returns (ProposalState)
+    {
+        return super.state(proposalId);
+    }
+
+    // Removed the proposalNeedsQueuing function as it does not override any function in the parent contracts.
+
+    function proposalThreshold() public view override(Governor, GovernorSettings) returns (uint256) {
+        return super.proposalThreshold();
+    }
+
+    // Removed _queueOperations function as it does not exist in the parent contracts.
+
+    function _executeOperations(
+        uint256 proposalId,
+        address[] memory targets,
+        uint256[] memory values,
+        bytes[] memory calldatas,
+        bytes32 descriptionHash
+    )
+        internal
+    {
+        // Custom implementation or remove this function if not needed
+    }
+
+    function _cancel(
+        address[] memory targets,
+        uint256[] memory values,
+        bytes[] memory calldatas,
+        bytes32 descriptionHash
+    )
+        internal
+        override(Governor, GovernorTimelockControl)
+        returns (uint256)
+    {
+        return super._cancel(targets, values, calldatas, descriptionHash);
+    }
+
+    function _executor() internal view override(Governor, GovernorTimelockControl) returns (address) {
+        return super._executor();
     }
 }
