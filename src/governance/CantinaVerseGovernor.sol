@@ -25,6 +25,9 @@ contract CantinaVerseGovernor is
     GovernorVotesQuorumFraction,
     GovernorTimelockControl
 {
+    // Events
+    event GovernanceParametersUpdated(uint256 votingDelay, uint256 votingPeriod, uint256 proposalThreshold);
+
     /**
      * @notice Constructor for CantinaVerseGovernor
      * @param _token The token used for voting
@@ -41,4 +44,26 @@ contract CantinaVerseGovernor is
         GovernorVotesQuorumFraction(4) // 4% quorum
         GovernorTimelockControl(_timelock)
     { }
+
+    /**
+     * @notice Updates governance parameters
+     * @param newVotingDelay New voting delay
+     * @param newVotingPeriod New voting period
+     * @param newProposalThreshold New proposal threshold
+     * @dev Only callable via governance process
+     */
+    function updateGovernanceParameters(
+        uint256 newVotingDelay,
+        uint256 newVotingPeriod,
+        uint256 newProposalThreshold
+    )
+        external
+        onlyGovernance
+    {
+        _setVotingDelay(newVotingDelay);
+        _setVotingPeriod(newVotingPeriod);
+        _setProposalThreshold(newProposalThreshold);
+
+        emit GovernanceParametersUpdated(newVotingDelay, newVotingPeriod, newProposalThreshold);
+    }
 }
