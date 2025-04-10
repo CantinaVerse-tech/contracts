@@ -54,9 +54,9 @@ contract CantinaToken is ERC20, ERC20Permit, ERC20Votes, Ownable {
     )
         ERC20("CantinaVerse Token", "CANTINA")
         ERC20Permit("CantinaVerse Token")
-        Ownable(initialOwner)
     {
         // Set addresses
+        initialOwner = msg.sender;
         teamVault = _teamVault;
         treasuryAddress = _treasuryAddress;
         ecosystemFundAddress = _ecosystemFundAddress;
@@ -149,5 +149,25 @@ contract CantinaToken is ERC20, ERC20Permit, ERC20Votes, Ownable {
     function setEcosystemFundAddress(address newEcosystemFundAddress) external onlyOwner {
         require(newEcosystemFundAddress != address(0), "Zero address not allowed");
         ecosystemFundAddress = newEcosystemFundAddress;
+    }
+
+    // The following functions are overrides required by Solidity.
+    // Override required by Solidity for ERC20Votes
+    function _afterTokenTransfer(address from, address to, uint256 amount) internal override(ERC20, ERC20Votes) {
+        super._afterTokenTransfer(from, to, amount);
+    }
+
+    // Override required by Solidity for ERC20Votes
+    function _mint(address to, uint256 amount) internal override(ERC20, ERC20Votes) {
+        super._mint(to, amount);
+    }
+
+    // Override required by Solidity for ERC20Votes
+    function _burn(address from, uint256 amount) internal override(ERC20, ERC20Votes) {
+        super._burn(from, amount);
+    }
+
+    function nonces(address owner) public view override(ERC20Permit) returns (uint256) {
+        return super.nonces(owner);
     }
 }
