@@ -37,6 +37,7 @@ contract CantinaToken is ERC20, ERC20Permit, ERC20Votes, Ownable {
 
     // Events
     event TeamVestingInitialized(address indexed teamVault, uint256 amount, uint256 vestingStart);
+    event TeamTokensReleased(uint256 amount, uint256 timestamp);
 
     /**
      * @notice Constructor to initialize the contract
@@ -98,5 +99,21 @@ contract CantinaToken is ERC20, ERC20Permit, ERC20Votes, Ownable {
         for (uint256 i = 0; i < recipients.length; i++) {
             _transfer(address(this), recipients[i], amounts[i]);
         }
+    }
+
+    /**
+     * @notice Releases vested team tokens according to the vesting schedule
+     * @dev Callable by anyone, but tokens always go to the teamVault
+     */
+    function releaseTeamTokens() external {
+        uint256 vestedAmount = calculateVestedAmount();
+        uint256 releasableAmount = vestedAmount - teamTokensReleased;
+
+        require(releasableAmount > 0, "No tokens to release");
+
+        teamTokensReleased += releasableAmount;
+        _transfer(address(this), teamVault, releasableAmount);
+
+        emit TeamTokensReleased(releasableAmount, block.timestamp);
     }
 }
