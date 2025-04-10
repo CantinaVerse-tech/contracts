@@ -27,6 +27,7 @@ contract CantinaVerseGovernor is
 {
     // Events
     event GovernanceParametersUpdated(uint256 votingDelay, uint256 votingPeriod, uint256 proposalThreshold);
+    event QuorumUpdated(uint256 newQuorum);
 
     /**
      * @notice Constructor for CantinaVerseGovernor
@@ -65,5 +66,16 @@ contract CantinaVerseGovernor is
         _setProposalThreshold(newProposalThreshold);
 
         emit GovernanceParametersUpdated(newVotingDelay, newVotingPeriod, newProposalThreshold);
+    }
+
+    /**
+     * @notice Updates the quorum numerator (percentage)
+     * @param newQuorumNumerator New quorum numerator
+     * @dev Only callable via governance process
+     */
+    function updateQuorumNumerator(uint256 newQuorumNumerator) external onlyGovernance {
+        _updateQuorumNumerator(newQuorumNumerator);
+
+        emit QuorumUpdated(newQuorumNumerator);
     }
 }
