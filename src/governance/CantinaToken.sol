@@ -140,4 +140,14 @@ contract CantinaToken is ERC20, ERC20Permit, ERC20Votes, Ownable {
         require(newTreasuryAddress != address(0), "Zero address not allowed");
         treasuryAddress = newTreasuryAddress;
     }
+
+    /**
+     * @notice Updates the ecosystem fund address
+     * @param newEcosystemFundAddress The new ecosystem fund address
+     * @dev Only callable by owner
+     */
+    function setEcosystemFundAddress(address newEcosystemFundAddress) external onlyOwner {
+        require(newEcosystemFundAddress != address(0), "Zero address not allowed");
+        ecosystemFundAddress = newEcosystemFundAddress;
+    }
 }
