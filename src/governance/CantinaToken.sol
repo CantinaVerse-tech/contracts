@@ -34,4 +34,48 @@ contract CantinaToken is ERC20, ERC20Permit, ERC20Votes, Ownable {
     // Treasury and ecosystem addresses
     address public treasuryAddress;
     address public ecosystemFundAddress;
+
+    // Events
+    event TeamVestingInitialized(address indexed teamVault, uint256 amount, uint256 vestingStart);
+
+    /**
+     * @notice Constructor to initialize the contract
+     * @param initialOwner The address that will initially own the token contract.
+     * @param _teamVault The address of the team vault contract
+     * @param _treasuryAddress The address of the treasury
+     * @param _ecosystemFundAddress The address of the ecosystem fund
+     */
+    constructor(
+        address initialOwner,
+        address _teamVault,
+        address _treasuryAddress,
+        address _ecosystemFundAddress
+    )
+        ERC20("CantinaVerse Token", "CANTINA")
+        ERC20Permit("CantinaVerse Token")
+        Ownable(initialOwner)
+    {
+        // Set addresses
+        teamVault = _teamVault;
+        treasuryAddress = _treasuryAddress;
+        ecosystemFundAddress = _ecosystemFundAddress;
+
+        // Calculate token allocations
+        uint256 communityTokens = (MAX_SUPPLY * COMMUNITY_ALLOCATION) / 10_000;
+        teamAllocation = (MAX_SUPPLY * TEAM_ALLOCATION) / 10_000;
+        uint256 ecosystemTokens = (MAX_SUPPLY * ECOSYSTEM_FUND) / 10_000;
+        uint256 treasuryTokens = (MAX_SUPPLY * TREASURY) / 10_000;
+
+        // Mint tokens according to allocations
+        _mint(address(this), communityTokens); // Community allocation held by contract for distribution
+        _mint(ecosystemFundAddress, ecosystemTokens); // Ecosystem fund allocation
+        _mint(treasuryAddress, treasuryTokens); // Treasury allocation
+
+        // Initialize team vesting
+        _mint(address(this), teamAllocation); // Team allocation held by contract for vesting
+        vestingStart = block.timestamp;
+        teamTokensReleased = 0;
+
+        emit TeamVestingInitialized(teamVault, teamAllocation, vestingStart);
+    }
 }
