@@ -78,4 +78,25 @@ contract CantinaVerseGovernor is
 
         emit QuorumUpdated(newQuorumNumerator);
     }
+
+    /**
+     * @notice Allows users to see what they can currently vote on
+     * @param voter The address to check
+     * @return activeProposalIds Array of active proposal IDs
+     */
+    function getActiveProposalsForVoter(address voter) external view returns (uint256[] memory activeProposalIds) {
+        // Get total proposals count from storage
+        uint256 proposalCount = proposalCount();
+
+        // First pass to count active proposals
+        uint256 activeCount = 0;
+        for (uint256 i = 0; i < proposalCount; i++) {
+            uint256 proposalId = proposalAt(i);
+            ProposalState proposalState = state(proposalId);
+
+            if (proposalState == ProposalState.Active && !hasVoted(proposalId, voter)) {
+                activeCount++;
+            }
+        }
+    }
 }
