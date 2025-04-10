@@ -78,4 +78,25 @@ contract CantinaToken is ERC20, ERC20Permit, ERC20Votes, Ownable {
 
         emit TeamVestingInitialized(teamVault, teamAllocation, vestingStart);
     }
+
+    /**
+     * @notice Distributes tokens from the community allocation
+     * @param recipients Array of recipient addresses
+     * @param amounts Array of token amounts to distribute
+     * @dev Only callable by owner
+     */
+    function distributeToLaunchpad(address[] calldata recipients, uint256[] calldata amounts) external onlyOwner {
+        require(recipients.length == amounts.length, "Arrays must be same length");
+
+        uint256 totalAmount = 0;
+        for (uint256 i = 0; i < amounts.length; i++) {
+            totalAmount += amounts[i];
+        }
+
+        require(balanceOf(address(this)) >= totalAmount, "Insufficient community tokens");
+
+        for (uint256 i = 0; i < recipients.length; i++) {
+            _transfer(address(this), recipients[i], amounts[i]);
+        }
+    }
 }
