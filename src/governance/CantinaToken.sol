@@ -116,4 +116,18 @@ contract CantinaToken is ERC20, ERC20Permit, ERC20Votes, Ownable {
 
         emit TeamTokensReleased(releasableAmount, block.timestamp);
     }
+
+    /**
+     * @notice Calculates the amount of team tokens that have vested
+     * @return The vested token amount
+     */
+    function calculateVestedAmount() public view returns (uint256) {
+        if (block.timestamp < vestingStart) {
+            return 0;
+        } else if (block.timestamp >= vestingStart + VESTING_PERIOD) {
+            return teamAllocation;
+        } else {
+            return (teamAllocation * (block.timestamp - vestingStart)) / VESTING_PERIOD;
+        }
+    }
 }
