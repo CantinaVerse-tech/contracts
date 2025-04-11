@@ -9,6 +9,8 @@
   - [Quick Start](#quick-start)
   - [About](#about)
   - [Current Deployments](#current-deployments)
+    - [Mainnet Deployments](#mainnet-deployments)
+    - [Testnet Deployments](#testnet-deployments)
     - [Gaming Ecosystem:](#gaming-ecosystem)
     - [Prediction Market Ecosystem:](#prediction-market-ecosystem)
     - [NFT Marketplace Ecosystem:](#nft-marketplace-ecosystem)
@@ -53,6 +55,12 @@ Get started with CantinaVerse in minutes!
 CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in multiple aspects of blockchain culture. Our platform is designed for both novice and experienced crypto users, making it easy to create, trade, game, and participate in governance—all underpinned by the secure, efficient Superchain infrastructure.
 
 ## Current Deployments
+### Mainnet Deployments
+- [FactoryNFT Contract](https://base.blockscout.com/address/0xbDf8b537056c7702228262BB8F7C527860FB9e8F?tab=index)
+- [CoinFlip Contract](https://base.blockscout.com/address/0x8CE5e490BF4ecc06D6885Fa4Bb4ef561922305A7?tab=index)
+- [DiceRoll Casino Contract](https://base.blockscout.com/address/0x2617b4167ad665E0922708D4e721468cd741E4dA?tab=index)
+
+### Testnet Deployments
 ### Gaming Ecosystem:
   - [CoinFlip Contract](https://base-sepolia.blockscout.com/address/0x5ab86C17393E54eA9bd33A2c27B848e1700999F4)
   - [NFTLuckyDraw Contract](https://base-sepolia.blockscout.com/address/0x95AA195D948a029e47Eff73da878F92580e78866)

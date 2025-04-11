@@ -12,7 +12,7 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
  */
 contract CoinFlip is Ownable, ReentrancyGuard {
     // Game settings
-    uint256 public minBet = 0.0001 ether;
+    uint256 public minBet = 0 ether;
     uint256 public maxBet = 0.1 ether;
     uint256 public houseEdge = 3; // 3% house edge
 

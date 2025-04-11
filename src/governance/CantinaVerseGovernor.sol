@@ -26,6 +26,11 @@ contract CantinaVerseGovernor is
     GovernorVotesQuorumFraction,
     GovernorTimelockControl
 {
+    /**
+     * @notice Constructor to initialize the contract
+     * @param _token The token used for governance voting
+     * @param _timelock The timelock controller for delayed execution
+     */
     constructor(
         IVotes _token,
         TimelockController _timelock
