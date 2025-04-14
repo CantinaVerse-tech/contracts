@@ -19,10 +19,13 @@ contract NFTStakingEvolution is Ownable, IERC721Receiver {
     /// @notice Structure to track staking information for each NFT
     /// @dev Contains owner address, stake timestamp, and accumulated points
     struct Stake {
-        address owner; /// @notice Address of the NFT staker
-        uint256 stakedAt; /// @notice Timestamp when the NFT was staked
-        uint256 points; /// @notice Accumulated evolution points
+        address owner;
+        /// @notice Address of the NFT staker
+        uint256 stakedAt;
+        /// @notice Timestamp when the NFT was staked
+        uint256 points;
     }
+    /// @notice Accumulated evolution points
 
     /// @notice Mapping from token ID to its staking information
     mapping(uint256 => Stake) public stakes;
@@ -34,31 +37,19 @@ contract NFTStakingEvolution is Ownable, IERC721Receiver {
     /// @param user Address of the user who staked the NFT
     /// @param tokenId ID of the staked NFT
     /// @param timestamp Time when the NFT was staked
-    event NFTStaked(
-        address indexed user,
-        uint256 indexed tokenId,
-        uint256 timestamp
-    );
+    event NFTStaked(address indexed user, uint256 indexed tokenId, uint256 timestamp);
 
     /// @notice Emitted when an NFT is unstaked
     /// @param user Address of the user who unstaked the NFT
     /// @param tokenId ID of the unstaked NFT
     /// @param timestamp Time when the NFT was unstaked
-    event NFTUnstaked(
-        address indexed user,
-        uint256 indexed tokenId,
-        uint256 timestamp
-    );
+    event NFTUnstaked(address indexed user, uint256 indexed tokenId, uint256 timestamp);
 
     /// @notice Emitted when an NFT evolves to a new level
     /// @param user Address of the NFT owner
     /// @param tokenId ID of the evolved NFT
     /// @param newLevel New evolution level of the NFT
-    event NFTEvolved(
-        address indexed user,
-        uint256 indexed tokenId,
-        uint256 newLevel
-    );
+    event NFTEvolved(address indexed user, uint256 indexed tokenId, uint256 newLevel);
 
     /// @notice Contract constructor
     /// @param _nftContract Address of the NFT contract that can be staked
@@ -70,21 +61,14 @@ contract NFTStakingEvolution is Ownable, IERC721Receiver {
     /// @dev Transfers NFT to contract and initializes staking details
     /// @param tokenId ID of the NFT to stake
     function stakeNFT(uint256 tokenId) external {
-        require(
-            nftContract.ownerOf(tokenId) == msg.sender,
-            "You do not own this NFT"
-        );
+        require(nftContract.ownerOf(tokenId) == msg.sender, "You do not own this NFT");
         require(stakes[tokenId].owner == address(0), "NFT already staked");
 
         // Transfer NFT to the contract
         nftContract.safeTransferFrom(msg.sender, address(this), tokenId);
 
         // Record stake details
-        stakes[tokenId] = Stake({
-            owner: msg.sender,
-            stakedAt: block.timestamp,
-            points: 0
-        });
+        stakes[tokenId] = Stake({ owner: msg.sender, stakedAt: block.timestamp, points: 0 });
 
         emit NFTStaked(msg.sender, tokenId, block.timestamp);
     }
@@ -94,10 +78,7 @@ contract NFTStakingEvolution is Ownable, IERC721Receiver {
     /// @param tokenId ID of the NFT to unstake
     function unstakeNFT(uint256 tokenId) external {
         Stake memory stakeInfo = stakes[tokenId];
-        require(
-            stakeInfo.owner == msg.sender,
-            "You do not own this staked NFT"
-        );
+        require(stakeInfo.owner == msg.sender, "You do not own this staked NFT");
 
         // Calculate and update evolution points
         stakes[tokenId].points += calculatePoints(tokenId);
@@ -116,25 +97,18 @@ contract NFTStakingEvolution is Ownable, IERC721Receiver {
     /// @param tokenId ID of the NFT to evolve
     function evolveNFT(uint256 tokenId) external {
         Stake memory stakeInfo = stakes[tokenId];
-        require(
-            stakeInfo.owner == msg.sender,
-            "You do not own this staked NFT"
-        );
+        require(stakeInfo.owner == msg.sender, "You do not own this staked NFT");
 
         // Calculate total evolution points
         uint256 totalPoints = stakeInfo.points + calculatePoints(tokenId);
 
         // Determine if evolution is possible
         require(
-            totalPoints >=
-                getPointsRequiredForEvolution(evolutionLevel[tokenId] + 1),
-            "Not enough points to evolve"
+            totalPoints >= getPointsRequiredForEvolution(evolutionLevel[tokenId] + 1), "Not enough points to evolve"
         );
 
         // Deduct points and increase evolution level
-        stakes[tokenId].points =
-            totalPoints -
-            getPointsRequiredForEvolution(evolutionLevel[tokenId] + 1);
+        stakes[tokenId].points = totalPoints - getPointsRequiredForEvolution(evolutionLevel[tokenId] + 1);
         stakes[tokenId].stakedAt = block.timestamp;
         evolutionLevel[tokenId]++;
 
@@ -156,21 +130,14 @@ contract NFTStakingEvolution is Ownable, IERC721Receiver {
     /// @dev Each level requires more points than the previous
     /// @param level Evolution level to calculate points for
     /// @return uint256 Number of points required for the specified level
-    function getPointsRequiredForEvolution(
-        uint256 level
-    ) public pure returns (uint256) {
+    function getPointsRequiredForEvolution(uint256 level) public pure returns (uint256) {
         return level * 50; // Example: Level 1 requires 50, Level 2 requires 100, etc.
     }
 
     /// @notice Handles the receipt of an NFT
     /// @dev Implementation of IERC721Receiver interface
     /// @return bytes4 Function selector to indicate successful receipt
-    function onERC721Received(
-        address,
-        address,
-        uint256,
-        bytes memory
-    ) public pure override returns (bytes4) {
+    function onERC721Received(address, address, uint256, bytes memory) public pure override returns (bytes4) {
         return this.onERC721Received.selector;
     }
 

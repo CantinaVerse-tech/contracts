@@ -2,10 +2,10 @@
 
 pragma solidity 0.8.16;
 
-import {Test, console2, Vm} from "forge-std/Test.sol";
-import {HelperConfig} from "../../../script/HelperConfig.s.sol";
-import {NFTStakingEvolution} from "../../../src/games/NFTStakingEvolution.sol";
-import {NFT} from "./utils/NFT.sol";
+import { Test, console2, Vm } from "forge-std/Test.sol";
+import { HelperConfig } from "../../../script/HelperConfig.s.sol";
+import { NFTStakingEvolution } from "../../../src/games/NFTStakingEvolution.sol";
+import { NFT } from "./utils/NFT.sol";
 
 contract NFTStakingEvolutionTest is Test {
     HelperConfig config;
@@ -33,9 +33,7 @@ contract NFTStakingEvolutionTest is Test {
         ldGame.stakeNFT(tokenId);
 
         // Verify stake details
-        (address stakedOwner, uint256 stakedAt, uint256 points) = ldGame.stakes(
-            tokenId
-        );
+        (address stakedOwner, uint256 stakedAt, uint256 points) = ldGame.stakes(tokenId);
         assertEq(stakedOwner, personA);
         assertGt(stakedAt, 0);
         assertEq(points, 0);
@@ -96,7 +94,7 @@ contract NFTStakingEvolutionTest is Test {
         assertEq(ldGame.evolutionLevel(tokenId), 1);
 
         // Verify points were deducted
-        (, , uint256 remainingPoints) = ldGame.stakes(tokenId);
+        (,, uint256 remainingPoints) = ldGame.stakes(tokenId);
         assertLt(remainingPoints, 50);
         vm.stopPrank();
     }
@@ -130,7 +128,7 @@ contract NFTStakingEvolutionTest is Test {
 
         // Verify NFT is returned and stake is cleared
         assertEq(testNFT.ownerOf(tokenId), personA);
-        (address stakedOwner, , ) = ldGame.stakes(tokenId);
+        (address stakedOwner,,) = ldGame.stakes(tokenId);
         assertEq(stakedOwner, address(0));
         vm.stopPrank();
     }
