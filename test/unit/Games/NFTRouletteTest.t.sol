@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.16;
 
-import {Test, console2} from "forge-std/Test.sol";
-import {NFTRoulette} from "../../../src/games/NFTRoulette.sol";
-import {NFT} from "./utils/NFT.sol";
+import { Test, console2 } from "forge-std/Test.sol";
+import { NFTRoulette } from "../../../src/games/NFTRoulette.sol";
+import { NFT } from "./utils/NFT.sol";
 
 contract NFTRouletteTest is Test {
     NFTRoulette roulette;
@@ -34,14 +34,8 @@ contract NFTRouletteTest is Test {
         roulette.createRound(ENTRY_FEE, MAX_RANGE);
 
         // Verify round data
-        (
-            uint256 entryFee,
-            uint256 prizePool,
-            uint256 maxRange,
-            bool active,
-            bool completed,
-            uint256 entriesCount
-        ) = roulette.getRoundData(1);
+        (uint256 entryFee, uint256 prizePool, uint256 maxRange, bool active, bool completed, uint256 entriesCount) =
+            roulette.getRoundData(1);
 
         assertEq(entryFee, ENTRY_FEE);
         assertEq(prizePool, 0);
@@ -66,7 +60,7 @@ contract NFTRouletteTest is Test {
         vm.startPrank(player1);
         uint256 tokenId = nft.mintTo(player1);
         nft.approve(address(roulette), tokenId);
-        roulette.stakeNFT{value: ENTRY_FEE}(1, address(nft), tokenId);
+        roulette.stakeNFT{ value: ENTRY_FEE }(1, address(nft), tokenId);
         vm.stopPrank();
 
         // Verify entry
@@ -83,7 +77,7 @@ contract NFTRouletteTest is Test {
         uint256 tokenId = nft.mintTo(player1);
         nft.approve(address(roulette), tokenId);
         vm.expectRevert();
-        roulette.stakeNFT{value: ENTRY_FEE}(1, address(nft), tokenId);
+        roulette.stakeNFT{ value: ENTRY_FEE }(1, address(nft), tokenId);
         vm.stopPrank();
     }
 
@@ -97,11 +91,7 @@ contract NFTRouletteTest is Test {
         uint256 tokenId = nft.mintTo(player1);
         nft.approve(address(roulette), tokenId);
         vm.expectRevert();
-        roulette.stakeNFT{value: ENTRY_FEE - 0.01 ether}(
-            1,
-            address(nft),
-            tokenId
-        );
+        roulette.stakeNFT{ value: ENTRY_FEE - 0.01 ether }(1, address(nft), tokenId);
         vm.stopPrank();
     }
 
@@ -113,13 +103,13 @@ contract NFTRouletteTest is Test {
         vm.startPrank(player1);
         uint256 tokenId1 = nft.mintTo(player1);
         nft.approve(address(roulette), tokenId1);
-        roulette.stakeNFT{value: ENTRY_FEE}(1, address(nft), tokenId1);
+        roulette.stakeNFT{ value: ENTRY_FEE }(1, address(nft), tokenId1);
         vm.stopPrank();
 
         vm.startPrank(player2);
         uint256 tokenId2 = nft.mintTo(player2);
         nft.approve(address(roulette), tokenId2);
-        roulette.stakeNFT{value: ENTRY_FEE}(1, address(nft), tokenId2);
+        roulette.stakeNFT{ value: ENTRY_FEE }(1, address(nft), tokenId2);
         vm.stopPrank();
 
         // Spin roulette
@@ -127,7 +117,7 @@ contract NFTRouletteTest is Test {
         roulette.spinRoulette(1);
 
         // Verify round completion
-        (, , , bool active, bool completed, ) = roulette.getRoundData(1);
+        (,,, bool active, bool completed,) = roulette.getRoundData(1);
         assertFalse(active);
         assertTrue(completed);
     }
@@ -149,13 +139,13 @@ contract NFTRouletteTest is Test {
         vm.startPrank(player1);
         uint256 tokenId1 = nft.mintTo(player1);
         nft.approve(address(roulette), tokenId1);
-        roulette.stakeNFT{value: ENTRY_FEE}(1, address(nft), tokenId1);
+        roulette.stakeNFT{ value: ENTRY_FEE }(1, address(nft), tokenId1);
         vm.stopPrank();
 
         vm.startPrank(player2);
         uint256 tokenId2 = nft.mintTo(player2);
         nft.approve(address(roulette), tokenId2);
-        roulette.stakeNFT{value: ENTRY_FEE}(1, address(nft), tokenId2);
+        roulette.stakeNFT{ value: ENTRY_FEE }(1, address(nft), tokenId2);
         vm.stopPrank();
 
         // Spin and return NFTs
