@@ -70,6 +70,7 @@ CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in 
 
 ### NFT Marketplace Ecosystem:
 - [FactoryNFT Contract](https://base.blockscout.com/address/0xbDf8b537056c7702228262BB8F7C527860FB9e8F?tab=index)
+- [MarketPlace Contract](https://base.blockscout.com/address/0x11b670CC983e568208BcA0EdD529A1e19bfeF5F0?tab=write_contract)
 
 ### Token Creation Ecosystem:
 - TBA
