@@ -10,12 +10,17 @@
   - [About](#about)
   - [Current Deployments](#current-deployments)
     - [Mainnet Deployments](#mainnet-deployments)
-    - [Testnet Deployments](#testnet-deployments)
     - [Gaming Ecosystem:](#gaming-ecosystem)
     - [Prediction Market Ecosystem:](#prediction-market-ecosystem)
     - [NFT Marketplace Ecosystem:](#nft-marketplace-ecosystem)
     - [Token Creation Ecosystem:](#token-creation-ecosystem)
     - [Governance Ecosystem:](#governance-ecosystem)
+    - [Testnet Deployments](#testnet-deployments)
+    - [Gaming Ecosystem:](#gaming-ecosystem-1)
+    - [Prediction Market Ecosystem:](#prediction-market-ecosystem-1)
+    - [NFT Marketplace Ecosystem:](#nft-marketplace-ecosystem-1)
+    - [Token Creation Ecosystem:](#token-creation-ecosystem-1)
+    - [Governance Ecosystem:](#governance-ecosystem-1)
     - [Key Benefits:](#key-benefits)
   - [Current Features](#current-features)
     - [NFT Marketplace](#nft-marketplace)
@@ -56,9 +61,18 @@ CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in 
 
 ## Current Deployments
 ### Mainnet Deployments
-- [FactoryNFT Contract](https://base.blockscout.com/address/0xbDf8b537056c7702228262BB8F7C527860FB9e8F?tab=index)
+### Gaming Ecosystem:
 - [CoinFlip Contract](https://base.blockscout.com/address/0x8CE5e490BF4ecc06D6885Fa4Bb4ef561922305A7?tab=index)
 - [DiceRoll Casino Contract](https://base.blockscout.com/address/0x2617b4167ad665E0922708D4e721468cd741E4dA?tab=index)
+
+### Prediction Market Ecosystem:
+### NFT Marketplace Ecosystem:
+- [FactoryNFT Contract](https://base.blockscout.com/address/0xbDf8b537056c7702228262BB8F7C527860FB9e8F?tab=index)
+
+### Token Creation Ecosystem:
+### Governance Ecosystem:
+
+---
 
 ### Testnet Deployments
 ### Gaming Ecosystem:
