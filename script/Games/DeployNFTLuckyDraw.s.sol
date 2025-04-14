@@ -33,8 +33,7 @@ contract DeployNFTLuckyDraw is Script {
         vm.stopBroadcast();
 
         console2.log("NFTLuckyDraw deployed at:", address(game));
-        console2.log("Initial owner:", config.initialOwner);
-        console2.log("Service fee:", config.serviceFee);
+        console2.log("Initial owner:", msg.sender);
 
         return game;
     }
