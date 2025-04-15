@@ -53,4 +53,14 @@ contract FactoryPrizeNFT is Ownable {
     function getPrizeNFTCount() external view returns (uint256 count) {
         return allPrizeNFTs.length;
     }
+
+    /**
+     * @dev Returns the address of a PrizeNFT contract at a specific index
+     * @param index Index in the allPrizeNFTs array
+     * @return prizeNFT Address of the PrizeNFT contract
+     */
+    function getPrizeNFT(uint256 index) external view returns (address prizeNFT) {
+        require(index < allPrizeNFTs.length, "Index out of bounds");
+        return allPrizeNFTs[index];
+    }
 }
