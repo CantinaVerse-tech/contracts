@@ -45,4 +45,12 @@ contract FactoryPrizeNFT is Ownable {
         emit PrizeNFTCreated(address(newPrizeNFT), name, symbol, baseURI);
         return address(newPrizeNFT);
     }
+
+    /**
+     * @dev Returns the number of PrizeNFT contracts deployed
+     * @return count Number of PrizeNFT contracts
+     */
+    function getPrizeNFTCount() external view returns (uint256 count) {
+        return allPrizeNFTs.length;
+    }
 }
