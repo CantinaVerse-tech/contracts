@@ -14,6 +14,9 @@ contract FactoryPrizeNFT is Ownable {
     // Array to keep track of all deployed PrizeNFT contracts
     address[] public allPrizeNFTs;
 
+    // Event emitted when a new PrizeNFT contract is created
+    event PrizeNFTCreated(address indexed prizeNFT, string name, string symbol, string baseURI);
+
     constructor() { }
 
     /**
