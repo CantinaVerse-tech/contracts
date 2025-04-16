@@ -66,6 +66,7 @@ CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in 
 - [DiceRoll Casino Contract](https://base.blockscout.com/address/0x2617b4167ad665E0922708D4e721468cd741E4dA?tab=index)
 - [NFTLuckyDraw Contract](https://base.blockscout.com/address/0x02975C921a44b43C07b7CF13131eF485A146ab5A?tab=index)
 - [FactoryPrizeNFT Contract](https://base.blockscout.com/address/0x4a6001ffE6dFF5E393C9483D24404c15558D91F4?tab=index)
+- [NFTRoulette Contract](https://base.blockscout.com/address/0x95F6A23E7E946BdD504D96f0b1858b18b3683804?tab=index)
 
 ### Prediction Market Ecosystem:
 - TBA
