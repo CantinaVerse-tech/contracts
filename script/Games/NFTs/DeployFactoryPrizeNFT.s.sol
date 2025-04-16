@@ -2,11 +2,11 @@
 pragma solidity 0.8.16;
 
 import { Script, console2 } from "forge-std/Script.sol";
-import { HelperConfig } from "../HelperConfig.s.sol";
-import { NFTRoulette } from "../../src/games/NFTRoulette.sol";
+import { HelperConfig } from "../../HelperConfig.s.sol";
+import { FactoryPrizeNFT } from "../../../src/games/NFTRoulette/FactoryPrizeNFT.sol";
 
-contract DeployNFTRoulette is Script {
-    function run() external returns (NFTRoulette) {
+contract DeployFactoryPrizeNFT is Script {
+    function run() external {
         HelperConfig helperConfig = new HelperConfig();
         HelperConfig.NetworkConfig memory config;
 
@@ -29,13 +29,9 @@ contract DeployNFTRoulette is Script {
         }
 
         vm.startBroadcast();
-        NFTRoulette game = new NFTRoulette(0x996c27082177fa7f9061Bd26F8393238011F93b8);
+        FactoryPrizeNFT factory = new FactoryPrizeNFT();
         vm.stopBroadcast();
 
-        console2.log("NFTRoulette deployed at:", address(game));
-        console2.log("Initial owner:", config.initialOwner);
-        console2.log("Service fee:", config.serviceFee);
-
-        return game;
+        console2.log("FactoryPrizeNFT deployed at:", address(factory));
     }
 }
