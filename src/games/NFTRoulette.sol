@@ -56,10 +56,9 @@ contract NFTRoulette {
     event NFTReturned(address indexed player, uint256 tokenId, uint256 round);
 
     /// @notice Contract constructor
-    /// @param _prizeNFTContract Address of the NFT contract used for bonus prizes
-    constructor(address _prizeNFTContract) {
+    /// @dev Sets the owner and starts with round 1
+    constructor() {
         owner = msg.sender;
-        prizeNFTContract = _prizeNFTContract;
         // Start with round 1
         currentRound = 1;
     }
