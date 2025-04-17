@@ -21,7 +21,7 @@ contract DeployAll is Script {
         CoinFlip coinflip = new CoinFlip();
         NFTLuckyDraw nftluckydraw = new NFTLuckyDraw();
         PrizeNFT prizenft = new PrizeNFT("Test Collection", "TEST", "https://impfs.io/ipfs/");
-        NFTRoulette nftroulette = new NFTRoulette(address(prizenft));
+        NFTRoulette nftroulette = new NFTRoulette();
         EvolvableNFT evolvableNFT = new EvolvableNFT("https://ipfs.io/ipfs/");
         NFTStakingEvolution nftstakingevolution = new NFTStakingEvolution(address(evolvableNFT));
         vm.stopBroadcast();
