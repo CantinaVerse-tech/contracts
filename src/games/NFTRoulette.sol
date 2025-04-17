@@ -82,6 +82,15 @@ contract NFTRoulette {
         emit RoundCreated(currentRound, _entryFee, _maxRange);
     }
 
+    /// @notice Sets the NFT contract for a specific round
+    /// @dev Only callable by contract owner
+    /// @param roundId ID of the round to set the NFT contract for
+    /// @param _prizeNFTContract Address of the NFT contract
+    function setPrizeNFTForRound(uint256 roundId, address _prizeNFTContract) external onlyOwner {
+        require(rounds[roundId].active, "Round is not active");
+        prizeNFTContracts[roundId] = _prizeNFTContract;
+    }
+
     /// @notice Stakes an NFT to participate in a round
     /// @dev Transfers NFT to contract and assigns random number
     /// @param roundId ID of the round to join
