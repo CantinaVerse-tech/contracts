@@ -68,7 +68,8 @@ CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in 
 - [FactoryPrizeNFT Contract]()
 - [NFTRoulette Contract]()
 - [EvolutionNFT Contract](https://base.blockscout.com/address/0x876dad2718Ea1dF58115179349BA010EC1BC29C2)
-
+- [NFTStakingEvolution Contract](https://base.blockscout.com/address/0x9e64327851F60A5483338c330df50ce0c7b70a81?tab=index)
+  
 ### Prediction Market Ecosystem:
 - TBA
 
