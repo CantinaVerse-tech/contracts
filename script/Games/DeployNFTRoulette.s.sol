@@ -29,12 +29,10 @@ contract DeployNFTRoulette is Script {
         }
 
         vm.startBroadcast();
-        NFTRoulette game = new NFTRoulette(0x996c27082177fa7f9061Bd26F8393238011F93b8);
+        NFTRoulette game = new NFTRoulette();
         vm.stopBroadcast();
 
         console2.log("NFTRoulette deployed at:", address(game));
-        console2.log("Initial owner:", config.initialOwner);
-        console2.log("Service fee:", config.serviceFee);
 
         return game;
     }
