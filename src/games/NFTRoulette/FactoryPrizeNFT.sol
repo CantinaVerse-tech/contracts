@@ -32,7 +32,6 @@ contract FactoryPrizeNFT is Ownable {
         string memory baseURI
     )
         external
-        onlyOwner
         returns (address prizeNFT)
     {
         // Deploy a new PrizeNFT contract
