@@ -169,13 +169,12 @@ contract NFTRoulette {
             IERC721(winningNFTContract).transferFrom(address(this), winner, winningTokenId);
             round.entries[winningIndex].returned = true;
 
-            // Bonus NFT prize if available
-            if (prizeNFTContract != address(0)) {
-                // This assumes the contract owns prize NFTs it can distribute
-                try IERC721(prizeNFTContract).transferFrom(address(this), winner, winningTokenId) {
-                    // Success - bonus NFT transferred
+            address bonusNFT = prizeNFTContracts[roundId];
+            if (bonusNFT != address(0)) {
+                try IERC721(bonusNFT).transferFrom(address(this), winner, winningTokenId) {
+                    // Bonus NFT awarded
                 } catch {
-                    // Failed to transfer bonus NFT - could be handled differently
+                    // Optional: handle error if needed
                 }
             }
 
