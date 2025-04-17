@@ -42,6 +42,10 @@ contract NFTRoulette {
 
     /// @notice Mapping of round ID to round data
     mapping(uint256 => Round) public rounds;
+
+    /// @notice Address of the NFT contract used for bonus prizes
+    mapping(uint256 => address) public prizeNFTContracts;
+
     /// @notice Current active round number
     uint256 public currentRound;
 
