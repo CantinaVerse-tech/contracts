@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity 0.8.16;
 
 /// @title IERC721 Interface
 /// @notice Minimal interface for NFT token interactions
@@ -9,14 +9,15 @@ interface IERC721 {
     function transferFrom(address from, address to, uint256 tokenId) external;
 }
 
-/// @title NFT Roulette Game Contract
-/// @notice A decentralized roulette game where players can stake their NFTs for a chance to win prizes
-/// @dev Implements a round-based system where players stake NFTs and receive random numbers for winning chances
+/**
+ * @title NFTRoulette
+ * @author CantinaVerse-Tech
+ * @notice A decentralized roulette game where players can stake their NFTs for a chance to win prizes
+ * @dev Implements a round-based system where players stake NFTs and receive random numbers for winning chances
+ */
 contract NFTRoulette {
     /// @notice Address of the contract owner
     address public owner;
-    /// @notice Address of the NFT contract used for bonus prizes
-    address public prizeNFTContract;
 
     /// @notice Structure to store round information
     /// @dev Contains all necessary data for a single game round
