@@ -1,7 +1,7 @@
 {
   "transactions": [
     {
-      "hash": "0xe1d554d0862fa75ab3add586d0fe2017caf0b10032c6b1d60d651450dc4cb36c",
+      "hash": null,
       "transactionType": "CREATE",
       "contractName": "FactoryPrizeNFT",
       "contractAddress": "0x43d9a0db8e487e36b2682ef36c0d2d2e40c17975",
@@ -19,51 +19,11 @@
       "isFixedGasLimit": false
     }
   ],
-  "receipts": [
-    {
-      "status": "0x1",
-      "cumulativeGasUsed": "0x279db19",
-      "logs": [
-        {
-          "address": "0x43d9a0db8e487e36b2682ef36c0d2d2e40c17975",
-          "topics": [
-            "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
-            "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "0x0000000000000000000000009eba95858162442143864669e6611a6a50ddeec8"
-          ],
-          "data": "0x",
-          "blockHash": "0xb3854e4e18d30e5f271b529931fb868063ec4a6a4cd2914e22064d0edf7d38a5",
-          "blockNumber": "0x1bb12e5",
-          "blockTimestamp": "0x680082ad",
-          "transactionHash": "0xe1d554d0862fa75ab3add586d0fe2017caf0b10032c6b1d60d651450dc4cb36c",
-          "transactionIndex": "0x6f",
-          "logIndex": "0xf6",
-          "removed": false
-        }
-      ],
-      "logsBloom": "0x00000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004000000000000001000000000000000000000000000000000000020000000000000000000800000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000400000000000200000000000008000000200001000000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000000",
-      "type": "0x2",
-      "transactionHash": "0xe1d554d0862fa75ab3add586d0fe2017caf0b10032c6b1d60d651450dc4cb36c",
-      "transactionIndex": "0x6f",
-      "blockHash": "0xb3854e4e18d30e5f271b529931fb868063ec4a6a4cd2914e22064d0edf7d38a5",
-      "blockNumber": "0x1bb12e5",
-      "gasUsed": "0x247c7b",
-      "effectiveGasPrice": "0x4ca3ac",
-      "from": "0x9eba95858162442143864669e6611a6a50ddeec8",
-      "to": null,
-      "contractAddress": "0x43d9a0db8e487e36b2682ef36c0d2d2e40c17975",
-      "l1BaseFeeScalar": "0x8dd",
-      "l1BlobBaseFee": "0x13813794d",
-      "l1BlobBaseFeeScalar": "0x101c12",
-      "l1Fee": "0x1fe31bd1a0dd",
-      "l1GasPrice": "0x171872ad",
-      "l1GasUsed": "0x18b68"
-    }
-  ],
+  "receipts": [],
   "libraries": [],
   "pending": [],
   "returns": {},
-  "timestamp": 1744865463,
+  "timestamp": 1744863843,
   "chain": 8453,
   "commit": "894f821"
 }

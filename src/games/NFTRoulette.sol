@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity 0.8.16;
 
 /// @title IERC721 Interface
 /// @notice Minimal interface for NFT token interactions
@@ -9,14 +9,15 @@ interface IERC721 {
     function transferFrom(address from, address to, uint256 tokenId) external;
 }
 
-/// @title NFT Roulette Game Contract
-/// @notice A decentralized roulette game where players can stake their NFTs for a chance to win prizes
-/// @dev Implements a round-based system where players stake NFTs and receive random numbers for winning chances
+/**
+ * @title NFTRoulette
+ * @author CantinaVerse-Tech
+ * @notice A decentralized roulette game where players can stake their NFTs for a chance to win prizes
+ * @dev Implements a round-based system where players stake NFTs and receive random numbers for winning chances
+ */
 contract NFTRoulette {
     /// @notice Address of the contract owner
     address public owner;
-    /// @notice Address of the NFT contract used for bonus prizes
-    address public prizeNFTContract;
 
     /// @notice Structure to store round information
     /// @dev Contains all necessary data for a single game round
@@ -41,6 +42,10 @@ contract NFTRoulette {
 
     /// @notice Mapping of round ID to round data
     mapping(uint256 => Round) public rounds;
+
+    /// @notice Address of the NFT contract used for bonus prizes
+    mapping(uint256 => address) public prizeNFTContracts;
+
     /// @notice Current active round number
     uint256 public currentRound;
 
@@ -51,10 +56,9 @@ contract NFTRoulette {
     event NFTReturned(address indexed player, uint256 tokenId, uint256 round);
 
     /// @notice Contract constructor
-    /// @param _prizeNFTContract Address of the NFT contract used for bonus prizes
-    constructor(address _prizeNFTContract) {
+    /// @dev Sets the owner and starts with round 1
+    constructor() {
         owner = msg.sender;
-        prizeNFTContract = _prizeNFTContract;
         // Start with round 1
         currentRound = 1;
     }
@@ -76,6 +80,15 @@ contract NFTRoulette {
         });
 
         emit RoundCreated(currentRound, _entryFee, _maxRange);
+    }
+
+    /// @notice Sets the NFT contract for a specific round
+    /// @dev Only callable by contract owner
+    /// @param roundId ID of the round to set the NFT contract for
+    /// @param _prizeNFTContract Address of the NFT contract
+    function setPrizeNFTForRound(uint256 roundId, address _prizeNFTContract) external onlyOwner {
+        require(rounds[roundId].active, "Round is not active");
+        prizeNFTContracts[roundId] = _prizeNFTContract;
     }
 
     /// @notice Stakes an NFT to participate in a round
@@ -156,13 +169,12 @@ contract NFTRoulette {
             IERC721(winningNFTContract).transferFrom(address(this), winner, winningTokenId);
             round.entries[winningIndex].returned = true;
 
-            // Bonus NFT prize if available
-            if (prizeNFTContract != address(0)) {
-                // This assumes the contract owns prize NFTs it can distribute
-                try IERC721(prizeNFTContract).transferFrom(address(this), winner, winningTokenId) {
-                    // Success - bonus NFT transferred
+            address bonusNFT = prizeNFTContracts[roundId];
+            if (bonusNFT != address(0)) {
+                try IERC721(bonusNFT).transferFrom(address(this), winner, winningTokenId) {
+                    // Bonus NFT awarded
                 } catch {
-                    // Failed to transfer bonus NFT - could be handled differently
+                    // Optional: handle error if needed
                 }
             }
 

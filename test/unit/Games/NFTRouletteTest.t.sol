@@ -21,7 +21,7 @@ contract NFTRouletteTest is Test {
         vm.startPrank(owner);
         nft = new NFT("TestNFT", "TNFT", "test");
         prizeNFT = new NFT("PrizeNFT", "PNFT", "prize");
-        roulette = new NFTRoulette(address(prizeNFT));
+        roulette = new NFTRoulette();
         vm.stopPrank();
 
         // Setup players with ETH
