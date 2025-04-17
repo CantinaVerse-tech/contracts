@@ -70,15 +70,13 @@ contract NFTRoulette {
     function createRound(uint256 _entryFee, uint256 _maxRange) external onlyOwner {
         require(_maxRange > 0, "Max range must be greater than zero");
 
-        rounds[currentRound] = Round({
-            entryFee: _entryFee,
-            prizePool: 0,
-            maxRange: _maxRange,
-            active: true,
-            completed: false,
-            entries: new Entry[](0)
-        });
-
+        Round storage newRound = rounds[currentRound];
+        newRound.entryFee = _entryFee;
+        newRound.prizePool = 0;
+        newRound.maxRange = _maxRange;
+        newRound.active = true;
+        newRound.completed = false;
+        // The entries array is automatically initialized as empty
         emit RoundCreated(currentRound, _entryFee, _maxRange);
     }
 

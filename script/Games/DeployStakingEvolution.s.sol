@@ -29,12 +29,10 @@ contract DeployStakingEvolution is Script {
         }
 
         vm.startBroadcast();
-        NFTStakingEvolution game = new NFTStakingEvolution(0xd09a3146860F77334DB024313fA18F54E4C286a2);
+        NFTStakingEvolution game = new NFTStakingEvolution(0x876dad2718Ea1dF58115179349BA010EC1BC29C2);
         vm.stopBroadcast();
 
         console2.log("NFTStakingEvolution deployed at:", address(game));
-        console2.log("Initial owner:", config.initialOwner);
-        console2.log("Service fee:", config.serviceFee);
 
         return game;
     }
