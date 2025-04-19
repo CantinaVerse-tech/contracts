@@ -71,7 +71,7 @@ CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in 
 - [NFTStakingEvolution Contract](https://base.blockscout.com/address/0x9e64327851F60A5483338c330df50ce0c7b70a81?tab=index)
   
 ### Prediction Market Ecosystem:
-- TBA
+- [AMM Contract]()
 
 ### NFT Marketplace Ecosystem:
 - [FactoryNFT Contract](https://base.blockscout.com/address/0xbDf8b537056c7702228262BB8F7C527860FB9e8F?tab=index)
@@ -82,7 +82,7 @@ CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in 
 - [LiquidityManager Contract]()
 - [VestingVault Contract]()
 - [PresaleManager Contract]()
-  
+
 ### Governance Ecosystem:
 - TBA
 
