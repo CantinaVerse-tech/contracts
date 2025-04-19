@@ -72,6 +72,7 @@ CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in 
   
 ### Prediction Market Ecosystem:
 - [AMM Contract]()
+- [PredictionMarket Contract]()
 
 ### NFT Marketplace Ecosystem:
 - [FactoryNFT Contract](https://base.blockscout.com/address/0xbDf8b537056c7702228262BB8F7C527860FB9e8F?tab=index)
