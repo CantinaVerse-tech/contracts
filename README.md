@@ -81,6 +81,7 @@ CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in 
 - [FactoryToken Contract]()
 - [LiquidityManager Contract]()
 - [VestingVault Contract]()
+- [PresaleManager Contract]()
   
 ### Governance Ecosystem:
 - TBA
