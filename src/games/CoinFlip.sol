@@ -30,11 +30,11 @@ contract CoinFlip is Ownable, ReentrancyGuard {
     mapping(uint256 => Game) public games;
 
     // Events
-    event CoinFlipped(address indexed player, bool heads, bool won, uint256 amount, uint256 payout);
-    event HouseEdgeUpdated(uint256 newHouseEdge);
-    event BetLimitsUpdated(uint256 newMinBet, uint256 newMaxBet);
+    event GameCreated(uint256 indexed gameId, address indexed player, uint256 betAmount, bool isHeads);
+    event GameResolved(uint256 indexed gameId, bool result, bool won, uint256 payout);
     event HouseBalanceAdded(address indexed from, uint256 amount);
     event HouseBalanceWithdrawn(address indexed to, uint256 amount);
+    event HouseEdgeUpdated(uint256 newEdge);
 
     constructor() {
         // Initialize with an empty house balance
