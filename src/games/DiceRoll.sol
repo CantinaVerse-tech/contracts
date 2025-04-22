@@ -49,14 +49,17 @@ contract DiceRollCasino is Ownable, ReentrancyGuard {
         emit GameResult(msg.sender, msg.value, diceRoll, won);
     }
 
-    // Function to allow the owner to withdraw accumulated jackpot
-    function withdrawJackpot() public {
-        require(msg.sender == owner, "Only the owner can withdraw.");
-        require(jackpot > 0, "No jackpot to withdraw.");
-
-        uint256 payout = jackpot;
+    /**
+     * @notice Owner withdraws the jackpot
+     */
+    function withdrawJackpot() external onlyOwner nonReentrant {
+        require(jackpot > 0, "No jackpot to withdraw");
+        uint256 amount = jackpot;
         jackpot = 0;
-        payable(owner).transfer(payout);
+        (bool success,) = payable(owner()).call{ value: amount }("");
+        require(success, "Withdraw failed");
+
+        emit JackpotWithdrawn(amount);
     }
 
     // Function to change the minimum bet amount
