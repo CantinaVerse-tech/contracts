@@ -70,4 +70,12 @@ contract DiceRollCasino is Ownable, ReentrancyGuard {
         minimumBet = _newMinimumBet;
         emit MinimumBetChanged(_newMinimumBet);
     }
+
+    /**
+     * @notice Allow contract to receive ETH (for seeding jackpot or top-up)
+     */
+    receive() external payable {
+        jackpot += msg.value;
+        emit FundsDeposited(msg.sender, msg.value);
+    }
 }
