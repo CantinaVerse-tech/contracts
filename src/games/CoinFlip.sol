@@ -110,6 +110,7 @@ contract CoinFlip is Ownable, ReentrancyGuard {
     /**
      * @notice Withdraw from the house balance
      * @param amount Amount to withdraw
+     * @dev Only the owner can withdraw
      */
     function withdrawHouseBalance(uint256 amount) external onlyOwner nonReentrant {
         require(amount <= houseBalance, "Not enough balance");
@@ -121,12 +122,13 @@ contract CoinFlip is Ownable, ReentrancyGuard {
 
     /**
      * @notice Update the house edge percentage
-     * @param newHouseEdge New house edge percentage (1-20)
+     * @param newEdge New edge percentage (1-20%)
+     * @dev Only the owner can update the edge
      */
-    function setHouseEdge(uint256 newHouseEdge) external onlyOwner {
-        require(newHouseEdge >= 1 && newHouseEdge <= 20, "House edge must be between 1% and 20%");
-        houseEdge = newHouseEdge;
-        emit HouseEdgeUpdated(newHouseEdge);
+    function setHouseEdge(uint256 newEdge) external onlyOwner {
+        require(newEdge >= 1 && newEdge <= 20, "Edge must be 1-20%");
+        houseEdge = newEdge;
+        emit HouseEdgeUpdated(newEdge);
     }
 
     /**
