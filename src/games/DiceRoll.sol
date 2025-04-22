@@ -4,8 +4,7 @@ pragma solidity 0.8.16;
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 import { ReentrancyGuard } from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-contract DiceRollCasino {
-    address public owner;
+contract DiceRollCasino is Ownable, ReentrancyGuard {
     uint256 public minimumBet;
     uint256 public jackpot;
 
