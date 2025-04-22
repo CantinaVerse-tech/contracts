@@ -15,10 +15,13 @@ contract DiceRollCasino is Ownable, ReentrancyGuard {
     event JackpotWithdrawn(uint256 amount);
     event FundsDeposited(address indexed from, uint256 amount);
 
+    /**
+     * @notice Constructor
+     * @param _minimumBet The minimum bet amount for the game
+     * @dev Initializes the contract with the specified minimum bet amount
+     */
     constructor(uint256 _minimumBet) {
-        owner = msg.sender;
         minimumBet = _minimumBet;
-        jackpot = 0;
     }
 
     // Function to place a bet
