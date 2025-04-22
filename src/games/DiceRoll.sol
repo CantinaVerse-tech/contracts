@@ -62,9 +62,12 @@ contract DiceRollCasino is Ownable, ReentrancyGuard {
         emit JackpotWithdrawn(amount);
     }
 
-    // Function to change the minimum bet amount
-    function changeMinimumBet(uint256 _newMinimumBet) public {
-        require(msg.sender == owner, "Only the owner can change the minimum bet.");
+    /**
+     * @notice Owner changes the minimum bet
+     * @param _newMinimumBet New minimum bet amount
+     */
+    function changeMinimumBet(uint256 _newMinimumBet) external onlyOwner {
         minimumBet = _newMinimumBet;
+        emit MinimumBetChanged(_newMinimumBet);
     }
 }
