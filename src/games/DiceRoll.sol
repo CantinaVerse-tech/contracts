@@ -5,11 +5,15 @@ import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 import { ReentrancyGuard } from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 contract DiceRollCasino is Ownable, ReentrancyGuard {
+    // State variables
     uint256 public minimumBet;
     uint256 public jackpot;
 
     // Event to notify of a new game result
     event GameResult(address indexed player, uint256 betAmount, uint256 diceRoll, bool won);
+    event MinimumBetChanged(uint256 newMinimumBet);
+    event JackpotWithdrawn(uint256 amount);
+    event FundsDeposited(address indexed from, uint256 amount);
 
     constructor(uint256 _minimumBet) {
         owner = msg.sender;
