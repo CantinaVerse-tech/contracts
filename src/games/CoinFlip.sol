@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.16;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
+import { ReentrancyGuard } from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 /**
  * @title Coin Flip Game
@@ -46,7 +46,7 @@ contract CoinFlip is Ownable, ReentrancyGuard {
      * @dev Players can bet on heads or tails
      */
     function createGame(bool isHeads) external payable nonReentrant {
-        require(msg.value > 0, "Must bet > 0");
+        require(msg.value >= 0, "Must bet >= 0");
         uint256 potentialPayout = (msg.value * (100 - houseEdge)) / 100;
         require(houseBalance >= potentialPayout - msg.value, "Insufficient house balance");
 
