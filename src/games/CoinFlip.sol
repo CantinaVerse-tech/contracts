@@ -88,13 +88,13 @@ contract CoinFlip is Ownable, ReentrancyGuard {
 
     /**
      * @notice Generate a pseudo-random boolean value
+     * @param gameId The ID of the game
      * @dev Not secure for production use
      * @return A pseudo-random boolean
      */
-    function generateRandomBool() internal view returns (bool) {
+    function generateRandomBool(uint256 gameId) internal view returns (bool) {
         uint256 randomValue =
-            uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty, msg.sender, totalFlips)));
-
+            uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty, msg.sender, gameId)));
         return randomValue % 2 == 0;
     }
 
