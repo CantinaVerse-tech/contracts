@@ -112,13 +112,10 @@ contract CoinFlip is Ownable, ReentrancyGuard {
      * @param amount Amount to withdraw
      */
     function withdrawHouseBalance(uint256 amount) external onlyOwner nonReentrant {
-        require(amount <= houseBalance, "Insufficient house balance");
-
+        require(amount <= houseBalance, "Not enough balance");
         houseBalance -= amount;
-
         (bool success,) = payable(owner()).call{ value: amount }("");
-        require(success, "Transfer failed");
-
+        require(success, "Withdraw failed");
         emit HouseBalanceWithdrawn(owner(), amount);
     }
 
