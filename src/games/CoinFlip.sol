@@ -8,87 +8,99 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
  * @title Coin Flip Game
  * @author CantinaVerse-Tech
  * @notice A simple coin flip game where players can bet on heads or tails
- * @dev Uses a pseudo-random number generator, consider upgrading to Chainlink VRF in production
+ * @dev Uses a pseudo-random number generator, considering upgrading to Chainlink VRF in production
  */
 contract CoinFlip is Ownable, ReentrancyGuard {
     // Game settings
-    uint256 public minBet = 0 ether;
-    uint256 public maxBet = 0.1 ether;
     uint256 public houseEdge = 3; // 3% house edge
-
-    // Game statistics
-    uint256 public totalFlips;
-    uint256 public totalEthWagered;
+    uint256 public gameCounter;
     uint256 public houseBalance;
 
+    // struct Game
+    struct Game {
+        address player;
+        uint256 betAmount;
+        bool isHeads;
+        bool resolved;
+        bool won;
+        uint256 payout;
+    }
+
+    // Game data
+    mapping(uint256 => Game) public games;
+
     // Events
-    event CoinFlipped(address indexed player, bool heads, bool won, uint256 amount, uint256 payout);
-    event HouseEdgeUpdated(uint256 newHouseEdge);
-    event BetLimitsUpdated(uint256 newMinBet, uint256 newMaxBet);
+    event GameCreated(uint256 indexed gameId, address indexed player, uint256 betAmount, bool isHeads);
+    event GameResolved(uint256 indexed gameId, bool result, bool won, uint256 payout);
     event HouseBalanceAdded(address indexed from, uint256 amount);
     event HouseBalanceWithdrawn(address indexed to, uint256 amount);
+    event HouseEdgeUpdated(uint256 newEdge);
 
     constructor() {
         // Initialize with an empty house balance
     }
 
     /**
-     * @notice Player flips a coin and bets on the outcome
-     * @param isHeads True if player is betting on heads, false for tails
+     * @notice Create a new coin flip game
+     * @param isHeads True if the player wants to bet on heads, false if they want to bet on tails
+     * @dev Players can bet on heads or tails
      */
-    function flipCoin(bool isHeads) external payable nonReentrant {
-        // Validate bet amount
-        require(msg.value >= minBet, "Bet amount below minimum");
-        require(msg.value <= maxBet, "Bet amount above maximum");
-
-        // Ensure house has enough balance to pay potential win
-        uint256 potentialPayout = (msg.value * (100 - houseEdge)) / 97; // Inverse of 3% house edge
+    function createGame(bool isHeads) external payable nonReentrant {
+        require(msg.value > 0, "Must bet > 0");
+        uint256 potentialPayout = (msg.value * (100 - houseEdge)) / 100;
         require(houseBalance >= potentialPayout - msg.value, "Insufficient house balance");
 
-        // Generate pseudo-random result (note: not secure for production without additional randomness source)
-        bool result = generateRandomBool();
+        uint256 gameId = ++gameCounter;
+        games[gameId] =
+            Game({ player: msg.sender, betAmount: msg.value, isHeads: isHeads, resolved: false, won: false, payout: 0 });
 
-        // Update statistics
-        totalFlips++;
-        totalEthWagered += msg.value;
+        emit GameCreated(gameId, msg.sender, msg.value, isHeads);
+    }
 
-        // Determine if player won
-        bool playerWon = (result == isHeads);
+    /**
+     * @notice Resolve a specific game
+     * @param gameId The ID of the game to resolve
+     * @dev Only the player who created the game can resolve it
+     */
+    function resolveGame(uint256 gameId) external nonReentrant {
+        Game storage game = games[gameId];
+        require(game.player == msg.sender, "Not your game");
+        require(!game.resolved, "Already resolved");
+
+        bool result = generateRandomBool(gameId);
+        bool playerWon = (result == game.isHeads);
+        game.resolved = true;
+        game.won = playerWon;
 
         if (playerWon) {
-            // Calculate payout
-            uint256 payout = (msg.value * (100 - houseEdge)) / 100;
+            uint256 payout = (game.betAmount * (100 - houseEdge)) / 100;
+            game.payout = payout;
+            houseBalance = houseBalance + game.betAmount - payout;
 
-            // Update house balance
-            houseBalance = houseBalance + msg.value - payout;
-
-            // Send winnings to player
             (bool success,) = payable(msg.sender).call{ value: payout }("");
-            require(success, "Transfer to winner failed");
-
-            emit CoinFlipped(msg.sender, isHeads, true, msg.value, payout);
+            require(success, "Transfer failed");
         } else {
-            // Player lost, add bet to house balance
-            houseBalance += msg.value;
-
-            emit CoinFlipped(msg.sender, isHeads, false, msg.value, 0);
+            houseBalance += game.betAmount;
         }
+
+        emit GameResolved(gameId, result, playerWon, game.payout);
     }
 
     /**
      * @notice Generate a pseudo-random boolean value
+     * @param gameId The ID of the game
      * @dev Not secure for production use
      * @return A pseudo-random boolean
      */
-    function generateRandomBool() internal view returns (bool) {
+    function generateRandomBool(uint256 gameId) internal view returns (bool) {
         uint256 randomValue =
-            uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty, msg.sender, totalFlips)));
-
+            uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty, msg.sender, gameId)));
         return randomValue % 2 == 0;
     }
 
     /**
      * @notice Add funds to the house balance
+     * @dev Only the owner can add funds
      */
     function addHouseBalance() external payable onlyOwner {
         houseBalance += msg.value;
@@ -98,38 +110,25 @@ contract CoinFlip is Ownable, ReentrancyGuard {
     /**
      * @notice Withdraw from the house balance
      * @param amount Amount to withdraw
+     * @dev Only the owner can withdraw
      */
     function withdrawHouseBalance(uint256 amount) external onlyOwner nonReentrant {
-        require(amount <= houseBalance, "Insufficient house balance");
-
+        require(amount <= houseBalance, "Not enough balance");
         houseBalance -= amount;
-
         (bool success,) = payable(owner()).call{ value: amount }("");
-        require(success, "Transfer failed");
-
+        require(success, "Withdraw failed");
         emit HouseBalanceWithdrawn(owner(), amount);
     }
 
     /**
      * @notice Update the house edge percentage
-     * @param newHouseEdge New house edge percentage (1-20)
+     * @param newEdge New edge percentage (1-20%)
+     * @dev Only the owner can update the edge
      */
-    function setHouseEdge(uint256 newHouseEdge) external onlyOwner {
-        require(newHouseEdge >= 1 && newHouseEdge <= 20, "House edge must be between 1% and 20%");
-        houseEdge = newHouseEdge;
-        emit HouseEdgeUpdated(newHouseEdge);
-    }
-
-    /**
-     * @notice Update bet limits
-     * @param newMinBet New minimum bet
-     * @param newMaxBet New maximum bet
-     */
-    function setBetLimits(uint256 newMinBet, uint256 newMaxBet) external onlyOwner {
-        require(newMinBet < newMaxBet, "Min bet must be less than max bet");
-        minBet = newMinBet;
-        maxBet = newMaxBet;
-        emit BetLimitsUpdated(newMinBet, newMaxBet);
+    function setHouseEdge(uint256 newEdge) external onlyOwner {
+        require(newEdge >= 1 && newEdge <= 20, "Edge must be 1-20%");
+        houseEdge = newEdge;
+        emit HouseEdgeUpdated(newEdge);
     }
 
     /**
