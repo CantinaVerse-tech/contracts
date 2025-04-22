@@ -26,6 +26,9 @@ contract CoinFlip is Ownable, ReentrancyGuard {
         uint256 payout;
     }
 
+    // Game data
+    mapping(uint256 => Game) public games;
+
     // Events
     event CoinFlipped(address indexed player, bool heads, bool won, uint256 amount, uint256 payout);
     event HouseEdgeUpdated(uint256 newHouseEdge);
