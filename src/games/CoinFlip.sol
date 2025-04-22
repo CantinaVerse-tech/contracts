@@ -132,18 +132,6 @@ contract CoinFlip is Ownable, ReentrancyGuard {
     }
 
     /**
-     * @notice Update bet limits
-     * @param newMinBet New minimum bet
-     * @param newMaxBet New maximum bet
-     */
-    function setBetLimits(uint256 newMinBet, uint256 newMaxBet) external onlyOwner {
-        require(newMinBet < newMaxBet, "Min bet must be less than max bet");
-        minBet = newMinBet;
-        maxBet = newMaxBet;
-        emit BetLimitsUpdated(newMinBet, newMaxBet);
-    }
-
-    /**
      * @notice Fallback function to accept ETH
      */
     receive() external payable {
