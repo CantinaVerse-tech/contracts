@@ -58,6 +58,35 @@ contract CoinFlip is Ownable, ReentrancyGuard {
     }
 
     /**
+     * @notice Resolve a specific game
+     * @param gameId The ID of the game to resolve
+     * @dev Only the player who created the game can resolve it
+     */
+    function resolveGame(uint256 gameId) external nonReentrant {
+        Game storage game = games[gameId];
+        require(game.player == msg.sender, "Not your game");
+        require(!game.resolved, "Already resolved");
+
+        bool result = generateRandomBool(gameId);
+        bool playerWon = (result == game.isHeads);
+        game.resolved = true;
+        game.won = playerWon;
+
+        if (playerWon) {
+            uint256 payout = (game.betAmount * (100 - houseEdge)) / 100;
+            game.payout = payout;
+            houseBalance = houseBalance + game.betAmount - payout;
+
+            (bool success,) = payable(msg.sender).call{ value: payout }("");
+            require(success, "Transfer failed");
+        } else {
+            houseBalance += game.betAmount;
+        }
+
+        emit GameResolved(gameId, result, playerWon, game.payout);
+    }
+
+    /**
      * @notice Generate a pseudo-random boolean value
      * @dev Not secure for production use
      * @return A pseudo-random boolean
