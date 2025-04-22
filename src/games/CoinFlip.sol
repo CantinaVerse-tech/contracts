@@ -100,6 +100,7 @@ contract CoinFlip is Ownable, ReentrancyGuard {
 
     /**
      * @notice Add funds to the house balance
+     * @dev Only the owner can add funds
      */
     function addHouseBalance() external payable onlyOwner {
         houseBalance += msg.value;
