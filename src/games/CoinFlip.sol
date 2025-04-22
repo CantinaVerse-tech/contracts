@@ -41,46 +41,20 @@ contract CoinFlip is Ownable, ReentrancyGuard {
     }
 
     /**
-     * @notice Player flips a coin and bets on the outcome
-     * @param isHeads True if player is betting on heads, false for tails
+     * @notice Create a new coin flip game
+     * @param isHeads True if the player wants to bet on heads, false if they want to bet on tails
+     * @dev Players can bet on heads or tails
      */
-    function flipCoin(bool isHeads) external payable nonReentrant {
-        // Validate bet amount
-        require(msg.value >= minBet, "Bet amount below minimum");
-        require(msg.value <= maxBet, "Bet amount above maximum");
-
-        // Ensure house has enough balance to pay potential win
-        uint256 potentialPayout = (msg.value * (100 - houseEdge)) / 97; // Inverse of 3% house edge
+    function createGame(bool isHeads) external payable nonReentrant {
+        require(msg.value > 0, "Must bet > 0");
+        uint256 potentialPayout = (msg.value * (100 - houseEdge)) / 100;
         require(houseBalance >= potentialPayout - msg.value, "Insufficient house balance");
 
-        // Generate pseudo-random result (note: not secure for production without additional randomness source)
-        bool result = generateRandomBool();
+        uint256 gameId = ++gameCounter;
+        games[gameId] =
+            Game({ player: msg.sender, betAmount: msg.value, isHeads: isHeads, resolved: false, won: false, payout: 0 });
 
-        // Update statistics
-        totalFlips++;
-        totalEthWagered += msg.value;
-
-        // Determine if player won
-        bool playerWon = (result == isHeads);
-
-        if (playerWon) {
-            // Calculate payout
-            uint256 payout = (msg.value * (100 - houseEdge)) / 100;
-
-            // Update house balance
-            houseBalance = houseBalance + msg.value - payout;
-
-            // Send winnings to player
-            (bool success,) = payable(msg.sender).call{ value: payout }("");
-            require(success, "Transfer to winner failed");
-
-            emit CoinFlipped(msg.sender, isHeads, true, msg.value, payout);
-        } else {
-            // Player lost, add bet to house balance
-            houseBalance += msg.value;
-
-            emit CoinFlipped(msg.sender, isHeads, false, msg.value, 0);
-        }
+        emit GameCreated(gameId, msg.sender, msg.value, isHeads);
     }
 
     /**
