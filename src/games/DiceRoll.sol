@@ -24,25 +24,29 @@ contract DiceRollCasino is Ownable, ReentrancyGuard {
         minimumBet = _minimumBet;
     }
 
-    // Function to place a bet
-    function placeBet(uint256 _guess) public payable {
-        require(msg.value >= minimumBet, "Bet amount is too low.");
-        require(_guess >= 1 && _guess <= 6, "Guess must be between 1 and 6.");
+    /**
+     * @notice Player places a bet guessing a dice roll (1-6)
+     * @param _guess The number the player is guessing
+     * @dev Requires the player to send at least the minimum bet amount
+     */
+    function placeBet(uint256 _guess) external payable nonReentrant {
+        require(msg.value >= minimumBet, "Bet too low");
+        require(_guess >= 1 && _guess <= 6, "Guess must be between 1 and 6");
 
-        uint256 betAmount = msg.value;
-        jackpot += betAmount;
+        jackpot += msg.value;
 
-        // Simulate a dice roll
-        uint256 diceRoll = (uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender))) % 6) + 1;
+        uint256 diceRoll = (uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender, block.difficulty))) % 6) + 1;
 
-        bool won = _guess == diceRoll;
+        bool won = (_guess == diceRoll);
+
         if (won) {
             uint256 payout = jackpot;
             jackpot = 0;
-            payable(msg.sender).transfer(payout); // Send the winnings to the player
+            (bool success,) = payable(msg.sender).call{ value: payout }("");
+            require(success, "Payout failed");
         }
 
-        emit GameResult(msg.sender, betAmount, diceRoll, won);
+        emit GameResult(msg.sender, msg.value, diceRoll, won);
     }
 
     // Function to allow the owner to withdraw accumulated jackpot
