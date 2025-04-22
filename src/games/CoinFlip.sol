@@ -8,18 +8,23 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
  * @title Coin Flip Game
  * @author CantinaVerse-Tech
  * @notice A simple coin flip game where players can bet on heads or tails
- * @dev Uses a pseudo-random number generator, consider upgrading to Chainlink VRF in production
+ * @dev Uses a pseudo-random number generator, considering upgrading to Chainlink VRF in production
  */
 contract CoinFlip is Ownable, ReentrancyGuard {
     // Game settings
-    uint256 public minBet = 0 ether;
-    uint256 public maxBet = 0.1 ether;
     uint256 public houseEdge = 3; // 3% house edge
-
-    // Game statistics
-    uint256 public totalFlips;
-    uint256 public totalEthWagered;
+    uint256 public gameCounter;
     uint256 public houseBalance;
+
+    // struct Game
+    struct Game {
+        address player;
+        uint256 betAmount;
+        bool isHeads;
+        bool resolved;
+        bool won;
+        uint256 payout;
+    }
 
     // Events
     event CoinFlipped(address indexed player, bool heads, bool won, uint256 amount, uint256 payout);
