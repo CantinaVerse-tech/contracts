@@ -63,7 +63,7 @@ CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in 
 ## Mainnet Deployments
 ### Gaming Ecosystem:
 - [CoinFlip Contract](https://base.blockscout.com/address/0x4Ed933eb6c77601440427da2bc5450Ed9478D460?tab=index)
-- [DiceRoll Casino Contract](https://base.blockscout.com/address/0x2617b4167ad665E0922708D4e721468cd741E4dA?tab=index)
+- [DiceRoll Casino Contract](https://base.blockscout.com/address/0xEE9B0c58e6C8244A0f499b4c8660Ab0F05666F5e?tab=index)
 - [NFTLuckyDraw Contract](https://base.blockscout.com/address/0x02975C921a44b43C07b7CF13131eF485A146ab5A?tab=index)
 - [FactoryPrizeNFT Contract](https://base.blockscout.com/address/0xa96498decb867F3D8A89f23F19985c669BEeBd1C)
 - [NFTRoulette Contract](https://base.blockscout.com/address/0xD3457756bdD769bC052FbEE531B833d45786fdb1)
