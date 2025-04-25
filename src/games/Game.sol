@@ -73,4 +73,16 @@ contract TriviaChallenge is Ownable, ReentrancyGuard {
 
         emit AnswerSubmitted(msg.sender, _questionId, isCorrect);
     }
+
+    /**
+     * @dev Allows a player to claim their accumulated rewards.
+     */
+    function claimReward() external nonReentrant {
+        uint256 reward = players[msg.sender].balance;
+        require(reward > 0, "No rewards to claim");
+        players[msg.sender].balance = 0;
+        (bool success,) = payable(msg.sender).call{ value: reward }("");
+        require(success, "Transfer failed");
+        emit RewardClaimed(msg.sender, reward);
+    }
 }
