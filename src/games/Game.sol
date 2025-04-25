@@ -13,4 +13,17 @@ contract TriviaChallenge is Ownable, ReentrancyGuard {
     // Public variables
     uint256 public entryFee = 0 ether;
     uint256 public rewardPerCorrectAnswer = 0 ether;
+
+    // Struct Question
+    struct Question {
+        string questionText;
+        string[] options;
+        uint8 correctOption; // Index of the correct option
+    }
+
+    // Struct Player
+    struct Player {
+        uint256 score;
+        uint256 balance;
+    }
 }
