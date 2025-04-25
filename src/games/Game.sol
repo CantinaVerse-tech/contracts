@@ -95,4 +95,11 @@ contract TriviaChallenge is Ownable, ReentrancyGuard {
         (bool success,) = payable(owner()).call{ value: contractBalance }("");
         require(success, "Transfer failed");
     }
+
+    /**
+     * @dev Returns the total number of questions.
+     */
+    function getTotalQuestions() external view returns (uint256) {
+        return questions.length;
+    }
 }
