@@ -4,6 +4,11 @@ pragma solidity 0.8.16;
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 import { ReentrancyGuard } from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
+/**
+ * @title DiceRollCasino
+ * @author CantinaVerse-Tech
+ * @notice A simple dice roll game where players can bet and win prizes.
+ */
 contract DiceRollCasino is Ownable, ReentrancyGuard {
     // State variables
     uint256 public minimumBet;
