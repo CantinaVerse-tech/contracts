@@ -85,4 +85,31 @@ contract TriviaChallenge is Ownable, ReentrancyGuard {
         require(success, "Transfer failed");
         emit RewardClaimed(msg.sender, reward);
     }
+
+    /**
+     * @dev Allows the owner to withdraw the contract's balance.
+     */
+    function withdraw() external onlyOwner {
+        uint256 contractBalance = address(this).balance;
+        require(contractBalance > 0, "No balance to withdraw");
+        (bool success,) = payable(owner()).call{ value: contractBalance }("");
+        require(success, "Transfer failed");
+    }
+
+    /**
+     * @dev Returns the total number of questions.
+     */
+    function getTotalQuestions() external view returns (uint256) {
+        return questions.length;
+    }
+
+    /**
+     * @dev Returns the details of a specific question.
+     * @param _questionId The ID of the question.
+     */
+    function getQuestion(uint256 _questionId) external view returns (string memory, string[] memory) {
+        require(_questionId < questions.length, "Invalid question ID");
+        Question storage q = questions[_questionId];
+        return (q.questionText, q.options);
+    }
 }
