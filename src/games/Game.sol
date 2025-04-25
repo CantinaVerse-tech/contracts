@@ -102,4 +102,14 @@ contract TriviaChallenge is Ownable, ReentrancyGuard {
     function getTotalQuestions() external view returns (uint256) {
         return questions.length;
     }
+
+    /**
+     * @dev Returns the details of a specific question.
+     * @param _questionId The ID of the question.
+     */
+    function getQuestion(uint256 _questionId) external view returns (string memory, string[] memory) {
+        require(_questionId < questions.length, "Invalid question ID");
+        Question storage q = questions[_questionId];
+        return (q.questionText, q.options);
+    }
 }
