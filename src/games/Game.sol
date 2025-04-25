@@ -9,4 +9,8 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
  * @author CantinaVerse-Tech
  * @dev A quiz-based game where players pay to enter, answer questions, and earn rewards.
  */
-contract TriviaChallenge is Ownable, ReentrancyGuard { }
+contract TriviaChallenge is Ownable, ReentrancyGuard {
+    // Public variables
+    uint256 public entryFee = 0 ether;
+    uint256 public rewardPerCorrectAnswer = 0 ether;
+}
