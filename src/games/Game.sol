@@ -35,4 +35,23 @@ contract TriviaChallenge is Ownable, ReentrancyGuard {
     event QuestionAdded(uint256 questionId);
     event AnswerSubmitted(address indexed player, uint256 questionId, bool isCorrect);
     event RewardClaimed(address indexed player, uint256 amount);
+
+    /**
+     * @dev Adds a new question to the quiz.
+     * @param _questionText The text of the question.
+     * @param _options An array of answer options.
+     * @param _correctOption The index of the correct option in the _options array.
+     */
+    function addQuestion(
+        string memory _questionText,
+        string[] memory _options,
+        uint8 _correctOption
+    )
+        external
+        onlyOwner
+    {
+        require(_correctOption < _options.length, "Invalid correct option index");
+        questions.push(Question({ questionText: _questionText, options: _options, correctOption: _correctOption }));
+        emit QuestionAdded(questions.length - 1);
+    }
 }
