@@ -54,4 +54,23 @@ contract TriviaChallenge is Ownable, ReentrancyGuard {
         questions.push(Question({ questionText: _questionText, options: _options, correctOption: _correctOption }));
         emit QuestionAdded(questions.length - 1);
     }
+
+    /**
+     * @dev Allows a player to answer a question by paying the entry fee.
+     * @param _questionId The ID of the question to answer.
+     * @param _selectedOption The index of the selected answer option.
+     */
+    function answerQuestion(uint256 _questionId, uint8 _selectedOption) external payable nonReentrant {
+        require(msg.value == entryFee, "Incorrect entry fee");
+        require(_questionId < questions.length, "Invalid question ID");
+        require(_selectedOption < questions[_questionId].options.length, "Invalid option selected");
+
+        bool isCorrect = (_selectedOption == questions[_questionId].correctOption);
+        if (isCorrect) {
+            players[msg.sender].score += 1;
+            players[msg.sender].balance += rewardPerCorrectAnswer;
+        }
+
+        emit AnswerSubmitted(msg.sender, _questionId, isCorrect);
+    }
 }
