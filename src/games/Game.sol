@@ -85,4 +85,14 @@ contract TriviaChallenge is Ownable, ReentrancyGuard {
         require(success, "Transfer failed");
         emit RewardClaimed(msg.sender, reward);
     }
+
+    /**
+     * @dev Allows the owner to withdraw the contract's balance.
+     */
+    function withdraw() external onlyOwner {
+        uint256 contractBalance = address(this).balance;
+        require(contractBalance > 0, "No balance to withdraw");
+        (bool success,) = payable(owner()).call{ value: contractBalance }("");
+        require(success, "Transfer failed");
+    }
 }
