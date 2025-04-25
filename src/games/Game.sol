@@ -26,4 +26,13 @@ contract TriviaChallenge is Ownable, ReentrancyGuard {
         uint256 score;
         uint256 balance;
     }
+
+    // Public Mappings
+    Question[] public questions;
+    mapping(address => Player) public players;
+
+    // Events
+    event QuestionAdded(uint256 questionId);
+    event AnswerSubmitted(address indexed player, uint256 questionId, bool isCorrect);
+    event RewardClaimed(address indexed player, uint256 amount);
 }
