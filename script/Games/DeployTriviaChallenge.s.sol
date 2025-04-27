@@ -6,5 +6,11 @@ import { HelperConfig } from "../HelperConfig.s.sol";
 import { TriviaChallenge } from "../../src/games/TriviaChallenge.sol";
 
 contract DeployFactoryTokenContract is Script {
-    function run() external { }
+    function run() external {
+        HelperConfig helperConfig = new HelperConfig();
+        vm.startBroadcast();
+        TriviaChallenge triviaChallenge = new TriviaChallenge();
+        console2.log("TriviaChallenge Contract deployed to: ", address(triviaChallenge));
+        vm.stopBroadcast();
+    }
 }
