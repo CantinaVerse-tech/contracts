@@ -116,4 +116,7 @@ contract LastManStanding {
         (bool success,) = msg.sender.call{ value: prizeAmount }("");
         require(success, "Withdrawal failed");
     }
+
+    // @notice function to receive ETH
+    receive() external payable { }
 }
