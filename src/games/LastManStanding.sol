@@ -97,4 +97,23 @@ contract LastManStanding {
 
         emit PrizeClaimed(_gameId, msg.sender, prizeAmount);
     }
+
+    /**
+     * @notice Withdraws the prize for a specific game
+     * @param _gameId The ID of the game to claim the prize for
+     * @dev Must be the creator of the game
+     */
+    function creatorWithdraw(uint256 _gameId) external {
+        Game storage game = games[_gameId];
+        require(game.active, "Game not active");
+        require(msg.sender == game.creator, "Only creator can withdraw");
+        require(game.lastPlayer == address(0), "Players already joined");
+
+        uint256 prizeAmount = game.pot;
+        game.active = false;
+        game.pot = 0;
+
+        (bool success,) = msg.sender.call{ value: prizeAmount }("");
+        require(success, "Withdrawal failed");
+    }
 }
