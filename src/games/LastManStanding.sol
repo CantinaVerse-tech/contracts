@@ -58,4 +58,22 @@ contract LastManStanding {
 
         return gameId;
     }
+
+    /**
+     * @notice Joins a specific game
+     * @param _gameId The ID of the game to join
+     * @dev Must pay the entry fee
+     */
+    function joinGame(uint256 _gameId) external payable {
+        Game storage game = games[_gameId];
+        require(game.active, "Game not active");
+        require(block.timestamp <= game.endTime, "Game has already ended");
+        require(msg.value == game.entryFee, "Incorrect entry fee");
+
+        game.pot += msg.value;
+        game.lastPlayer = msg.sender;
+        game.endTime = block.timestamp + game.timeExtension;
+
+        emit PlayerJoined(_gameId, msg.sender, game.endTime);
+    }
 }
