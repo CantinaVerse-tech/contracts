@@ -3,14 +3,14 @@ pragma solidity 0.8.16;
 
 import { Script, console2 } from "forge-std/Script.sol";
 import { HelperConfig } from "../HelperConfig.s.sol";
-import { CantinaToken } from "../../src/governance/CantinaToken.sol";
+import { TriviaChallenge } from "../../src/games/TriviaChallenge.sol";
 
-contract DeployFactoryTokenContract is Script {
+contract DeployTriviaChallenge is Script {
     function run() external {
         HelperConfig helperConfig = new HelperConfig();
         vm.startBroadcast();
-        CantinaToken cantinaToken = new CantinaToken(msg.sender, msg.sender, msg.sender, msg.sender);
-        console2.log("CantinaToken Contract deployed to: ", address(cantinaToken));
+        TriviaChallenge triviaChallenge = new TriviaChallenge();
+        console2.log("TriviaChallenge Contract deployed to: ", address(triviaChallenge));
         vm.stopBroadcast();
     }
 }
