@@ -76,4 +76,25 @@ contract LastManStanding {
 
         emit PlayerJoined(_gameId, msg.sender, game.endTime);
     }
+
+    /**
+     * @notice Claims the prize for a specific game
+     * @param _gameId The ID of the game to claim the prize for
+     * @dev Must be the last player who joined the game
+     */
+    function claimPrize(uint256 _gameId) external {
+        Game storage game = games[_gameId];
+        require(game.active, "Game not active");
+        require(block.timestamp > game.endTime, "Game still ongoing");
+        require(msg.sender == game.lastPlayer, "Only last player can claim");
+
+        uint256 prizeAmount = game.pot;
+        game.active = false;
+        game.pot = 0;
+
+        (bool success,) = msg.sender.call{ value: prizeAmount }("");
+        require(success, "Transfer failed");
+
+        emit PrizeClaimed(_gameId, msg.sender, prizeAmount);
+    }
 }
