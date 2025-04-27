@@ -30,4 +30,32 @@ contract LastManStanding {
 
     // @notice Event emitted when a game ends
     event PrizeClaimed(uint256 indexed gameId, address indexed winner, uint256 prizeAmount);
+
+    /**
+     * @notice Creates a new Last Man Standing game
+     * @param _entryFee The entry fee for the game
+     * @param _timeExtension The time extension for the game
+     * @dev Return the ID of the created game
+     */
+    function createGame(uint256 _entryFee, uint256 _timeExtension) external returns (uint256) {
+        require(_entryFee > 0, "Entry fee must be > 0");
+        require(_timeExtension >= 30, "Time extension too short"); // Minimum 30 seconds for fairness
+
+        uint256 gameId = nextGameId;
+        nextGameId++;
+
+        games[gameId] = Game({
+            entryFee: _entryFee,
+            timeExtension: _timeExtension,
+            endTime: block.timestamp + _timeExtension,
+            lastPlayer: address(0),
+            active: true,
+            pot: 0,
+            creator: msg.sender
+        });
+
+        emit GameCreated(gameId, msg.sender, _entryFee, _timeExtension);
+
+        return gameId;
+    }
 }
