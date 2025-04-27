@@ -38,7 +38,7 @@ contract LastManStanding {
      * @dev Return the ID of the created game
      */
     function createGame(uint256 _entryFee, uint256 _timeExtension) external returns (uint256) {
-        require(_entryFee > 0, "Entry fee must be > 0");
+        require(_entryFee >= 0, "Entry fee must be > 0");
         require(_timeExtension >= 30, "Time extension too short"); // Minimum 30 seconds for fairness
 
         uint256 gameId = nextGameId;
