@@ -5,7 +5,7 @@ import { Script, console2 } from "forge-std/Script.sol";
 import { HelperConfig } from "../HelperConfig.s.sol";
 import { TriviaChallenge } from "../../src/games/TriviaChallenge.sol";
 
-contract DeployFactoryTokenContract is Script {
+contract DeployTriviaChallenge is Script {
     function run() external {
         HelperConfig helperConfig = new HelperConfig();
         vm.startBroadcast();
