@@ -15,4 +15,10 @@ contract LastManStanding {
         uint256 pot;
         address creator;
     }
+
+    // @notice Total number of games created
+    uint256 public nextGameId;
+
+    // @notice Map of gameId to Game data
+    mapping(uint256 => Game) public games;
 }
