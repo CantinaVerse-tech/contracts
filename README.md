@@ -43,7 +43,7 @@
 
 ## Overview
 
-CantinaVerse is a comprehensive blockchain ecosystem built on Optimism’s L2 Superchain, a network of Layer 2 solutions based on Optimism’s OP Stack. By supporting multiple networks (currently Optimism Sepolia, Base Sepolia, and Soneium Testnet, with plans to expand to other Op Stack networks), CantinaVerse aims to provide an all-encompassing digital space for NFT collectors, meme coin creators, gaming enthusiasts, and governance participants.
+CantinaVerse is a comprehensive blockchain ecosystem built on Optimism’s L2 Superchain, a network of Layer 2 solutions based on Optimism’s OP Stack. By supporting multiple networks like Base Mainnet (currently Optimism Sepolia, Base Sepolia, and Soneium Testnet, with plans to expand to other Op Stack networks), CantinaVerse aims to provide an all-encompassing digital space for NFT collectors, meme coin creators, gaming/betting enthusiasts, and governance participants.
 
 
 ## Quick Start
@@ -51,7 +51,7 @@ CantinaVerse is a comprehensive blockchain ecosystem built on Optimism’s L2 Su
 Get started with CantinaVerse in minutes!
 
 1. [Visit CantinaVerse](https://cantinaverse.tech)
-2. **Explore our features**: Use the navigation bar to access the NFT Marketplace, Token Creation, Gaming, and Governance sections.
+2. **Explore our features**: Use the navigation bar to access the NFT Marketplace, Token Creation, Gaming/Betting, and Governance sections.
 3. **Connect Wallet**: Start interacting on the platform with secure wallet integration.
 
 
