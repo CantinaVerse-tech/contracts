@@ -113,4 +113,11 @@ contract NumberGuessingGame is Ownable, ReentrancyGuard {
         jackpot = 0;
         payable(owner()).transfer(amount);
     }
+
+    /**
+     * @notice Fallback function to accept Ether.
+     */
+    receive() external payable {
+        jackpot += msg.value;
+    }
 }
