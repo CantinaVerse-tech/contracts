@@ -31,4 +31,13 @@ contract NumberGuessingGame is Ownable, ReentrancyGuard {
 
     /// @notice Address of the winner
     address public winner;
+
+    /// @notice Event emitted when a player makes a guess
+    event GuessMade(address indexed player, uint8 guess, bool isCorrect);
+
+    /// @notice Event emitted when the game starts
+    event GameStarted(uint8 secretNumber, uint256 guessFee, uint256 maxAttempts);
+
+    /// @notice Event emitted when the game ends
+    event GameEnded(address winner, uint256 jackpotAmount);
 }
