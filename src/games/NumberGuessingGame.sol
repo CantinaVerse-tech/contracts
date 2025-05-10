@@ -102,4 +102,15 @@ contract NumberGuessingGame is Ownable, ReentrancyGuard {
         isActive = true;
         emit GameStarted(secretNumber, guessFee, maxAttempts);
     }
+
+    /**
+     * @notice Allows the owner to withdraw the jackpot if the game is inactive and no winner.
+     */
+    function withdrawJackpot() external onlyOwner {
+        require(!isActive, "Game is still active");
+        require(winner == address(0), "Winner has already claimed the jackpot");
+        uint256 amount = jackpot;
+        jackpot = 0;
+        payable(owner()).transfer(amount);
+    }
 }
