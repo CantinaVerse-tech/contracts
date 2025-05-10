@@ -5,4 +5,17 @@ import { Script, console2 } from "forge-std/Script.sol";
 import { HelperConfig } from "../HelperConfig.s.sol";
 import { NumberGuessingGame } from "../../src/games/NumberGuessingGame.sol";
 
-contract DeployNFTRoulette is Script { }
+contract DeployNumberGuessingGame is Script {
+    function run() external returns (NumberGuessingGame) {
+        HelperConfig helperConfig = new HelperConfig();
+        HelperConfig.NetworkConfig memory config;
+
+        vm.startBroadcast();
+        NumberGuessingGame numberGuessingGame = new NumberGuessingGame();
+        vm.stopBroadcast();
+
+        console2.log("NumberGuessingGame deployed at:", address(game));
+
+        return game;
+    }
+}
