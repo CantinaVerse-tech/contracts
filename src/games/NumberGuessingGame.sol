@@ -86,4 +86,20 @@ contract NumberGuessingGame is Ownable, ReentrancyGuard {
             }
         }
     }
+
+    /**
+     * @notice Allows the owner to start a new game with a new secret number.
+     * @param _secretNumber The new secret number.
+     * @param _maxAttempts The new maximum number of attempts.
+     */
+    function startNewGame(uint8 _secretNumber, uint256 _maxAttempts) external onlyOwner {
+        require(!isActive, "Game is already active");
+        require(_maxAttempts > 0, "Maximum attempts must be greater than zero");
+        secretNumber = _secretNumber;
+        maxAttempts = _maxAttempts;
+        attemptCount = 0;
+        winner = address(0);
+        isActive = true;
+        emit GameStarted(secretNumber, guessFee, maxAttempts);
+    }
 }
