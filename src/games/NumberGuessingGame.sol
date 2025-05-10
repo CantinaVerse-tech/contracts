@@ -40,4 +40,21 @@ contract NumberGuessingGame is Ownable, ReentrancyGuard {
 
     /// @notice Event emitted when the game ends
     event GameEnded(address winner, uint256 jackpotAmount);
+
+    /**
+     * @notice Initializes the contract with a secret number, guess fee, and maximum attempts.
+     * @param _secretNumber The number players need to guess (0-255).
+     * @param _guessFee The fee required to make a guess (in wei).
+     * @param _maxAttempts The maximum number of attempts allowed.
+     */
+    constructor(uint8 _secretNumber, uint256 _guessFee, uint256 _maxAttempts) payable {
+        require(_guessFee > 0, "Guess fee must be greater than zero");
+        require(_maxAttempts > 0, "Maximum attempts must be greater than zero");
+        secretNumber = _secretNumber;
+        guessFee = _guessFee;
+        maxAttempts = _maxAttempts;
+        isActive = true;
+        jackpot = msg.value;
+        emit GameStarted(secretNumber, guessFee, maxAttempts);
+    }
 }
