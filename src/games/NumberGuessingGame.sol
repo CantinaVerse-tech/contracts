@@ -57,4 +57,33 @@ contract NumberGuessingGame is Ownable, ReentrancyGuard {
         jackpot = msg.value;
         emit GameStarted(secretNumber, guessFee, maxAttempts);
     }
+
+    /**
+     * @notice Allows a player to make a guess by paying the guess fee.
+     * @param _guess The player's guessed number.
+     */
+    function makeGuess(uint8 _guess) external payable nonReentrant {
+        require(isActive, "Game is not active");
+        require(msg.value == guessFee, "Incorrect guess fee");
+        require(msg.sender != owner(), "Owner cannot participate");
+
+        jackpot += msg.value;
+        attemptCount += 1;
+
+        if (_guess == secretNumber) {
+            isActive = false;
+            winner = msg.sender;
+            uint256 winnings = jackpot;
+            jackpot = 0;
+            payable(msg.sender).transfer(winnings);
+            emit GuessMade(msg.sender, _guess, true);
+            emit GameEnded(msg.sender, winnings);
+        } else {
+            emit GuessMade(msg.sender, _guess, false);
+            if (attemptCount >= maxAttempts) {
+                isActive = false;
+                emit GameEnded(address(0), jackpot);
+            }
+        }
+    }
 }
