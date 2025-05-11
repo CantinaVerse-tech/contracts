@@ -77,4 +77,23 @@ contract RockPaperScissors is ReentrancyGuard {
 
         emit GameStarted(_player1, _player2, _betAmount);
     }
+
+    /**
+     * @notice Allows a player to commit their move.
+     * @param _commitment Hash of the move and a secret nonce.
+     */
+    function commitMove(bytes32 _commitment) external payable inState(GameState.CommitPhase) onlyPlayers nonReentrant {
+        require(msg.value == betAmount, "Incorrect bet amount");
+
+        Player storage player = getPlayer(msg.sender);
+        require(player.commitment == bytes32(0), "Already committed");
+
+        player.commitment = _commitment;
+        emit MoveCommitted(msg.sender);
+
+        if (players[0].commitment != bytes32(0) && players[1].commitment != bytes32(0)) {
+            gameState = GameState.RevealPhase;
+            revealDeadline = block.timestamp + 5 minutes;
+        }
+    }
 }
