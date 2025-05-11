@@ -9,4 +9,19 @@ import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
  * @author CantinaVerse-Tech
  * @dev A two-player Rock-Paper-Scissors game using a commit-reveal scheme.
  */
-contract RockPaperScissors is ReentrancyGuard { }
+contract RockPaperScissors is ReentrancyGuard {
+    using ECDSA for bytes32;
+
+    enum Move {
+        None,
+        Rock,
+        Paper,
+        Scissors
+    }
+    enum GameState {
+        NotStarted,
+        CommitPhase,
+        RevealPhase,
+        Completed
+    }
+}
