@@ -11,11 +11,11 @@ contract DeployNumberGuessingGame is Script {
         HelperConfig.NetworkConfig memory config;
 
         vm.startBroadcast();
-        NumberGuessingGame numberGuessingGame = new NumberGuessingGame();
+        NumberGuessingGame numberGuessingGame = new NumberGuessingGame(123, 0, 3);
         vm.stopBroadcast();
 
-        console2.log("NumberGuessingGame deployed at:", address(game));
+        console2.log("NumberGuessingGame deployed at:", address(numberGuessingGame));
 
-        return game;
+        return numberGuessingGame;
     }
 }
