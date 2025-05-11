@@ -1,0 +1,12 @@
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.16;
+
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+
+/**
+ * @title RockPaperScissors
+ * @author CantinaVerse-Tech
+ * @dev A two-player Rock-Paper-Scissors game using a commit-reveal scheme.
+ */
+contract RockPaperScissors is ReentrancyGuard { }
