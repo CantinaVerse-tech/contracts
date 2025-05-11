@@ -56,4 +56,25 @@ contract RockPaperScissors is ReentrancyGuard {
         require(gameState == _state, "Invalid game state for this action");
         _;
     }
+
+    /**
+     * @notice Registers two players and starts the game.
+     * @param _player1 Address of the first player.
+     * @param _player2 Address of the second player.
+     * @param _betAmount Amount each player must bet to participate.
+     */
+    function startGame(address _player1, address _player2, uint256 _betAmount) external {
+        require(gameState == GameState.NotStarted || gameState == GameState.Completed, "Game already in progress");
+        require(_player1 != _player2, "Players must be different");
+
+        players[0] = Player({ addr: _player1, commitment: bytes32(0), move: Move.None, revealed: false });
+        players[1] = Player({ addr: _player2, commitment: bytes32(0), move: Move.None, revealed: false });
+        playerCount = 2;
+
+        betAmount = _betAmount;
+        gameState = GameState.CommitPhase;
+        commitDeadline = block.timestamp + 5 minutes;
+
+        emit GameStarted(_player1, _player2, _betAmount);
+    }
 }
