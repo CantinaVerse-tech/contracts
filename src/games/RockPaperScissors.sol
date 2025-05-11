@@ -190,4 +190,20 @@ contract RockPaperScissors is ReentrancyGuard {
         gameState = GameState.Completed;
         emit GameResult(winner, "Victory by timeout");
     }
+
+    /**
+     * @notice Allows a player to withdraw their bet if the opponent fails to commit in time.
+     */
+    function claimCommitTimeoutRefund() external inState(GameState.CommitPhase) onlyPlayers nonReentrant {
+        require(block.timestamp > commitDeadline, "Commit phase not over");
+
+        Player storage player = getPlayer(msg.sender);
+        Player storage opponent = getPlayer(players[0].addr == msg.sender ? players[1].addr : players[0].addr);
+
+        require(player.commitment != bytes32(0) && opponent.commitment == bytes32(0), "Cannot claim refund");
+
+        payable(player.addr).transfer(address(this).balance);
+        gameState = GameState.Completed;
+        emit GameResult(player.addr, "Refund due to opponent's no-show");
+    }
 }
