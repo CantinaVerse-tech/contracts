@@ -24,4 +24,11 @@ contract RockPaperScissors is ReentrancyGuard {
         RevealPhase,
         Completed
     }
+
+    struct Player {
+        address addr;
+        bytes32 commitment;
+        Move move;
+        bool revealed;
+    }
 }
