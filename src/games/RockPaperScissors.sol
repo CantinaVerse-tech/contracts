@@ -31,4 +31,14 @@ contract RockPaperScissors is ReentrancyGuard {
         Move move;
         bool revealed;
     }
+
+    uint256 public betAmount;
+    uint256 public commitDeadline;
+    uint256 public revealDeadline;
+    GameState public gameState;
+
+    Player[2] public players;
+    uint8 public playerCount;
+
+    address public winner;
 }
