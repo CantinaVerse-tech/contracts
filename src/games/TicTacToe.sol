@@ -9,4 +9,15 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  * @author CantinaVerse-Tech
  * @dev A two-player Tic-Tac-Toe game implemented as a smart contract.
  */
-contract TicTacToe is ReentrancyGuard, Ownable { }
+contract TicTacToe is ReentrancyGuard, Ownable {
+    enum Player {
+        None,
+        X,
+        O
+    }
+    enum GameState {
+        WaitingForPlayer,
+        InProgress,
+        Finished
+    }
+}
