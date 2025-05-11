@@ -51,4 +51,9 @@ contract RockPaperScissors is ReentrancyGuard {
         require(msg.sender == players[0].addr || msg.sender == players[1].addr, "Not a registered player");
         _;
     }
+
+    modifier inState(GameState _state) {
+        require(gameState == _state, "Invalid game state for this action");
+        _;
+    }
 }
