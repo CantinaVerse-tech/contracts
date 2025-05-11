@@ -158,4 +158,19 @@ contract RockPaperScissors is ReentrancyGuard {
 
         gameState = GameState.Completed;
     }
+
+    /**
+     * @notice Retrieves the player struct for the given address.
+     * @param _addr Address of the player.
+     * @return Player struct.
+     */
+    function getPlayer(address _addr) internal view returns (Player storage) {
+        if (players[0].addr == _addr) {
+            return players[0];
+        } else if (players[1].addr == _addr) {
+            return players[1];
+        } else {
+            revert("Player not found");
+        }
+    }
 }
