@@ -128,4 +128,34 @@ contract RockPaperScissors is ReentrancyGuard {
             determineWinner();
         }
     }
+
+    /**
+     * @notice Determines the winner and transfers the bet amount.
+     */
+    function determineWinner() internal {
+        Move move1 = players[0].move;
+        Move move2 = players[1].move;
+
+        if (move1 == move2) {
+            // Draw: refund both players
+            payable(players[0].addr).transfer(betAmount);
+            payable(players[1].addr).transfer(betAmount);
+            emit GameResult(address(0), "Draw");
+        } else if (
+            (move1 == Move.Rock && move2 == Move.Scissors) || (move1 == Move.Paper && move2 == Move.Rock)
+                || (move1 == Move.Scissors && move2 == Move.Paper)
+        ) {
+            // Player 1 wins
+            payable(players[0].addr).transfer(address(this).balance);
+            winner = players[0].addr;
+            emit GameResult(winner, "Player 1 wins");
+        } else {
+            // Player 2 wins
+            payable(players[1].addr).transfer(address(this).balance);
+            winner = players[1].addr;
+            emit GameResult(winner, "Player 2 wins");
+        }
+
+        gameState = GameState.Completed;
+    }
 }
