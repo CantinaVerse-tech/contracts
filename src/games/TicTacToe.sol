@@ -37,4 +37,9 @@ contract TicTacToe is ReentrancyGuard, Ownable {
         require(msg.sender == playerX || msg.sender == playerO, "Not a player");
         _;
     }
+
+    modifier inGameState(GameState _state) {
+        require(gameState == _state, "Invalid game state");
+        _;
+    }
 }
