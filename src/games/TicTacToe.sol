@@ -20,4 +20,11 @@ contract TicTacToe is ReentrancyGuard, Ownable {
         InProgress,
         Finished
     }
+
+    Player[3][3] public board;
+    address public playerX;
+    address public playerO;
+    Player public currentPlayer;
+    GameState public gameState;
+    address public winner;
 }
