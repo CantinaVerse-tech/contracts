@@ -132,6 +132,9 @@ contract TicTacToe is ReentrancyGuard, Ownable {
         return true;
     }
 
+    /**
+     * @notice Resets the game to its initial state.
+     */
     function resetGame() external onlyOwner {
         for (uint8 i = 0; i < 3; i++) {
             for (uint8 j = 0; j < 3; j++) {
