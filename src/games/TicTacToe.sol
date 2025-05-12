@@ -42,4 +42,8 @@ contract TicTacToe is ReentrancyGuard, Ownable {
         require(gameState == _state, "Invalid game state");
         _;
     }
+
+    constructor() {
+        gameState = GameState.WaitingForPlayer;
+    }
 }
