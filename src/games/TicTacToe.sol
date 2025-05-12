@@ -94,6 +94,11 @@ contract TicTacToe is ReentrancyGuard, Ownable {
         }
     }
 
+    /**
+     * @notice Checks if the specified player has won.
+     * @param player The player to check.
+     * @return True if the player has won, false otherwise.
+     */
     function checkWin(Player player) internal view returns (bool) {
         for (uint8 i = 0; i < 3; i++) {
             if (
