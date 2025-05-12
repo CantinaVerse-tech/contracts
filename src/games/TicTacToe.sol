@@ -27,4 +27,9 @@ contract TicTacToe is ReentrancyGuard, Ownable {
     Player public currentPlayer;
     GameState public gameState;
     address public winner;
+
+    event GameStarted(address playerX, address playerO);
+    event MoveMade(address player, uint8 row, uint8 col);
+    event GameWon(address winner);
+    event GameDraw();
 }
