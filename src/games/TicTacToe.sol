@@ -66,6 +66,11 @@ contract TicTacToe is ReentrancyGuard, Ownable {
         }
     }
 
+    /**
+     * @notice Allows a player to make a move.
+     * @param row The row index (0-2).
+     * @param col The column index (0-2).
+     */
     function makeMove(uint8 row, uint8 col) external onlyPlayers inGameState(GameState.InProgress) {
         require(row < 3 && col < 3, "Invalid move");
         require(board[row][col] == Player.None, "Cell occupied");
