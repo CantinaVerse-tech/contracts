@@ -43,6 +43,9 @@ contract TicTacToe is ReentrancyGuard, Ownable {
         _;
     }
 
+    /**
+     * @notice Initializes the contract in a waiting state.
+     */
     constructor() {
         gameState = GameState.WaitingForPlayer;
     }
