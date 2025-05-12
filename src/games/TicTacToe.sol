@@ -116,4 +116,15 @@ contract TicTacToe is ReentrancyGuard, Ownable {
         }
         return false;
     }
+
+    function isBoardFull() internal view returns (bool) {
+        for (uint8 i = 0; i < 3; i++) {
+            for (uint8 j = 0; j < 3; j++) {
+                if (board[i][j] == Player.None) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }
