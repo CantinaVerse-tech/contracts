@@ -32,4 +32,9 @@ contract TicTacToe is ReentrancyGuard, Ownable {
     event MoveMade(address player, uint8 row, uint8 col);
     event GameWon(address winner);
     event GameDraw();
+
+    modifier onlyPlayers() {
+        require(msg.sender == playerX || msg.sender == playerO, "Not a player");
+        _;
+    }
 }
