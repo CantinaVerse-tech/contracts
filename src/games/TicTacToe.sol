@@ -65,4 +65,27 @@ contract TicTacToe is ReentrancyGuard, Ownable {
             emit GameStarted(playerX, playerO);
         }
     }
+
+    function makeMove(uint8 row, uint8 col) external onlyPlayers inGameState(GameState.InProgress) {
+        require(row < 3 && col < 3, "Invalid move");
+        require(board[row][col] == Player.None, "Cell occupied");
+        require(
+            (currentPlayer == Player.X && msg.sender == playerX) || (currentPlayer == Player.O && msg.sender == playerO),
+            "Not your turn"
+        );
+
+        board[row][col] = currentPlayer;
+        emit MoveMade(msg.sender, row, col);
+
+        if (checkWin(currentPlayer)) {
+            gameState = GameState.Finished;
+            winner = msg.sender;
+            emit GameWon(winner);
+        } else if (isBoardFull()) {
+            gameState = GameState.Finished;
+            emit GameDraw();
+        } else {
+            currentPlayer = currentPlayer == Player.X ? Player.O : Player.X;
+        }
+    }
 }
