@@ -49,4 +49,17 @@ contract TicTacToe is ReentrancyGuard, Ownable {
     constructor() {
         gameState = GameState.WaitingForPlayer;
     }
+
+    function joinGame() external inGameState(GameState.WaitingForPlayer) {
+        require(playerX == address(0) || playerO == address(0), "Game is full");
+        if (playerX == address(0)) {
+            playerX = msg.sender;
+        } else {
+            require(msg.sender != playerX, "Player already joined");
+            playerO = msg.sender;
+            currentPlayer = Player.X;
+            gameState = GameState.InProgress;
+            emit GameStarted(playerX, playerO);
+        }
+    }
 }
