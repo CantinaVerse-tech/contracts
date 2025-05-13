@@ -33,11 +33,19 @@ contract TicTacToe is ReentrancyGuard, Ownable {
     event GameWon(address winner);
     event GameDraw();
 
+    /**
+     * @notice Requires the message sender to be a player.
+     * @dev This modifier is used to ensure that only players can interact with the contract.
+     */
     modifier onlyPlayers() {
         require(msg.sender == playerX || msg.sender == playerO, "Not a player");
         _;
     }
 
+    /**
+     * @notice Requires the game to be in the specified state.
+     * @param _state The game state to require
+     */
     modifier inGameState(GameState _state) {
         require(gameState == _state, "Invalid game state");
         _;
