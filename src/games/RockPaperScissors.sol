@@ -39,15 +39,8 @@ contract RockPaperScissors is ReentrancyGuard {
         address winner;
     }
 
-    uint256 public betAmount;
-    uint256 public commitDeadline;
-    uint256 public revealDeadline;
-    GameState public gameState;
-
-    Player[2] public players;
-    uint8 public playerCount;
-
-    address public winner;
+    uint256 public nextGameId;
+    mapping(uint256 => Game) public games;
 
     event GameStarted(address player1, address player2, uint256 betAmount);
     event MoveCommitted(address player);
