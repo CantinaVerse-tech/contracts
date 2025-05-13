@@ -55,8 +55,8 @@ contract RockPaperScissors is ReentrancyGuard {
         _;
     }
 
-    modifier inState(GameState _state) {
-        require(gameState == _state, "Invalid game state for this action");
+    modifier inState(uint256 gameId, GameState _state) {
+        require(games[gameId].state == _state, "Invalid game state for this action");
         _;
     }
 
