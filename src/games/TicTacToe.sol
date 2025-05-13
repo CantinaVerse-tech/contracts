@@ -38,6 +38,10 @@ contract TicTacToe is ReentrancyGuard, Ownable {
         _;
     }
 
+    /**
+     * @notice Requires the game to be in the specified state.
+     * @param _state The game state to require
+     */
     modifier inGameState(GameState _state) {
         require(gameState == _state, "Invalid game state");
         _;
