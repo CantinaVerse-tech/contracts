@@ -241,4 +241,21 @@ contract RockPaperScissors is ReentrancyGuard {
         game.state = GameState.Completed;
         emit GameResult(gameId, player.addr, "Refund due to opponent's no-show");
     }
+
+    /**
+     * @notice Retrieves the opponent's address in a specific game.
+     * @param gameId The ID of the game.
+     * @param _addr Address of the player.
+     * @return Address of the opponent.
+     */
+    function getOpponent(uint256 gameId, address _addr) internal view returns (address) {
+        Game storage game = games[gameId];
+        if (game.players[0].addr == _addr) {
+            return game.players[1].addr;
+        } else if (game.players[1].addr == _addr) {
+            return game.players[0].addr;
+        } else {
+            revert("Player not found");
+        }
+    }
 }
