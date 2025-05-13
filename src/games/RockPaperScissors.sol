@@ -179,23 +179,25 @@ contract RockPaperScissors is ReentrancyGuard {
     }
 
     /**
-     * @notice Retrieves the player struct for the given address.
+     * @notice Retrieves the player struct for the given address in a specific game.
+     * @param gameId The ID of the game.
      * @param _addr Address of the player.
      * @return Player struct.
      */
-    function getPlayer(address _addr) internal view returns (Player storage) {
-        if (players[0].addr == _addr) {
-            return players[0];
-        } else if (players[1].addr == _addr) {
-            return players[1];
+    function getPlayer(uint256 gameId, address _addr) internal view returns (Player storage) {
+        Game storage game = games[gameId];
+        if (game.players[0].addr == _addr) {
+            return game.players[0];
+        } else if (game.players[1].addr == _addr) {
+            return game.players[1];
         } else {
             revert("Player not found");
         }
     }
-
     /**
      * @notice Allows a player to claim victory if the opponent fails to reveal in time.
      */
+
     function claimTimeoutVictory() external inState(GameState.RevealPhase) onlyPlayers nonReentrant {
         require(block.timestamp > revealDeadline, "Reveal phase not over");
 
