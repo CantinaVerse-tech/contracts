@@ -42,10 +42,10 @@ contract RockPaperScissors is ReentrancyGuard {
     uint256 public nextGameId;
     mapping(uint256 => Game) public games;
 
-    event GameStarted(address player1, address player2, uint256 betAmount);
-    event MoveCommitted(address player);
-    event MoveRevealed(address player, Move move);
-    event GameResult(address winner, string result);
+    event GameCreated(uint256 indexed gameId, address player1, address player2, uint256 betAmount);
+    event MoveCommitted(uint256 indexed gameId, address player);
+    event MoveRevealed(uint256 indexed gameId, address player, Move move);
+    event GameResult(uint256 indexed gameId, address winner, string result);
 
     modifier onlyPlayers() {
         require(msg.sender == players[0].addr || msg.sender == players[1].addr, "Not a registered player");
