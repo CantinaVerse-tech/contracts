@@ -2,16 +2,13 @@
 pragma solidity 0.8.16;
 
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 /**
  * @title RockPaperScissors
  * @author CantinaVerse-Tech
- * @dev A two-player Rock-Paper-Scissors game using a commit-reveal scheme.
+ * @dev A multi-game Rock-Paper-Scissors contract using commit-reveal scheme.
  */
 contract RockPaperScissors is ReentrancyGuard {
-    using ECDSA for bytes32;
-
     enum Move {
         None,
         Rock,
@@ -30,6 +27,16 @@ contract RockPaperScissors is ReentrancyGuard {
         bytes32 commitment;
         Move move;
         bool revealed;
+    }
+
+    struct Game {
+        uint256 id;
+        uint256 betAmount;
+        uint256 commitDeadline;
+        uint256 revealDeadline;
+        GameState state;
+        Player[2] players;
+        address winner;
     }
 
     uint256 public betAmount;
