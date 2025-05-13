@@ -113,21 +113,24 @@ contract RockPaperScissors is ReentrancyGuard {
 
     /**
      * @notice Allows a player to reveal their move.
+     * @param gameId The ID of the game.
      * @param _move The move played.
      * @param _nonce The secret nonce used during commitment.
      */
     function revealMove(
+        uint256 gameId,
         Move _move,
         string calldata _nonce
     )
         external
-        inState(GameState.RevealPhase)
-        onlyPlayers
+        inState(gameId, GameState.RevealPhase)
+        onlyPlayers(gameId)
         nonReentrant
     {
         require(_move == Move.Rock || _move == Move.Paper || _move == Move.Scissors, "Invalid move");
 
-        Player storage player = getPlayer(msg.sender);
+        Game storage game = games[gameId];
+        Player storage player = getPlayer(gameId, msg.sender);
         require(!player.revealed, "Already revealed");
         require(player.commitment != bytes32(0), "No commitment found");
 
@@ -136,10 +139,10 @@ contract RockPaperScissors is ReentrancyGuard {
 
         player.move = _move;
         player.revealed = true;
-        emit MoveRevealed(msg.sender, _move);
+        emit MoveRevealed(gameId, msg.sender, _move);
 
-        if (players[0].revealed && players[1].revealed) {
-            determineWinner();
+        if (game.players[0].revealed && game.players[1].revealed) {
+            determineWinner(gameId);
         }
     }
 
