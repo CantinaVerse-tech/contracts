@@ -196,20 +196,27 @@ contract RockPaperScissors is ReentrancyGuard {
     }
     /**
      * @notice Allows a player to claim victory if the opponent fails to reveal in time.
+     * @param gameId The ID of the game.
      */
 
-    function claimTimeoutVictory() external inState(GameState.RevealPhase) onlyPlayers nonReentrant {
-        require(block.timestamp > revealDeadline, "Reveal phase not over");
+    function claimTimeoutVictory(uint256 gameId)
+        external
+        inState(gameId, GameState.RevealPhase)
+        onlyPlayers(gameId)
+        nonReentrant
+    {
+        Game storage game = games[gameId];
+        require(block.timestamp > game.revealDeadline, "Reveal phase not over");
 
-        Player storage player = getPlayer(msg.sender);
-        Player storage opponent = getPlayer(players[0].addr == msg.sender ? players[1].addr : players[0].addr);
+        Player storage player = getPlayer(gameId, msg.sender);
+        Player storage opponent = getPlayer(gameId, getOpponent(gameId, msg.sender));
 
         require(player.revealed && !opponent.revealed, "Cannot claim victory");
 
         payable(player.addr).transfer(address(this).balance);
-        winner = player.addr;
-        gameState = GameState.Completed;
-        emit GameResult(winner, "Victory by timeout");
+        game.winner = player.addr;
+        game.state = GameState.Completed;
+        emit GameResult(gameId, game.winner, "Victory by timeout");
     }
 
     /**
