@@ -61,24 +61,24 @@ contract RockPaperScissors is ReentrancyGuard {
     }
 
     /**
-     * @notice Registers two players and starts the game.
+     * @notice Creates a new game between two players.
      * @param _player1 Address of the first player.
      * @param _player2 Address of the second player.
      * @param _betAmount Amount each player must bet to participate.
      */
-    function startGame(address _player1, address _player2, uint256 _betAmount) external {
-        require(gameState == GameState.NotStarted || gameState == GameState.Completed, "Game already in progress");
+    function createGame(address _player1, address _player2, uint256 _betAmount) external {
         require(_player1 != _player2, "Players must be different");
 
-        players[0] = Player({ addr: _player1, commitment: bytes32(0), move: Move.None, revealed: false });
-        players[1] = Player({ addr: _player2, commitment: bytes32(0), move: Move.None, revealed: false });
-        playerCount = 2;
+        Game storage game = games[nextGameId];
+        game.id = nextGameId;
+        game.betAmount = _betAmount;
+        game.state = GameState.CommitPhase;
+        game.commitDeadline = block.timestamp + 5 minutes;
+        game.players[0] = Player({ addr: _player1, commitment: bytes32(0), move: Move.None, revealed: false });
+        game.players[1] = Player({ addr: _player2, commitment: bytes32(0), move: Move.None, revealed: false });
 
-        betAmount = _betAmount;
-        gameState = GameState.CommitPhase;
-        commitDeadline = block.timestamp + 5 minutes;
-
-        emit GameStarted(_player1, _player2, _betAmount);
+        emit GameCreated(nextGameId, _player1, _player2, _betAmount);
+        nextGameId++;
     }
 
     /**
