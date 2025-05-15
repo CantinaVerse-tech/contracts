@@ -39,15 +39,6 @@ contract TicTacToe is ReentrancyGuard {
     event GameDraw(uint256 indexed gameId);
 
     /**
-     * @notice Requires the game to be in the specified state.
-     * @param _state The game state to require
-     */
-    modifier inGameState(GameState _state) {
-        require(gameState == _state, "Invalid game state");
-        _;
-    }
-
-    /**
      * @notice Initializes the contract in a waiting state.
      */
     constructor() {
