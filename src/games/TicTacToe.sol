@@ -29,12 +29,8 @@ contract TicTacToe is ReentrancyGuard {
         address winner;
     }
 
-    Player[3][3] public board;
-    address public playerX;
-    address public playerO;
-    Player public currentPlayer;
-    GameState public gameState;
-    address public winner;
+    uint256 public gameCounter;
+    mapping(uint256 => Game) public games;
 
     event GameStarted(address playerX, address playerO);
     event MoveMade(address player, uint8 row, uint8 col);
