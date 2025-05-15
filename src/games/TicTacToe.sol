@@ -32,10 +32,11 @@ contract TicTacToe is ReentrancyGuard {
     uint256 public gameCounter;
     mapping(uint256 => Game) public games;
 
-    event GameStarted(address playerX, address playerO);
-    event MoveMade(address player, uint8 row, uint8 col);
-    event GameWon(address winner);
-    event GameDraw();
+    event GameCreated(uint256 indexed gameId, address indexed creator);
+    event GameJoined(uint256 indexed gameId, address indexed joiner);
+    event MoveMade(uint256 indexed gameId, address indexed player, uint8 row, uint8 col);
+    event GameWon(uint256 indexed gameId, address indexed winner);
+    event GameDraw(uint256 indexed gameId);
 
     /**
      * @notice Requires the message sender to be a player.
