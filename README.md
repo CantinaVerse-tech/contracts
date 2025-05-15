@@ -71,6 +71,7 @@ CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in 
 - [NFTStakingEvolution Contract](https://base.blockscout.com/address/0x9e64327851F60A5483338c330df50ce0c7b70a81?tab=index)
 - [TriviaChallenge Contract](https://base.blockscout.com/address/0x598f1FBC6Fc1B9b08444Ad3A56274d61D8a303D6)
 - [LastManStanding Contract](https://base.blockscout.com/address/0x143d8e6cb5FeA22f55F02a149E00897Ca39A77a6)
+- [TicTacToe](https://base.blockscout.com/address/0x678D51b0e3972c9a021b0A691F8d7B53387279F2?tab=index)
   
 ### Prediction Market Ecosystem:
 - [AMM Contract]()
