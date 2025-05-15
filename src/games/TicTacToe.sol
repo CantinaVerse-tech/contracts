@@ -142,4 +142,13 @@ contract TicTacToe is ReentrancyGuard {
         }
         return true;
     }
+
+    /**
+     * @notice Retrieves the current state of a game.
+     * @param gameId The identifier of the game.
+     * @return The game struct.
+     */
+    function getGame(uint256 gameId) external view returns (Game memory) {
+        return games[gameId];
+    }
 }
