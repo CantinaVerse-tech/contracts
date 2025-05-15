@@ -104,18 +104,27 @@ contract TicTacToe is ReentrancyGuard {
     }
 
     /**
-     * @notice Checks if the board is full.
-     * @return True if the board is full, false otherwise.
+     * @notice Checks if the specified player has won.
+     * @param board The game board.
+     * @param player The player to check.
+     * @return True if the player has won, false otherwise.
      */
-    function isBoardFull() internal view returns (bool) {
+    function checkWin(Player[3][3] memory board, Player player) internal pure returns (bool) {
         for (uint8 i = 0; i < 3; i++) {
-            for (uint8 j = 0; j < 3; j++) {
-                if (board[i][j] == Player.None) {
-                    return false;
-                }
+            if (
+                (board[i][0] == player && board[i][1] == player && board[i][2] == player)
+                    || (board[0][i] == player && board[1][i] == player && board[2][i] == player)
+            ) {
+                return true;
             }
         }
-        return true;
+        if (
+            (board[0][0] == player && board[1][1] == player && board[2][2] == player)
+                || (board[0][2] == player && board[1][1] == player && board[2][0] == player)
+        ) {
+            return true;
+        }
+        return false;
     }
 
     /**
