@@ -128,18 +128,18 @@ contract TicTacToe is ReentrancyGuard {
     }
 
     /**
-     * @notice Resets the game to its initial state.
+     * @notice Checks if the board is full.
+     * @param board The game board.
+     * @return True if the board is full, false otherwise.
      */
-    function resetGame() external onlyOwner {
+    function isBoardFull(Player[3][3] memory board) internal pure returns (bool) {
         for (uint8 i = 0; i < 3; i++) {
             for (uint8 j = 0; j < 3; j++) {
-                board[i][j] = Player.None;
+                if (board[i][j] == Player.None) {
+                    return false;
+                }
             }
         }
-        playerX = address(0);
-        playerO = address(0);
-        currentPlayer = Player.None;
-        gameState = GameState.WaitingForPlayer;
-        winner = address(0);
+        return true;
     }
 }
