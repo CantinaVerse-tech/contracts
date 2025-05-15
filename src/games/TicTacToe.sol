@@ -41,19 +41,17 @@ contract TicTacToe is ReentrancyGuard {
     constructor() { }
 
     /**
-     * @notice Allows players to join the game.
+     * @notice Creates a new game and assigns the sender as player X.
+     * @return gameId The unique identifier for the created game.
      */
-    function joinGame() external inGameState(GameState.WaitingForPlayer) {
-        require(playerX == address(0) || playerO == address(0), "Game is full");
-        if (playerX == address(0)) {
-            playerX = msg.sender;
-        } else {
-            require(msg.sender != playerX, "Player already joined");
-            playerO = msg.sender;
-            currentPlayer = Player.X;
-            gameState = GameState.InProgress;
-            emit GameStarted(playerX, playerO);
-        }
+    function createGame() external returns (uint256 gameId) {
+        gameId = gameCounter++;
+        Game storage game = games[gameId];
+        game.playerX = msg.sender;
+        game.currentPlayer = Player.X;
+        game.gameState = GameState.WaitingForPlayer;
+
+        emit GameCreated(gameId, msg.sender);
     }
 
     /**
