@@ -38,12 +38,7 @@ contract TicTacToe is ReentrancyGuard {
     event GameWon(uint256 indexed gameId, address indexed winner);
     event GameDraw(uint256 indexed gameId);
 
-    /**
-     * @notice Initializes the contract in a waiting state.
-     */
-    constructor() {
-        gameState = GameState.WaitingForPlayer;
-    }
+    constructor() { }
 
     /**
      * @notice Allows players to join the game.
