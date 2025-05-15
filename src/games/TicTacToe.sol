@@ -20,6 +20,15 @@ contract TicTacToe is ReentrancyGuard {
         Finished
     }
 
+    struct Game {
+        address playerX;
+        address playerO;
+        Player[3][3] board;
+        Player currentPlayer;
+        GameState gameState;
+        address winner;
+    }
+
     Player[3][3] public board;
     address public playerX;
     address public playerO;
