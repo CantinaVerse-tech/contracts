@@ -19,4 +19,12 @@ contract TokenTycoon is ERC20, Ownable, ReentrancyGuard {
     uint256 public constant UPGRADE_COST = 0 ether;
     uint256 public constant BASE_PRODUCTION_RATE = 0 ether; // Tokens per day
     uint256 public constant UPGRADE_PRODUCTION_INCREMENT = 0 ether; // Additional tokens per upgrade per day
+
+    // Player structure
+    struct Player {
+        uint256 factoryCount;
+        uint256 upgradeLevel;
+        uint256 lastClaimTime;
+        uint256 unclaimedTokens;
+    }
 }
