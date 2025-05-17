@@ -36,4 +36,9 @@ contract TokenTycoon is ERC20, Ownable, ReentrancyGuard {
     event FactoryUpgraded(address indexed player, uint256 newUpgradeLevel);
     event TokensClaimed(address indexed player, uint256 amount);
     event TokensWithdrawn(address indexed player, uint256 amount);
+
+    /**
+     * @dev Constructor that initializes the ERC20 token with name and symbol.
+     */
+    constructor() ERC20("TycoonToken", "TYC") { }
 }
