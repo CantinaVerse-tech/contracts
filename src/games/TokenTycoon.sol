@@ -41,4 +41,18 @@ contract TokenTycoon is ERC20, Ownable, ReentrancyGuard {
      * @dev Constructor that initializes the ERC20 token with name and symbol.
      */
     constructor() ERC20("TycoonToken", "TYC") { }
+
+    /**
+     * @notice Allows a player to purchase a new factory.
+     * @dev Requires payment of FACTORY_BASE_COST in ETH.
+     */
+    function purchaseFactory() external payable nonReentrant {
+        require(msg.value == FACTORY_BASE_COST, "Incorrect ETH amount sent");
+
+        Player storage player = players[msg.sender];
+        _updateUnclaimedTokens(msg.sender);
+
+        player.factoryCount += 1;
+        emit FactoryPurchased(msg.sender, player.factoryCount);
+    }
 }
