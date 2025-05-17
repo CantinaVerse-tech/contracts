@@ -86,4 +86,21 @@ contract TokenTycoon is ERC20, Ownable, ReentrancyGuard {
         _mint(msg.sender, amount);
         emit TokensClaimed(msg.sender, amount);
     }
+
+    /**
+     * @notice Allows a player to withdraw their tokens for ETH.
+     * @param amount The amount of tokens to withdraw.
+     */
+    function withdrawTokens(uint256 amount) external nonReentrant {
+        require(balanceOf(msg.sender) >= amount, "Insufficient token balance");
+
+        // Define the exchange rate: 1 TYC = 0.01 ETH
+        uint256 ethAmount = (amount * 1 ether) / 100;
+
+        require(address(this).balance >= ethAmount, "Contract has insufficient ETH");
+
+        _burn(msg.sender, amount);
+        payable(msg.sender).sendValue(ethAmount);
+        emit TokensWithdrawn(msg.sender, amount);
+    }
 }
