@@ -132,4 +132,13 @@ contract TokenTycoon is ERC20, Ownable, ReentrancyGuard {
         player.unclaimedTokens += tokensProduced;
         player.lastClaimTime = currentTime;
     }
+
+    /**
+     * @notice Allows the contract owner to withdraw ETH from the contract.
+     * @param amount The amount of ETH to withdraw.
+     */
+    function ownerWithdrawETH(uint256 amount) external onlyOwner {
+        require(address(this).balance >= amount, "Insufficient ETH balance");
+        payable(owner()).sendValue(amount);
+    }
 }
