@@ -11,4 +11,12 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
  * @author CantinaVerse-Tech
  * @dev A simulation game where players manage factories to produce and trade tokens.
  */
-contract TokenTycoon is ERC20, Ownable, ReentrancyGuard { }
+contract TokenTycoon is ERC20, Ownable, ReentrancyGuard {
+    using Address for address payable;
+
+    // Constants
+    uint256 public constant FACTORY_BASE_COST = 0 ether;
+    uint256 public constant UPGRADE_COST = 0 ether;
+    uint256 public constant BASE_PRODUCTION_RATE = 0 ether; // Tokens per day
+    uint256 public constant UPGRADE_PRODUCTION_INCREMENT = 0 ether; // Additional tokens per upgrade per day
+}
