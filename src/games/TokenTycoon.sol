@@ -71,4 +71,19 @@ contract TokenTycoon is ERC20, Ownable, ReentrancyGuard {
         player.upgradeLevel += 1;
         emit FactoryUpgraded(msg.sender, player.upgradeLevel);
     }
+
+    /**
+     * @notice Allows a player to claim their accumulated tokens.
+     */
+    function claimTokens() external nonReentrant {
+        _updateUnclaimedTokens(msg.sender);
+
+        Player storage player = players[msg.sender];
+        uint256 amount = player.unclaimedTokens;
+        require(amount > 0, "No tokens to claim");
+
+        player.unclaimedTokens = 0;
+        _mint(msg.sender, amount);
+        emit TokensClaimed(msg.sender, amount);
+    }
 }
