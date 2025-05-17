@@ -30,4 +30,10 @@ contract TokenTycoon is ERC20, Ownable, ReentrancyGuard {
 
     // Mapping from player address to their data
     mapping(address => Player) public players;
+
+    // Events
+    event FactoryPurchased(address indexed player, uint256 newFactoryCount);
+    event FactoryUpgraded(address indexed player, uint256 newUpgradeLevel);
+    event TokensClaimed(address indexed player, uint256 amount);
+    event TokensWithdrawn(address indexed player, uint256 amount);
 }
