@@ -27,4 +27,7 @@ contract TokenTycoon is ERC20, Ownable, ReentrancyGuard {
         uint256 lastClaimTime;
         uint256 unclaimedTokens;
     }
+
+    // Mapping from player address to their data
+    mapping(address => Player) public players;
 }
