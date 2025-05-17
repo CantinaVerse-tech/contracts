@@ -103,4 +103,33 @@ contract TokenTycoon is ERC20, Ownable, ReentrancyGuard {
         payable(msg.sender).sendValue(ethAmount);
         emit TokensWithdrawn(msg.sender, amount);
     }
+
+    /**
+     * @dev Internal function to update a player's unclaimed tokens based on time elapsed.
+     * @param playerAddr The address of the player.
+     */
+    function _updateUnclaimedTokens(address playerAddr) internal {
+        Player storage player = players[playerAddr];
+
+        uint256 currentTime = block.timestamp;
+        uint256 lastTime = player.lastClaimTime;
+
+        if (lastTime == 0) {
+            player.lastClaimTime = currentTime;
+            return;
+        }
+
+        uint256 timeElapsed = currentTime - lastTime;
+        if (timeElapsed == 0) {
+            return;
+        }
+
+        uint256 productionRatePerSecond = (
+            (BASE_PRODUCTION_RATE + (player.upgradeLevel * UPGRADE_PRODUCTION_INCREMENT)) * player.factoryCount
+        ) / 1 days;
+        uint256 tokensProduced = productionRatePerSecond * timeElapsed;
+
+        player.unclaimedTokens += tokensProduced;
+        player.lastClaimTime = currentTime;
+    }
 }
