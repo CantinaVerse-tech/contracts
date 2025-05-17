@@ -55,4 +55,20 @@ contract TokenTycoon is ERC20, Ownable, ReentrancyGuard {
         player.factoryCount += 1;
         emit FactoryPurchased(msg.sender, player.factoryCount);
     }
+
+    /**
+     * @notice Allows a player to upgrade their factories.
+     * @dev Requires payment of UPGRADE_COST in ETH.
+     */
+    function upgradeFactory() external payable nonReentrant {
+        require(msg.value == UPGRADE_COST, "Incorrect ETH amount sent");
+
+        Player storage player = players[msg.sender];
+        require(player.factoryCount > 0, "No factories to upgrade");
+
+        _updateUnclaimedTokens(msg.sender);
+
+        player.upgradeLevel += 1;
+        emit FactoryUpgraded(msg.sender, player.upgradeLevel);
+    }
 }
