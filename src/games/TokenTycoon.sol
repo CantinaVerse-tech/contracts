@@ -141,4 +141,9 @@ contract TokenTycoon is ERC20, Ownable, ReentrancyGuard {
         require(address(this).balance >= amount, "Insufficient ETH balance");
         payable(owner()).sendValue(amount);
     }
+
+    /**
+     * @notice Fallback function to accept ETH.
+     */
+    receive() external payable { }
 }
