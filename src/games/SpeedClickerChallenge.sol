@@ -11,4 +11,11 @@ import "@openzeppelin/contracts/security/Pausable.sol";
  * @dev A blockchain game where players compete to click the most in a time window
  * @notice Players pay an entry fee and compete in clicking challenges
  */
-contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable { }
+contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
+    // Game state
+    enum GameState {
+        WAITING,
+        ACTIVE,
+        FINISHED
+    }
+}
