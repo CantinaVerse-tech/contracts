@@ -18,4 +18,21 @@ contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
         ACTIVE,
         FINISHED
     }
+
+    // Challenge structure
+    struct Challenge {
+        uint256 challengeId;
+        uint256 startTime;
+        uint256 endTime;
+        uint256 duration;
+        uint256 entryFee;
+        uint256 totalPrizePool;
+        uint256 maxClicks;
+        address winner;
+        bool prizeDistributed;
+        GameState state;
+        mapping(address => uint256) playerClicks;
+        mapping(address => bool) hasJoined;
+        address[] participants;
+    }
 }
