@@ -51,4 +51,13 @@ contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
 
     // Storage
     mapping(uint256 => Challenge) public challenges;
+
+    // Events
+    event ChallengeCreated(uint256 indexed challengeId, uint256 duration, uint256 entryFee);
+    event PlayerJoined(uint256 indexed challengeId, address indexed player);
+    event ClickRecorded(uint256 indexed challengeId, address indexed player, uint256 totalClicks);
+    event ChallengeEnded(uint256 indexed challengeId, address winner, uint256 prizeAmount);
+    event PrizeDistributed(uint256 indexed challengeId, address winner, uint256 amount);
+    event ProtocolFeeUpdated(uint256 newFeePercentage);
+    event MaxClicksPerSecondUpdated(uint256 newMaxClicks);
 }
