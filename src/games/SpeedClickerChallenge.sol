@@ -48,4 +48,7 @@ contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
     uint256 public maxClicksPerSecond = 20; // Max humanly possible clicks per second
     mapping(address => uint256) public lastClickTime;
     mapping(address => uint256) public clicksInCurrentSecond;
+
+    // Storage
+    mapping(uint256 => Challenge) public challenges;
 }
