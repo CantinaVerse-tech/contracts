@@ -357,4 +357,13 @@ contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
     function unpause() external onlyOwner {
         _unpause();
     }
+
+    /**
+     * @dev Emergency withdrawal function (only if paused)
+     */
+    function emergencyWithdraw() external onlyOwner whenPaused nonReentrant {
+        uint256 balance = address(this).balance;
+        (bool success,) = owner().call{ value: balance }("");
+        require(success, "Emergency withdrawal failed");
+    }
 }
