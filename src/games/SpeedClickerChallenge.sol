@@ -12,18 +12,18 @@ import "@openzeppelin/contracts/security/Pausable.sol";
  * @notice Players pay an entry fee and compete in clicking challenges
  */
 contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
-        // Custom errors
-        error InvalidDuration();
-        error InvalidEntryFee();
-        error ChallengeNotActive();
-        error AlreadyJoined();
-        error NotJoined();
-        error ChallengeNotFinished();
-        error PrizeAlreadyDistributed();
-        error InsufficientFunds();
-        error TooManyClicks();
-        error InvalidFeePercentage();
-        
+    // Custom errors
+    error InvalidDuration();
+    error InvalidEntryFee();
+    error ChallengeNotActive();
+    error AlreadyJoined();
+    error NotJoined();
+    error ChallengeNotFinished();
+    error PrizeAlreadyDistributed();
+    error InsufficientFunds();
+    error TooManyClicks();
+    error InvalidFeePercentage();
+
     // Game state
     enum GameState {
         WAITING,
@@ -72,4 +72,6 @@ contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
     event PrizeDistributed(uint256 indexed challengeId, address winner, uint256 amount);
     event ProtocolFeeUpdated(uint256 newFeePercentage);
     event MaxClicksPerSecondUpdated(uint256 newMaxClicks);
+
+    constructor() { }
 }
