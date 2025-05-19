@@ -332,4 +332,15 @@ contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
         maxClicksPerSecond = _newMaxClicks;
         emit MaxClicksPerSecondUpdated(_newMaxClicks);
     }
+
+    /**
+     * @dev Withdraw accumulated protocol fees
+     */
+    function withdrawProtocolFees() external onlyOwner nonReentrant {
+        uint256 amount = protocolFeeBalance;
+        protocolFeeBalance = 0;
+
+        (bool success,) = owner().call{ value: amount }("");
+        require(success, "Withdrawal failed");
+    }
 }
