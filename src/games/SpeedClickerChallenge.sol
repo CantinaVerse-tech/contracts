@@ -172,4 +172,59 @@ contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
 
         emit ClickRecorded(_challengeId, msg.sender, challenge.playerClicks[msg.sender]);
     }
+
+    /**
+     * @dev End a challenge and determine the winner
+     * @param _challengeId The ID of the challenge to end
+     */
+    function endChallenge(uint256 _challengeId) external {
+        Challenge storage challenge = challenges[_challengeId];
+
+        if (challenge.state != GameState.ACTIVE) {
+            revert ChallengeNotActive();
+        }
+        if (block.timestamp < challenge.endTime && msg.sender != owner()) {
+            revert ChallengeNotActive();
+        }
+
+        _endChallenge(_challengeId);
+    }
+
+    /**
+     * @dev Distribute prize to the winner
+     * @param _challengeId The ID of the finished challenge
+     */
+    function distributePrize(uint256 _challengeId) external nonReentrant {
+        Challenge storage challenge = challenges[_challengeId];
+
+        if (challenge.state != GameState.FINISHED) {
+            revert ChallengeNotFinished();
+        }
+        if (challenge.prizeDistributed) {
+            revert PrizeAlreadyDistributed();
+        }
+
+        challenge.prizeDistributed = true;
+
+        if (challenge.winner == address(0)) {
+            // No winner, refund all participants
+            uint256 refundAmount = challenge.entryFee;
+            for (uint256 i = 0; i < challenge.participants.length; i++) {
+                address participant = challenge.participants[i];
+                (bool success,) = participant.call{ value: refundAmount }("");
+                require(success, "Refund failed");
+            }
+        } else {
+            // Calculate and distribute prize
+            uint256 protocolFee = (challenge.totalPrizePool * protocolFeePercentage) / 10_000;
+            uint256 winnerPrize = challenge.totalPrizePool - protocolFee;
+
+            protocolFeeBalance += protocolFee;
+
+            (bool success,) = challenge.winner.call{ value: winnerPrize }("");
+            require(success, "Prize transfer failed");
+
+            emit PrizeDistributed(_challengeId, challenge.winner, winnerPrize);
+        }
+    }
 }
