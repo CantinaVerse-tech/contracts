@@ -123,4 +123,20 @@ contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
 
         emit PlayerJoined(_challengeId, msg.sender);
     }
+
+    /**
+     * @dev Start a challenge (can only be called by owner)
+     * @param _challengeId The ID of the challenge to start
+     */
+    function startChallenge(uint256 _challengeId) external onlyOwner {
+        Challenge storage challenge = challenges[_challengeId];
+
+        if (challenge.state != GameState.WAITING) {
+            revert ChallengeNotActive();
+        }
+
+        challenge.startTime = block.timestamp;
+        challenge.endTime = block.timestamp + challenge.duration;
+        challenge.state = GameState.ACTIVE;
+    }
 }
