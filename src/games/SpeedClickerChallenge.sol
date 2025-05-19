@@ -227,4 +227,22 @@ contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
             emit PrizeDistributed(_challengeId, challenge.winner, winnerPrize);
         }
     }
+
+    /**
+     * @dev Enforce anti-cheat clicking limits
+     * @param _player The player to check
+     */
+    function _enforceClickingLimits(address _player) internal {
+        uint256 currentTime = block.timestamp;
+
+        if (lastClickTime[_player] == currentTime) {
+            clicksInCurrentSecond[_player]++;
+            if (clicksInCurrentSecond[_player] > maxClicksPerSecond) {
+                revert TooManyClicks();
+            }
+        } else {
+            clicksInCurrentSecond[_player] = 1;
+            lastClickTime[_player] = currentTime;
+        }
+    }
 }
