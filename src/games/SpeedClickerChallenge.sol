@@ -276,4 +276,36 @@ contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
     function getChallengeParticipants(uint256 _challengeId) external view returns (address[] memory) {
         return challenges[_challengeId].participants;
     }
+
+    /**
+     * @dev Get basic challenge info
+     * @param _challengeId The challenge ID
+     * @return Basic challenge information
+     */
+    function getChallengeInfo(uint256 _challengeId)
+        external
+        view
+        returns (
+            uint256 startTime,
+            uint256 endTime,
+            uint256 entryFee,
+            uint256 totalPrizePool,
+            uint256 maxClicks,
+            address winner,
+            GameState state,
+            bool prizeDistributed
+        )
+    {
+        Challenge storage challenge = challenges[_challengeId];
+        return (
+            challenge.startTime,
+            challenge.endTime,
+            challenge.entryFee,
+            challenge.totalPrizePool,
+            challenge.maxClicks,
+            challenge.winner,
+            challenge.state,
+            challenge.prizeDistributed
+        );
+    }
 }
