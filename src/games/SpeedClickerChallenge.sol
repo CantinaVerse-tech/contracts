@@ -350,4 +350,11 @@ contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
     function pause() external onlyOwner {
         _pause();
     }
+
+    /**
+     * @dev Unpause function
+     */
+    function unpause() external onlyOwner {
+        _unpause();
+    }
 }
