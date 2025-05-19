@@ -323,4 +323,13 @@ contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
         protocolFeePercentage = _newFeePercentage;
         emit ProtocolFeeUpdated(_newFeePercentage);
     }
+
+    /**
+     * @dev Update max clicks per second for anti-cheat
+     * @param _newMaxClicks New maximum clicks per second
+     */
+    function updateMaxClicksPerSecond(uint256 _newMaxClicks) external onlyOwner {
+        maxClicksPerSecond = _newMaxClicks;
+        emit MaxClicksPerSecondUpdated(_newMaxClicks);
+    }
 }
