@@ -267,4 +267,13 @@ contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
     function hasPlayerJoined(uint256 _challengeId, address _player) external view returns (bool) {
         return challenges[_challengeId].hasJoined[_player];
     }
+
+    /**
+     * @dev Get all participants in a challenge
+     * @param _challengeId The challenge ID
+     * @return Array of participant addresses
+     */
+    function getChallengeParticipants(uint256 _challengeId) external view returns (address[] memory) {
+        return challenges[_challengeId].participants;
+    }
 }
