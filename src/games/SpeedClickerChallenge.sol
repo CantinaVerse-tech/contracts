@@ -99,4 +99,28 @@ contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
 
         emit ChallengeCreated(currentChallengeId, _duration, _entryFee);
     }
+
+    /**
+     * @dev Join an active challenge by paying the entry fee
+     * @param _challengeId The ID of the challenge to join
+     */
+    function joinChallenge(uint256 _challengeId) external payable nonReentrant whenNotPaused {
+        Challenge storage challenge = challenges[_challengeId];
+
+        if (challenge.state != GameState.WAITING) {
+            revert ChallengeNotActive();
+        }
+        if (challenge.hasJoined[msg.sender]) {
+            revert AlreadyJoined();
+        }
+        if (msg.value != challenge.entryFee) {
+            revert InsufficientFunds();
+        }
+
+        challenge.hasJoined[msg.sender] = true;
+        challenge.participants.push(msg.sender);
+        challenge.totalPrizePool += msg.value;
+
+        emit PlayerJoined(_challengeId, msg.sender);
+    }
 }
