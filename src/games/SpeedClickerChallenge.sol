@@ -74,4 +74,29 @@ contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
     event MaxClicksPerSecondUpdated(uint256 newMaxClicks);
 
     constructor() { }
+
+    /**
+     * @dev Creates a new clicking challenge
+     * @param _duration Duration of the challenge in seconds
+     * @param _entryFee Entry fee required to join (in wei)
+     */
+    function createChallenge(uint256 _duration, uint256 _entryFee) external onlyOwner whenNotPaused {
+        if (_duration < MIN_DURATION || _duration > MAX_DURATION) {
+            revert InvalidDuration();
+        }
+        if (_entryFee < MIN_ENTRY_FEE) {
+            revert InvalidEntryFee();
+        }
+
+        currentChallengeId++;
+        Challenge storage newChallenge = challenges[currentChallengeId];
+
+        newChallenge.challengeId = currentChallengeId;
+        newChallenge.duration = _duration;
+        newChallenge.entryFee = _entryFee;
+        newChallenge.state = GameState.WAITING;
+        newChallenge.prizeDistributed = false;
+
+        emit ChallengeCreated(currentChallengeId, _duration, _entryFee);
+    }
 }
