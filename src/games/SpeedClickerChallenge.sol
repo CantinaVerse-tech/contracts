@@ -245,4 +245,16 @@ contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
             lastClickTime[_player] = currentTime;
         }
     }
+
+    // View functions
+
+    /**
+     * @dev Get player's click count for a challenge
+     * @param _challengeId The challenge ID
+     * @param _player The player address
+     * @return The number of clicks
+     */
+    function getPlayerClicks(uint256 _challengeId, address _player) external view returns (uint256) {
+        return challenges[_challengeId].playerClicks[_player];
+    }
 }
