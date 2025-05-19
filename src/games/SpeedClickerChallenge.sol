@@ -139,4 +139,37 @@ contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
         challenge.endTime = block.timestamp + challenge.duration;
         challenge.state = GameState.ACTIVE;
     }
+
+    /**
+     * @dev Record a click for the calling player
+     * @param _challengeId The ID of the active challenge
+     */
+    function click(uint256 _challengeId) external whenNotPaused {
+        Challenge storage challenge = challenges[_challengeId];
+
+        if (challenge.state != GameState.ACTIVE) {
+            revert ChallengeNotActive();
+        }
+        if (!challenge.hasJoined[msg.sender]) {
+            revert NotJoined();
+        }
+        if (block.timestamp >= challenge.endTime) {
+            // Auto-end the challenge
+            _endChallenge(_challengeId);
+            revert ChallengeNotActive();
+        }
+
+        // Anti-cheat: Check clicking rate
+        _enforceClickingLimits(msg.sender);
+
+        challenge.playerClicks[msg.sender]++;
+
+        // Update max clicks and potential winner
+        if (challenge.playerClicks[msg.sender] > challenge.maxClicks) {
+            challenge.maxClicks = challenge.playerClicks[msg.sender];
+            challenge.winner = msg.sender;
+        }
+
+        emit ClickRecorded(_challengeId, msg.sender, challenge.playerClicks[msg.sender]);
+    }
 }
