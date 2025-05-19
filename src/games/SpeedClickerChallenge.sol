@@ -308,4 +308,19 @@ contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
             challenge.prizeDistributed
         );
     }
+
+    // Admin functions
+
+    /**
+     * @dev Update protocol fee percentage
+     * @param _newFeePercentage New fee percentage in basis points
+     */
+    function updateProtocolFee(uint256 _newFeePercentage) external onlyOwner {
+        if (_newFeePercentage > 2000) {
+            // Max 20%
+            revert InvalidFeePercentage();
+        }
+        protocolFeePercentage = _newFeePercentage;
+        emit ProtocolFeeUpdated(_newFeePercentage);
+    }
 }
