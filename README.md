@@ -130,7 +130,7 @@ CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in 
 
 ## Celo Sepolia Network
 ### Gaming Ecosystem:
-- 
+- [CoinFlip Contract](https://celo-alfajores.blockscout.com/address/0x30ED1a786774292eAdEeEc42E0b24D2E00E18f11?tab=index)
 
 ### Key Benefits:
 
