@@ -98,10 +98,10 @@ CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in 
 ### Gaming Ecosystem:
   - [CoinFlip Contract](https://base-sepolia.blockscout.com/address/0x5ab86C17393E54eA9bd33A2c27B848e1700999F4)
   - [NFTLuckyDraw Contract](https://base-sepolia.blockscout.com/address/0x95AA195D948a029e47Eff73da878F92580e78866)
-  - [PrizeNFT](https://base-sepolia.blockscout.com/address/0xb76910f20a9B1833Ef926173aEe2F199E2615e95)
-  - [NFTRoulette](https://base-sepolia.blockscout.com/address/0x4303055d666d4A97E999389532046Dee1d0FAc13)
-  - [EvolvableNFT](https://base-sepolia.blockscout.com/address/0xD8ba362250ACB686837441a53d901E93D39A2ab5)
-  - [NFTStakingEvolution](https://base-sepolia.blockscout.com/address/0xE8D747a772047c001343Ab985a0846e5fA353549)
+  - [PrizeNFT Contract](https://base-sepolia.blockscout.com/address/0xb76910f20a9B1833Ef926173aEe2F199E2615e95)
+  - [NFTRoulette Contract](https://base-sepolia.blockscout.com/address/0x4303055d666d4A97E999389532046Dee1d0FAc13)
+  - [EvolvableNFT Contract](https://base-sepolia.blockscout.com/address/0xD8ba362250ACB686837441a53d901E93D39A2ab5)
+  - [NFTStakingEvolution Contract](https://base-sepolia.blockscout.com/address/0xE8D747a772047c001343Ab985a0846e5fA353549)
   - [TriviaChallenge Contract](https://base-sepolia.blockscout.com/address/0x79C39558829AD6c1A5584428157346D75F7e5320?tab=index)
   - [TicTacToe Contract](https://base-sepolia.blockscout.com/address/0x60292AA865A43AEC39Dd59F2c60DD49808EEFB2E?tab=index)
 
