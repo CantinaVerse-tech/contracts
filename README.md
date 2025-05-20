@@ -16,11 +16,14 @@
     - [Token Creation Ecosystem:](#token-creation-ecosystem)
     - [Governance Ecosystem:](#governance-ecosystem)
   - [Testnet Deployments](#testnet-deployments)
+  - [Base Sepolia Network](#base-sepolia-network)
     - [Gaming Ecosystem:](#gaming-ecosystem-1)
     - [Prediction Market Ecosystem:](#prediction-market-ecosystem-1)
     - [NFT Marketplace Ecosystem:](#nft-marketplace-ecosystem-1)
     - [Token Creation Ecosystem:](#token-creation-ecosystem-1)
     - [Governance Ecosystem:](#governance-ecosystem-1)
+  - [Celo Sepolia Network](#celo-sepolia-network)
+    - [Gaming Ecosystem:](#gaming-ecosystem-2)
     - [Key Benefits:](#key-benefits)
   - [Current Features](#current-features)
     - [NFT Marketplace](#nft-marketplace)
@@ -95,6 +98,7 @@ CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in 
 ---
 
 ## Testnet Deployments
+## Base Sepolia Network
 ### Gaming Ecosystem:
   - [CoinFlip Contract](https://base-sepolia.blockscout.com/address/0x5ab86C17393E54eA9bd33A2c27B848e1700999F4)
   - [NFTLuckyDraw Contract](https://base-sepolia.blockscout.com/address/0x95AA195D948a029e47Eff73da878F92580e78866)
@@ -123,6 +127,10 @@ CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in 
 
 ### Governance Ecosystem:
 - TBA
+
+## Celo Sepolia Network
+### Gaming Ecosystem:
+- 
 
 ### Key Benefits:
 
