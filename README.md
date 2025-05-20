@@ -16,11 +16,14 @@
     - [Token Creation Ecosystem:](#token-creation-ecosystem)
     - [Governance Ecosystem:](#governance-ecosystem)
   - [Testnet Deployments](#testnet-deployments)
+  - [Base Sepolia Network](#base-sepolia-network)
     - [Gaming Ecosystem:](#gaming-ecosystem-1)
     - [Prediction Market Ecosystem:](#prediction-market-ecosystem-1)
     - [NFT Marketplace Ecosystem:](#nft-marketplace-ecosystem-1)
     - [Token Creation Ecosystem:](#token-creation-ecosystem-1)
     - [Governance Ecosystem:](#governance-ecosystem-1)
+  - [Celo Sepolia Network](#celo-sepolia-network)
+    - [Gaming Ecosystem:](#gaming-ecosystem-2)
     - [Key Benefits:](#key-benefits)
   - [Current Features](#current-features)
     - [NFT Marketplace](#nft-marketplace)
@@ -95,13 +98,16 @@ CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in 
 ---
 
 ## Testnet Deployments
+## Base Sepolia Network
 ### Gaming Ecosystem:
   - [CoinFlip Contract](https://base-sepolia.blockscout.com/address/0x5ab86C17393E54eA9bd33A2c27B848e1700999F4)
   - [NFTLuckyDraw Contract](https://base-sepolia.blockscout.com/address/0x95AA195D948a029e47Eff73da878F92580e78866)
-  - [PrizeNFT](https://base-sepolia.blockscout.com/address/0xb76910f20a9B1833Ef926173aEe2F199E2615e95)
-  - [NFTRoulette](https://base-sepolia.blockscout.com/address/0x4303055d666d4A97E999389532046Dee1d0FAc13)
-  - [EvolvableNFT](https://base-sepolia.blockscout.com/address/0xD8ba362250ACB686837441a53d901E93D39A2ab5)
-  - [NFTStakingEvolution](https://base-sepolia.blockscout.com/address/0xE8D747a772047c001343Ab985a0846e5fA353549)
+  - [PrizeNFT Contract](https://base-sepolia.blockscout.com/address/0xb76910f20a9B1833Ef926173aEe2F199E2615e95)
+  - [NFTRoulette Contract](https://base-sepolia.blockscout.com/address/0x4303055d666d4A97E999389532046Dee1d0FAc13)
+  - [EvolvableNFT Contract](https://base-sepolia.blockscout.com/address/0xD8ba362250ACB686837441a53d901E93D39A2ab5)
+  - [NFTStakingEvolution Contract](https://base-sepolia.blockscout.com/address/0xE8D747a772047c001343Ab985a0846e5fA353549)
+  - [TriviaChallenge Contract](https://base-sepolia.blockscout.com/address/0x79C39558829AD6c1A5584428157346D75F7e5320?tab=index)
+  - [TicTacToe Contract](https://base-sepolia.blockscout.com/address/0x60292AA865A43AEC39Dd59F2c60DD49808EEFB2E?tab=index)
 
 ### Prediction Market Ecosystem:
 - [Prediction Marketplace Contract](https://base-sepolia.blockscout.com/address/0xd936563Be8272CCd9d8192AFB4513f7Cbf2965C4)
@@ -121,6 +127,12 @@ CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in 
 
 ### Governance Ecosystem:
 - TBA
+
+## Celo Sepolia Network
+### Gaming Ecosystem:
+- [CoinFlip Contract](https://celo-alfajores.blockscout.com/address/0x30ED1a786774292eAdEeEc42E0b24D2E00E18f11?tab=index)
+- [DiceRollCasino Contract](https://celo-alfajores.blockscout.com/address/0xB80306c2417ab1cf39a69d8326C90A54b35992c0?tab=index)
+- [LastManStanding Contract](https://celo-alfajores.blockscout.com/address/0xA407952773DaDf574298953F4Fbc50f6a71CdD6e?tab=index)
 
 ### Key Benefits:
 

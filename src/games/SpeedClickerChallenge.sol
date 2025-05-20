@@ -191,6 +191,17 @@ contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
     }
 
     /**
+     * @dev Internal function to end a challenge
+     * @param _challengeId The ID of the challenge to end
+     */
+    function _endChallenge(uint256 _challengeId) internal {
+        Challenge storage challenge = challenges[_challengeId];
+        challenge.state = GameState.FINISHED;
+
+        emit ChallengeEnded(_challengeId, challenge.winner, challenge.totalPrizePool);
+    }
+
+    /**
      * @dev Distribute prize to the winner
      * @param _challengeId The ID of the finished challenge
      */
@@ -280,7 +291,7 @@ contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
     /**
      * @dev Get basic challenge info
      * @param _challengeId The challenge ID
-     * @return Basic challenge information
+     * @dev Return Basic challenge information
      */
     function getChallengeInfo(uint256 _challengeId)
         external
