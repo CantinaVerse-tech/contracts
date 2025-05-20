@@ -102,6 +102,7 @@ CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in 
   - [NFTRoulette](https://base-sepolia.blockscout.com/address/0x4303055d666d4A97E999389532046Dee1d0FAc13)
   - [EvolvableNFT](https://base-sepolia.blockscout.com/address/0xD8ba362250ACB686837441a53d901E93D39A2ab5)
   - [NFTStakingEvolution](https://base-sepolia.blockscout.com/address/0xE8D747a772047c001343Ab985a0846e5fA353549)
+  - [TriviaChallenge Contract](https://base-sepolia.blockscout.com/address/0x79C39558829AD6c1A5584428157346D75F7e5320?tab=index)
 
 ### Prediction Market Ecosystem:
 - [Prediction Marketplace Contract](https://base-sepolia.blockscout.com/address/0xd936563Be8272CCd9d8192AFB4513f7Cbf2965C4)
