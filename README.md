@@ -112,6 +112,7 @@ CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in 
   - [LastManStanding Contract](https://base-sepolia.blockscout.com/address/0x422891FeC98BF6440260E423540ab35418531cFe?tab=index)
   - [RockPaperScissors Contract](https://base-sepolia.blockscout.com/address/0xCABF3e31F021CF023a53D3E18b04D48c5Bc3C861?tab=index)
   - [SpeedClickerChallenge Contract](https://base-sepolia.blockscout.com/address/0xe5A17eCFBdDcc1b12183BeCaE7693617663654aa?tab=index)
+  - [NumberGuessingGame Contract](https://base-sepolia.blockscout.com/address/0x67F61D2021714936D7175Cd9e2E7bB02D0A645dc?tab=index)
   
 ### Prediction Market Ecosystem:
 - [Prediction Marketplace Contract](https://base-sepolia.blockscout.com/address/0xd936563Be8272CCd9d8192AFB4513f7Cbf2965C4)
