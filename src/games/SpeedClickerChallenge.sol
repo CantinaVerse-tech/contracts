@@ -80,7 +80,7 @@ contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
      * @param _duration Duration of the challenge in seconds
      * @param _entryFee Entry fee required to join (in wei)
      */
-    function createChallenge(uint256 _duration, uint256 _entryFee) external onlyOwner whenNotPaused {
+    function createChallenge(uint256 _duration, uint256 _entryFee) external whenNotPaused {
         if (_duration < MIN_DURATION || _duration > MAX_DURATION) {
             revert InvalidDuration();
         }
