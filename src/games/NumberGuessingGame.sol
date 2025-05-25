@@ -15,7 +15,7 @@ contract NumberGuessingGame is Ownable, ReentrancyGuard {
     uint8 private secretNumber;
 
     /// @notice The fee required to make a guess (in wei)
-    uint256 public guessFee;
+    uint256 public guessFee = 0;
 
     /// @notice The current jackpot amount (in wei)
     uint256 public jackpot;
@@ -48,7 +48,7 @@ contract NumberGuessingGame is Ownable, ReentrancyGuard {
      * @param _maxAttempts The maximum number of attempts allowed.
      */
     constructor(uint8 _secretNumber, uint256 _guessFee, uint256 _maxAttempts) payable {
-        require(_guessFee > 0, "Guess fee must be greater than zero");
+        require(_guessFee >= 0, "Guess fee must be greater than zero");
         require(_maxAttempts > 0, "Maximum attempts must be greater than zero");
         secretNumber = _secretNumber;
         guessFee = _guessFee;
