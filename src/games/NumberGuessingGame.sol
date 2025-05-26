@@ -14,9 +14,6 @@ contract NumberGuessingGame is Ownable, ReentrancyGuard {
     /// @notice The secret number to be guessed (0-255)
     uint8 private secretNumber;
 
-    /// @notice The fee required to make a guess (in wei)
-    uint256 public guessFee;
-
     /// @notice The current jackpot amount (in wei)
     uint256 public jackpot;
 
@@ -36,7 +33,7 @@ contract NumberGuessingGame is Ownable, ReentrancyGuard {
     event GuessMade(address indexed player, uint8 guess, bool isCorrect);
 
     /// @notice Event emitted when the game starts
-    event GameStarted(uint8 secretNumber, uint256 guessFee, uint256 maxAttempts);
+    event GameStarted(uint8 secretNumber, uint256 maxAttempts);
 
     /// @notice Event emitted when the game ends
     event GameEnded(address winner, uint256 jackpotAmount);
@@ -44,18 +41,15 @@ contract NumberGuessingGame is Ownable, ReentrancyGuard {
     /**
      * @notice Initializes the contract with a secret number, guess fee, and maximum attempts.
      * @param _secretNumber The number players need to guess (0-255).
-     * @param _guessFee The fee required to make a guess (in wei).
      * @param _maxAttempts The maximum number of attempts allowed.
      */
-    constructor(uint8 _secretNumber, uint256 _guessFee, uint256 _maxAttempts) payable {
-        require(_guessFee > 0, "Guess fee must be greater than zero");
+    constructor(uint8 _secretNumber, uint256 _maxAttempts) payable {
         require(_maxAttempts > 0, "Maximum attempts must be greater than zero");
         secretNumber = _secretNumber;
-        guessFee = _guessFee;
         maxAttempts = _maxAttempts;
         isActive = true;
         jackpot = msg.value;
-        emit GameStarted(secretNumber, guessFee, maxAttempts);
+        emit GameStarted(secretNumber, maxAttempts);
     }
 
     /**
@@ -64,7 +58,6 @@ contract NumberGuessingGame is Ownable, ReentrancyGuard {
      */
     function makeGuess(uint8 _guess) external payable nonReentrant {
         require(isActive, "Game is not active");
-        require(msg.value == guessFee, "Incorrect guess fee");
         require(msg.sender != owner(), "Owner cannot participate");
 
         jackpot += msg.value;
@@ -100,7 +93,7 @@ contract NumberGuessingGame is Ownable, ReentrancyGuard {
         attemptCount = 0;
         winner = address(0);
         isActive = true;
-        emit GameStarted(secretNumber, guessFee, maxAttempts);
+        emit GameStarted(secretNumber, maxAttempts);
     }
 
     /**

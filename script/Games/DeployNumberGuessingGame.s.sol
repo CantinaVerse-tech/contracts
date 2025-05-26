@@ -11,7 +11,7 @@ contract DeployNumberGuessingGame is Script {
         HelperConfig.NetworkConfig memory config;
 
         vm.startBroadcast();
-        NumberGuessingGame numberGuessingGame = new NumberGuessingGame(123, 1, 3);
+        NumberGuessingGame numberGuessingGame = new NumberGuessingGame(255, 10_000_000_000_000_000_000);
         vm.stopBroadcast();
 
         console2.log("NumberGuessingGame deployed at:", address(numberGuessingGame));

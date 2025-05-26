@@ -52,8 +52,8 @@ contract SpeedClickerChallenge is Ownable, ReentrancyGuard, Pausable {
     uint256 public currentChallengeId;
     uint256 public constant MAX_DURATION = 10 minutes;
     uint256 public constant MIN_DURATION = 30 seconds;
-    uint256 public constant MIN_ENTRY_FEE = 0.001 ether;
-    uint256 public protocolFeePercentage = 500; // 5% in basis points
+    uint256 public constant MIN_ENTRY_FEE = 0 ether;
+    uint256 public protocolFeePercentage = 0; // 0% in basis points
     uint256 public protocolFeeBalance;
 
     // Anti-cheat parameters

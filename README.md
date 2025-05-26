@@ -76,7 +76,10 @@ CantinaVerse fosters a versatile, inclusive ecosystem where users can engage in 
 - [LastManStanding Contract](https://base.blockscout.com/address/0x143d8e6cb5FeA22f55F02a149E00897Ca39A77a6)
 - [TicTacToe Contract](https://base.blockscout.com/address/0x8BD072cea13005b3F9456eCd7173c7D859f01089?tab=index)
 - [RockPaperScissors Contract](https://base.blockscout.com/address/0x2B5A89c5Ab102117A5e8c76E06e7a72E51D1c500?tab=index)
-  
+- [TokenTycoon Contract](https://basescan.org/address/0xB4aaE0EaEe31A1b067B877a0a6D4Db78067B3111)
+- [SpeedClickerChallenge Contract](https://basescan.org/address/0x826a580f3fd7407b907d81d5ad4bc671967d36d0)
+- [NumberGuessingGame Contract](https://basescan.org/address/0x79b2b8cf3c0f85db30fdd51a34068294da145cde)
+
 ### Prediction Market Ecosystem:
 - [AMM Contract]()
 - [PredictionMarket Contract]()
