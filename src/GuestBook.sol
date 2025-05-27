@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.19;
+pragma solidity 0.8.16;
 
 /**
  * @title Guestbook
+ * @author CantinaVerse-Tech
  * @dev A simple messaging/guestbook contract where users can leave public messages
  */
 contract GuestBook {
