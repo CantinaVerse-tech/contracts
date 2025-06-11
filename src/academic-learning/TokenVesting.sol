@@ -36,4 +36,16 @@ contract TokenVesting {
             revoked: false
         });
     }
+
+    function releaseTokens() external {
+        VestingSchedule storage schedule = vestingSchedules[msg.sender];
+        require(schedule.totalAmount > 0, "No vesting schedule");
+        require(!schedule.revoked, "Vesting revoked");
+
+        uint256 releasableAmount = calculateReleasableAmount(msg.sender);
+        require(releasableAmount > 0, "No tokens to release");
+
+        schedule.releasedAmount += releasableAmount;
+        tokenBalances[msg.sender] += releasableAmount;
+    }
 }
