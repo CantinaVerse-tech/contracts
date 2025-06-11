@@ -15,12 +15,24 @@ contract TokenVesting {
     address public owner;
     uint256 public totalSupply;
 
+    /**
+     * @notice Constructor for the TokenVesting contract
+     * @dev Sets the owner and total supply
+     */
     constructor() {
         owner = msg.sender;
         totalSupply = 1_000_000 * 10 ** 18; // 1M tokens
         tokenBalances[owner] = totalSupply;
     }
 
+    /**
+     *
+     * @param _beneficiary the address of the beneficiary
+     * @param _amount the amount of tokens to vest
+     * @param _duration the duration of the vesting in seconds
+     * @notice Create a vesting schedule for a beneficiary
+     * @dev Only the owner can create a vesting schedule
+     */
     function createVesting(address _beneficiary, uint256 _amount, uint256 _duration) external {
         require(msg.sender == owner, "Not owner");
         require(tokenBalances[owner] >= _amount, "Insufficient tokens");
@@ -35,5 +47,21 @@ contract TokenVesting {
             releasedAmount: 0,
             revoked: false
         });
+    }
+
+    /**
+     * @notice Release vested tokens according to the vesting schedule.
+     * @dev Only the beneficiary can call this function.
+     */
+    function releaseTokens() external {
+        VestingSchedule storage schedule = vestingSchedules[msg.sender];
+        require(schedule.totalAmount > 0, "No vesting schedule");
+        require(!schedule.revoked, "Vesting revoked");
+
+        uint256 releasableAmount = calculateReleasableAmount(msg.sender);
+        require(releasableAmount > 0, "No tokens to release");
+
+        schedule.releasedAmount += releasableAmount;
+        tokenBalances[msg.sender] += releasableAmount;
     }
 }
