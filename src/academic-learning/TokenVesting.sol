@@ -65,6 +65,12 @@ contract TokenVesting {
         tokenBalances[msg.sender] += releasableAmount;
     }
 
+    /**
+     * @notice Calculate the amount of tokens that can be released for a beneficiary
+     * @param _beneficiary the address of the beneficiary
+     * @return the amount of tokens that can be released
+     * @dev This function returns the amount of tokens that can be released for a beneficiary.
+     */
     function calculateReleasableAmount(address _beneficiary) public view returns (uint256) {
         VestingSchedule memory schedule = vestingSchedules[_beneficiary];
 
