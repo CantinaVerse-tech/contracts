@@ -64,4 +64,26 @@ contract TokenVesting {
         schedule.releasedAmount += releasableAmount;
         tokenBalances[msg.sender] += releasableAmount;
     }
+
+    /**
+     * @notice Calculate the amount of tokens that can be released for a beneficiary
+     * @param _beneficiary the address of the beneficiary
+     * @return the amount of tokens that can be released
+     * @dev This function returns the amount of tokens that can be released for a beneficiary.
+     */
+    function calculateReleasableAmount(address _beneficiary) public view returns (uint256) {
+        VestingSchedule memory schedule = vestingSchedules[_beneficiary];
+
+        if (schedule.revoked || schedule.totalAmount == 0) {
+            return 0;
+        }
+
+        uint256 timeElapsed = block.timestamp - schedule.startTime;
+        if (timeElapsed >= schedule.duration) {
+            return schedule.totalAmount - schedule.releasedAmount;
+        }
+
+        uint256 vestedAmount = (schedule.totalAmount * timeElapsed) / schedule.duration;
+        return vestedAmount - schedule.releasedAmount;
+    }
 }
