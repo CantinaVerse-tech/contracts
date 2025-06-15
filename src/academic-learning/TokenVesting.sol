@@ -87,17 +87,22 @@ contract TokenVesting {
         return vestedAmount - schedule.releasedAmount;
     }
 
+    /**
+     * @notice Revoke the vesting schedule for a beneficiary
+     * @param _beneficiary the address of the beneficiary
+     * @dev Only the owner can revoke the vesting schedule
+     */
     function revokeVesting(address _beneficiary) external {
         require(msg.sender == owner, "Not owner");
         VestingSchedule storage schedule = vestingSchedules[_beneficiary];
         require(!schedule.revoked, "Already revoked");
-        
+
         uint256 releasableAmount = calculateReleasableAmount(_beneficiary);
         if (releasableAmount > 0) {
             schedule.releasedAmount += releasableAmount;
             tokenBalances[_beneficiary] += releasableAmount;
         }
-        
+
         schedule.revoked = true;
         uint256 remainingAmount = schedule.totalAmount - schedule.releasedAmount;
         tokenBalances[owner] += remainingAmount;
