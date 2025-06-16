@@ -1,6 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.16;
 
+/**
+ * @title TokenVesting
+ * @author CantinaVerse-Tech
+ * @notice This contract implements a simple token vesting mechanism. The owner can create a vesting schedule for a
+ * beneficiary, and the beneficiary can release the vested tokens at any time.
+ */
 contract TokenVesting {
     struct VestingSchedule {
         uint256 totalAmount;
