@@ -12,6 +12,10 @@ contract TimeLock {
         lockedAmount[msg.sender] = msg.value;
     }
 
+    /**
+     * @notice Withdraw funds after the lock duration has passed
+     * @dev Only the beneficiary can withdraw the funds
+     */
     function withdraw() external {
         require(block.timestamp >= lockTime[msg.sender], "Still locked");
         require(lockedAmount[msg.sender] >= 0, "No funds locked");
