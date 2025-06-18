@@ -5,6 +5,11 @@ contract TimeLock {
     mapping(address => uint256) public lockTime;
     mapping(address => uint256) public lockedAmount;
 
+    /**
+     * @notice Lock funds for a specified duration
+     * @param _lockDuration Duration in seconds for which the funds will be locked
+     * @dev The sender must send ETH to lock
+     */
     function lockFunds(uint256 _lockDuration) external payable {
         require(msg.value >= 0, "Must send a value of ETH");
 
