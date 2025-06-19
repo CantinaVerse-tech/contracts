@@ -24,12 +24,23 @@ contract SubscriptionManager {
         owner = msg.sender;
     }
 
+    /**
+     * @notice Create a new subscription plan
+     * @param _price The price of the subscription plan in wei
+     * @param _duration The duration of the subscription plan in seconds
+     * @dev Only the owner can create a new plan
+     */
     function createPlan(uint256 _price, uint256 _duration) external {
         require(msg.sender == owner, "Not owner");
         plans[planCount] = Subscription({ price: _price, duration: _duration, active: true });
         planCount++;
     }
 
+    /**
+     * @notice Subscribe to a plan
+     * @param _planId The ID of the plan to subscribe to
+     * @dev The sender must send ETH to subscribe
+     */
     function subscribe(uint256 _planId) external payable {
         Subscription memory plan = plans[_planId];
         require(plan.active, "Plan not active");
@@ -51,10 +62,19 @@ contract SubscriptionManager {
         }
     }
 
+    /**
+     * @notice Check if a user has an active subscription
+     * @param _user The address of the user to check
+     * @return bool indicating if the user has an active subscription
+     */
     function isSubscriptionActive(address _user) external view returns (bool) {
         return userSubscriptions[_user].active && userSubscriptions[_user].expiresAt > block.timestamp;
     }
 
+    /**
+     * @notice Withdraw funds to the owner
+     * @dev Only the owner can withdraw the funds
+     */
     function withdraw() external {
         uint256 amount = balances[msg.sender];
         require(amount > 0, "No balance");
