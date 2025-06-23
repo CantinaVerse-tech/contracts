@@ -12,6 +12,11 @@ contract SimplePoll {
         question = _question;
     }
 
+    /**
+     * @notice This function is for voting
+     * @param _vote Is a true/false parameter to see who already voted
+     * @dev Anyone can vote.
+     */
     function vote(bool _vote) external {
         require(!hasVoted[msg.sender], "Already voted");
 
@@ -25,6 +30,11 @@ contract SimplePoll {
         }
     }
 
+    /**
+     *
+     * @return yes is to show the amount of yes votes
+     * @return no is to show the amount of no votes
+     */
     function getResults() external view returns (uint256 yes, uint256 no) {
         return (yesCount, noCount);
     }
