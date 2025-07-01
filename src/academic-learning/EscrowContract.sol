@@ -33,4 +33,19 @@ contract EscrowContract {
     uint256 public escrowCounter;
     uint256 public constant ESCROW_FEE_PERCENT = 0; // 0% fee
     address public owner;
+
+    event EscrowCreated(
+        uint256 indexed escrowId,
+        address indexed buyer,
+        address indexed seller,
+        address arbiter,
+        uint256 amount,
+        string description
+    );
+    event PaymentDeposited(uint256 indexed escrowId, uint256 amount);
+    event DeliveryConfirmed(uint256 indexed escrowId);
+    event DisputeRaised(uint256 indexed escrowId, address indexed disputeRaiser);
+    event EscrowCompleted(uint256 indexed escrowId, uint256 sellerAmount, uint256 fee);
+    event EscrowRefunded(uint256 indexed escrowId, uint256 refundAmount);
+    event DisputeResolved(uint256 indexed escrowId, bool buyerWins);
 }
