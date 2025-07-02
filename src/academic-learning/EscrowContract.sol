@@ -48,4 +48,38 @@ contract EscrowContract {
     event EscrowCompleted(uint256 indexed escrowId, uint256 sellerAmount, uint256 fee);
     event EscrowRefunded(uint256 indexed escrowId, uint256 refundAmount);
     event DisputeResolved(uint256 indexed escrowId, bool buyerWins);
+
+    modifier onlyBuyer(uint256 escrowId) {
+        require(msg.sender == escrows[escrowId].buyer, "Only buyer can call");
+        _;
+    }
+
+    modifier onlySeller(uint256 escrowId) {
+        require(msg.sender == escrows[escrowId].seller, "Only seller can call");
+        _;
+    }
+
+    modifier onlyArbiter(uint256 escrowId) {
+        require(msg.sender == escrows[escrowId].arbiter, "Only arbiter can call");
+        _;
+    }
+
+    modifier onlyParties(uint256 escrowId) {
+        require(
+            msg.sender == escrows[escrowId].buyer || msg.sender == escrows[escrowId].seller
+                || msg.sender == escrows[escrowId].arbiter,
+            "Only escrow parties can call"
+        );
+        _;
+    }
+
+    modifier inState(uint256 escrowId, EscrowState expectedState) {
+        require(escrows[escrowId].state == expectedState, "Invalid escrow state");
+        _;
+    }
+
+    modifier escrowExists(uint256 escrowId) {
+        require(escrowId < escrowCounter, "Escrow does not exist");
+        _;
+    }
 }
