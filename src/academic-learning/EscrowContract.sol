@@ -82,4 +82,54 @@ contract EscrowContract {
         require(escrowId < escrowCounter, "Escrow does not exist");
         _;
     }
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    /**
+     * @dev Create a new escrow agreement
+     * @param seller Address of the seller
+     * @param arbiter Address of the neutral arbiter
+     * @param description Description of the goods/services
+     * @param deadlineHours Hours until escrow expires
+     */
+    function createEscrow(
+        address payable seller,
+        address arbiter,
+        string memory description,
+        uint256 deadlineHours
+    )
+        external
+        payable
+        returns (uint256)
+    {
+        require(seller != address(0), "Invalid seller address");
+        require(arbiter != address(0), "Invalid arbiter address");
+        require(seller != msg.sender, "Seller cannot be buyer");
+        require(arbiter != msg.sender && arbiter != seller, "Arbiter must be neutral");
+        require(deadlineHours > 0 && deadlineHours <= 8760, "Invalid deadline"); // Max 1 year
+        require(msg.value > 0, "Must deposit payment");
+
+        uint256 escrowId = escrowCounter++;
+        uint256 deadline = block.timestamp + (deadlineHours * 1 hours);
+
+        escrows[escrowId] = Escrow({
+            buyer: payable(msg.sender),
+            seller: seller,
+            arbiter: arbiter,
+            amount: msg.value,
+            description: description,
+            state: EscrowState.AWAITING_DELIVERY,
+            buyerApproved: false,
+            sellerApproved: false,
+            createdAt: block.timestamp,
+            deadline: deadline
+        });
+
+        emit EscrowCreated(escrowId, msg.sender, seller, arbiter, msg.value, description);
+        emit PaymentDeposited(escrowId, msg.value);
+
+        return escrowId;
+    }
 }
