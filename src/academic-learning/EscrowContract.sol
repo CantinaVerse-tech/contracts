@@ -132,4 +132,21 @@ contract EscrowContract {
 
         return escrowId;
     }
+
+    /**
+     * @notice Deposit payment into the escrow
+     * @param escrowId ID of the escrow agreement
+     * @dev Buyer confirms delivery and approves release of funds
+     */
+    function confirmDelivery(uint256 escrowId)
+        external
+        escrowExists(escrowId)
+        onlyBuyer(escrowId)
+        inState(escrowId, EscrowState.AWAITING_DELIVERY)
+    {
+        escrows[escrowId].buyerApproved = true;
+        emit DeliveryConfirmed(escrowId);
+
+        _tryCompleteEscrow(escrowId);
+    }
 }
