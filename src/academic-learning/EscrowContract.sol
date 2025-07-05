@@ -149,4 +149,19 @@ contract EscrowContract {
 
         _tryCompleteEscrow(escrowId);
     }
+
+    /**
+     * @notice Deposit payment into the escrow
+     * @param escrowId ID of the escrow agreement
+     * @dev Seller acknowledges completion and requests payment
+     */
+    function requestPayment(uint256 escrowId)
+        external
+        escrowExists(escrowId)
+        onlySeller(escrowId)
+        inState(escrowId, EscrowState.AWAITING_DELIVERY)
+    {
+        escrows[escrowId].sellerApproved = true;
+        _tryCompleteEscrow(escrowId);
+    }
 }
