@@ -164,4 +164,23 @@ contract EscrowContract {
         escrows[escrowId].sellerApproved = true;
         _tryCompleteEscrow(escrowId);
     }
+
+    /**
+     * @notice Internal function to complete escrow if both parties approve
+     * @param escrowId ID of the escrow agreement
+     * @dev Raise a dispute - can be called by buyer or seller
+     */
+    function raiseDispute(uint256 escrowId)
+        external
+        escrowExists(escrowId)
+        inState(escrowId, EscrowState.AWAITING_DELIVERY)
+    {
+        require(
+            msg.sender == escrows[escrowId].buyer || msg.sender == escrows[escrowId].seller,
+            "Only buyer or seller can raise dispute"
+        );
+
+        escrows[escrowId].state = EscrowState.DISPUTED;
+        emit DisputeRaised(escrowId, msg.sender);
+    }
 }
