@@ -183,4 +183,28 @@ contract EscrowContract {
         escrows[escrowId].state = EscrowState.DISPUTED;
         emit DisputeRaised(escrowId, msg.sender);
     }
+
+    /**
+     * @notice Resolve dispute between buyer and seller and release funds
+     * @param escrowId The escrow ID
+     * @param buyerWins True if buyer wins, false if seller wins
+     * @dev Arbiter resolves dispute
+     */
+    function resolveDispute(
+        uint256 escrowId,
+        bool buyerWins
+    )
+        external
+        escrowExists(escrowId)
+        onlyArbiter(escrowId)
+        inState(escrowId, EscrowState.DISPUTED)
+    {
+        if (buyerWins) {
+            _refundBuyer(escrowId);
+        } else {
+            _releaseFundsToSeller(escrowId);
+        }
+
+        emit DisputeResolved(escrowId, buyerWins);
+    }
 }
