@@ -207,4 +207,21 @@ contract EscrowContract {
 
         emit DisputeResolved(escrowId, buyerWins);
     }
+
+    /**
+     * @notice Claim refund if deadline has passed and delivery not confirmed
+     * @param escrowId The escrow ID
+     * @dev Allow refund if deadline has passed and delivery not confirmed
+     */
+    function claimRefund(uint256 escrowId)
+        external
+        escrowExists(escrowId)
+        onlyBuyer(escrowId)
+        inState(escrowId, EscrowState.AWAITING_DELIVERY)
+    {
+        require(block.timestamp > escrows[escrowId].deadline, "Deadline not reached");
+        require(!escrows[escrowId].buyerApproved, "Delivery already confirmed");
+
+        _refundBuyer(escrowId);
+    }
 }
