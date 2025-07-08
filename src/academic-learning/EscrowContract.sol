@@ -224,4 +224,15 @@ contract EscrowContract {
 
         _refundBuyer(escrowId);
     }
+
+    /**
+     * @dev Internal function to try completing escrow if both parties approved
+     * @param escrowId The escrow ID
+     * @dev Try to complete escrow
+     */
+    function _tryCompleteEscrow(uint256 escrowId) internal {
+        if (escrows[escrowId].buyerApproved && escrows[escrowId].sellerApproved) {
+            _releaseFundsToSeller(escrowId);
+        }
+    }
 }
