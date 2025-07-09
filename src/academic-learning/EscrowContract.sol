@@ -235,4 +235,22 @@ contract EscrowContract {
             _releaseFundsToSeller(escrowId);
         }
     }
+
+    /**
+     * @notice Release funds to seller if both parties approved
+     * @param escrowId The escrow ID
+     * @dev Internal function to release funds to seller
+     */
+    function _releaseFundsToSeller(uint256 escrowId) internal {
+        Escrow storage escrow = escrows[escrowId];
+        escrow.state = EscrowState.COMPLETE;
+
+        uint256 fee = (escrow.amount * ESCROW_FEE_PERCENT) / 100;
+        uint256 sellerAmount = escrow.amount - fee;
+
+        escrow.seller.transfer(sellerAmount);
+        payable(owner).transfer(fee);
+
+        emit EscrowCompleted(escrowId, sellerAmount, fee);
+    }
 }
