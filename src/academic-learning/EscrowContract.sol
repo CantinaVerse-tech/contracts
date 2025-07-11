@@ -253,4 +253,19 @@ contract EscrowContract {
 
         emit EscrowCompleted(escrowId, sellerAmount, fee);
     }
+
+    /**
+     * @notice Refund buyer if dispute is raised or deadline passed
+     * @param escrowId The escrow ID
+     * @dev Internal function to refund buyer
+     */
+    function _refundBuyer(uint256 escrowId) internal {
+        Escrow storage escrow = escrows[escrowId];
+        escrow.state = EscrowState.REFUNDED;
+
+        uint256 refundAmount = escrow.amount;
+        escrow.buyer.transfer(refundAmount);
+
+        emit EscrowRefunded(escrowId, refundAmount);
+    }
 }
