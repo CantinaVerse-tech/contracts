@@ -268,4 +268,41 @@ contract EscrowContract {
 
         emit EscrowRefunded(escrowId, refundAmount);
     }
+
+    /**
+     * @notice Get escrow details by ID
+     * @param escrowId The escrow ID
+     * @dev Get escrow details
+     */
+    function getEscrow(uint256 escrowId)
+        external
+        view
+        escrowExists(escrowId)
+        returns (
+            address buyer,
+            address seller,
+            address arbiter,
+            uint256 amount,
+            string memory description,
+            EscrowState state,
+            bool buyerApproved,
+            bool sellerApproved,
+            uint256 createdAt,
+            uint256 deadline
+        )
+    {
+        Escrow storage escrow = escrows[escrowId];
+        return (
+            escrow.buyer,
+            escrow.seller,
+            escrow.arbiter,
+            escrow.amount,
+            escrow.description,
+            escrow.state,
+            escrow.buyerApproved,
+            escrow.sellerApproved,
+            escrow.createdAt,
+            escrow.deadline
+        );
+    }
 }
