@@ -305,4 +305,13 @@ contract EscrowContract {
             escrow.deadline
         );
     }
+
+    /**
+     * @notice Check if escrow is expired by deadline
+     * @param escrowId The escrow ID
+     * @dev Check if escrow is expired
+     */
+    function isExpired(uint256 escrowId) external view escrowExists(escrowId) returns (bool) {
+        return block.timestamp > escrows[escrowId].deadline;
+    }
 }
