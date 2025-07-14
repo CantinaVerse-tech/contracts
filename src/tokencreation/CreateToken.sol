@@ -9,4 +9,10 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  * @author CantinaVerse-Tech
  * @notice
  */
-contract SimpleToken is ERC20, Ownable { }
+contract SimpleToken is ERC20, Ownable {
+    uint8 private _decimals;
+    uint256 public maxSupply;
+    string private _description;
+    string private _imageUrl;
+    address public creator;
+}
