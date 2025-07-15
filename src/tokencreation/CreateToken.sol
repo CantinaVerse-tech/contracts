@@ -34,6 +34,14 @@ contract SimpleToken is ERC20, Ownable {
     /// @dev This is set during construction and represents the original creator
     address public creator;
 
+    /**
+     * @notice Emitted when a new token is successfully created and deployed
+     * @param token The address of the newly created token contract
+     * @param creator The address of the account that created the token
+     * @param name The name of the token
+     * @param symbol The symbol of the token
+     * @param totalSupply The total supply of tokens minted to the creator
+     */
     event TokenCreated(address indexed token, address indexed creator, string name, string symbol, uint256 totalSupply);
 
     constructor(
