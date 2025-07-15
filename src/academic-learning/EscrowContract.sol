@@ -323,4 +323,13 @@ contract EscrowContract {
     function getTotalEscrows() external view returns (uint256) {
         return escrowCounter;
     }
+
+    /**
+     * @notice Emergency withdrawal by owner
+     * @dev Emergency withdrawal by owner (only if contract needs to be upgraded)
+     */
+    function emergencyWithdraw() external {
+        require(msg.sender == owner, "Only owner");
+        payable(owner).transfer(address(this).balance);
+    }
 }
