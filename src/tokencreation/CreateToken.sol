@@ -44,6 +44,18 @@ contract SimpleToken is ERC20, Ownable {
      */
     event TokenCreated(address indexed token, address indexed creator, string name, string symbol, uint256 totalSupply);
 
+   /**
+     * @notice Creates a new SimpleToken with specified parameters
+     * @dev Initializes the ERC20 token with name and symbol, sets up ownership,
+     *      and mints the entire supply to the creator address
+     * @param name The human-readable name of the token (e.g., "My Token")
+     * @param symbol The ticker symbol of the token (e.g., "MTK")
+     * @param decimals_ The number of decimal places for token amounts (typically 18)
+     * @param totalSupply The total amount of tokens to create (in wei units)
+     * @param description A text description of the token's purpose
+     * @param imageUrl A URL pointing to an image representing the token
+     * @param creator_ The address that will own the contract and receive all tokens
+     */
     constructor(
         string memory name,
         string memory symbol,
