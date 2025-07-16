@@ -88,4 +88,8 @@ contract SimpleToken is ERC20, Ownable {
         function decimals() public view override returns (uint8) {
         return _decimals;
     }
+
+        function description() public view returns (string memory) {
+        return _description;
+    }
 }
