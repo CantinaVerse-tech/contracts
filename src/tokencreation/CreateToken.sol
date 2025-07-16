@@ -80,6 +80,11 @@ contract SimpleToken is ERC20, Ownable {
         emit TokenCreated(address(this), creator_, name, symbol, totalSupply);
     }
 
+   /**
+     * @notice Returns the number of decimal places for the token
+     * @dev Overrides the ERC20 decimals() function to return custom decimals value
+     * @return The number of decimal places (e.g., 18 for most tokens)
+     */
         function decimals() public view override returns (uint8) {
         return _decimals;
     }
