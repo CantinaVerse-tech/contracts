@@ -89,6 +89,12 @@ contract SimpleToken is ERC20, Ownable {
         return _decimals;
     }
 
+
+ /**
+     * @notice Returns the description of the token
+     * @dev Getter function for the private _description variable
+     * @return The token's description string
+     */
         function description() public view returns (string memory) {
         return _description;
     }
