@@ -98,4 +98,22 @@ contract SimpleToken is ERC20, Ownable {
         function description() public view returns (string memory) {
         return _description;
     }
+
+    /**
+     * @notice Returns the image URL of the token
+     * @dev Getter function for the private _imageUrl variable
+     * @return The token's image URL string
+     */
+    function imageUrl() public view returns (string memory) {
+        return _imageUrl;
+    }
+
+    /**
+     * @notice Burns tokens from the caller's account
+     * @dev Reduces the total supply by destroying tokens from msg.sender
+     * @param amount The number of tokens to burn (in wei units)
+     */
+    function burn(uint256 amount) public {
+        _burn(msg.sender, amount);
+    }
 }
