@@ -116,4 +116,16 @@ contract SimpleToken is ERC20, Ownable {
     function burn(uint256 amount) public {
         _burn(msg.sender, amount);
     }
+
+    /**
+     * @notice Burns tokens from a specified account using allowance
+     * @dev Allows approved spenders to burn tokens from another account
+     *      Requires sufficient allowance from the account being burned from
+     * @param account The address to burn tokens from
+     * @param amount The number of tokens to burn (in wei units)
+     */
+    function burnFrom(address account, uint256 amount) public {
+    _spendAllowance(account, msg.sender, amount);
+    _burn(account, amount);
+    }
 }
