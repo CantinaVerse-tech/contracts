@@ -129,3 +129,17 @@ contract SimpleToken is ERC20, Ownable {
     _burn(account, amount);
     }
 }
+
+/**
+ * @title TokenFactory
+ * @author CantinaVerse-Tech
+ * @notice A factory contract for creating and managing ERC20 tokens
+ * @dev This contract provides functionality to deploy new TokenCreation contracts
+ *      with a fee mechanism. It maintains records of all created tokens and provides
+ *      various query functions for retrieving token information. The contract supports
+ *      pagination for efficient data retrieval and includes administrative functions
+ *      for managing fees and recipients.
+ */
+contract TokenFactory {}
+
+
