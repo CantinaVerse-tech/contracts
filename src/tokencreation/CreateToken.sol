@@ -463,6 +463,18 @@ contract TokenFactory {
     /// @notice Mapping from creator address to array of their created tokens
     /// @dev Enables efficient lookup of all tokens created by a specific address
     mapping(address => address[]) public creatorTokens;
+
+    /// @notice Array containing all created token addresses in creation order
+    /// @dev Used for iteration and pagination, maintains chronological order
+    address[] public allTokens;
+
+    /// @notice The fee required to create a new token (in wei)
+    /// @dev Can be updated by the contract owner, set to 0 for free creation
+    uint256 public creationFee = 0 ether;
+    
+    /// @notice The address that receives creation fees
+    /// @dev Also serves as the contract owner for administrative functions
+    address public feeRecipient;
 }
 
 
