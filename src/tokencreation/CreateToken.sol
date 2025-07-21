@@ -475,6 +475,16 @@ contract TokenFactory {
     /// @notice The address that receives creation fees
     /// @dev Also serves as the contract owner for administrative functions
     address public feeRecipient;
+
+    event TokenCreated(
+        address indexed token,
+        address indexed creator,
+        string name,
+        string symbol,
+        uint256 totalSupply,
+        string description,
+        string imageUrl
+    );
 }
 
 
