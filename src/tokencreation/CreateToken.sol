@@ -495,6 +495,8 @@ contract TokenFactory {
         string description,
         string imageUrl
     );
+
+    event CreationFeeUpdated(uint256 newFee);
 }
 
 
