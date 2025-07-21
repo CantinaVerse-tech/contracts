@@ -476,6 +476,16 @@ contract TokenFactory {
     /// @dev Also serves as the contract owner for administrative functions
     address public feeRecipient;
 
+    /**
+     * @notice Emitted when a new token is successfully created through the factory
+     * @param token The address of the newly deployed token contract
+     * @param creator The address of the account that created the token
+     * @param name The name of the created token
+     * @param symbol The symbol of the created token
+     * @param totalSupply The total supply of the created token
+     * @param description The description of the created token
+     * @param imageUrl The image URL of the created token
+     */
     event TokenCreated(
         address indexed token,
         address indexed creator,
