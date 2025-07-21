@@ -496,6 +496,10 @@ contract TokenFactory {
         string imageUrl
     );
 
+    /**
+     * @notice Emitted when the creation fee is updated
+     * @param newFee The new fee amount in wei
+     */
     event CreationFeeUpdated(uint256 newFee);
 }
 
