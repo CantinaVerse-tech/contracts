@@ -501,6 +501,12 @@ contract TokenFactory {
      * @param newFee The new fee amount in wei
      */
     event CreationFeeUpdated(uint256 newFee);
+
+    /**
+     * @notice Emitted when the fee recipient address is updated
+     * @param newRecipient The new fee recipient address
+     */
+    event FeeRecipientUpdated(address newRecipient);
 }
 
 
