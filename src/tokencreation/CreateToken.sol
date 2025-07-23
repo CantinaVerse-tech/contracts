@@ -507,6 +507,15 @@ contract TokenFactory {
      * @param newRecipient The new fee recipient address
      */
     event FeeRecipientUpdated(address newRecipient);
+
+    /**
+     * @notice Initializes the TokenFactory with a fee recipient
+     * @dev Sets the initial fee recipient who will receive creation fees and have admin privileges
+     * @param _feeRecipient The address that will receive creation fees and serve as admin
+     */
+    constructor(address _feeRecipient) {
+        feeRecipient = _feeRecipient;
+    }
 }
 
 
