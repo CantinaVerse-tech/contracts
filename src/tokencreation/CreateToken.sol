@@ -507,6 +507,10 @@ contract TokenFactory {
      * @param newRecipient The new fee recipient address
      */
     event FeeRecipientUpdated(address newRecipient);
+
+    constructor(address _feeRecipient) {
+        feeRecipient = _feeRecipient;
+    }
 }
 
 
