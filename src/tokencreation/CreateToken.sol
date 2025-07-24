@@ -516,6 +516,11 @@ contract TokenFactory {
     constructor(address _feeRecipient) {
         feeRecipient = _feeRecipient;
     }
+
+    modifier onlyOwner() {
+        require(msg.sender == feeRecipient, "Not authorized");
+        _;
+    }
 }
 
 
