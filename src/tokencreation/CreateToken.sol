@@ -516,6 +516,15 @@ contract TokenFactory {
     constructor(address _feeRecipient) {
         feeRecipient = _feeRecipient;
     }
+
+    /**
+     * @notice Restricts function access to the fee recipient (contract owner)
+     * @dev Used on administrative functions like fee updates
+     */
+    modifier onlyOwner() {
+        require(msg.sender == feeRecipient, "Not authorized");
+        _;
+    }
 }
 
 
