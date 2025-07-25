@@ -525,6 +525,55 @@ contract TokenFactory {
         require(msg.sender == feeRecipient, "Not authorized");
         _;
     }
+
+     function createToken(
+        string memory name,
+        string memory symbol,
+        uint8 decimals,
+        uint256 totalSupply,
+        string memory description,
+        string memory imageUrl
+    ) external payable returns (address) {
+        // Validate payment
+        require(msg.value >= creationFee, "Insufficient fee");
+        
+        // Validate input parameters
+        require(bytes(name).length > 0, "Name cannot be empty");
+        require(bytes(symbol).length > 0, "Symbol cannot be empty");
+        require(totalSupply > 0, "Total supply must be greater than 0");
+
+        // Deploy new token contract with msg.sender as creator and owner
+        TokenCreation newToken =
+            new TokenCreation(name, symbol, decimals, totalSupply, description, imageUrl, msg.sender);
+
+        address tokenAddress = address(newToken);
+
+        // Store comprehensive token information
+        tokens[tokenAddress] = TokenInfo({
+            tokenAddress: tokenAddress,
+            creator: msg.sender,
+            name: name,
+            symbol: symbol,
+            totalSupply: totalSupply,
+            description: description,
+            imageUrl: imageUrl,
+            createdAt: block.timestamp
+        });
+
+        // Add to tracking arrays
+        allTokens.push(tokenAddress);
+        creatorTokens[msg.sender].push(tokenAddress);
+
+        // Transfer creation fee to recipient if payment was made
+        if (msg.value > 0) {
+            payable(feeRecipient).transfer(msg.value);
+        }
+
+        emit TokenCreated(tokenAddress, msg.sender, name, symbol, totalSupply, description, imageUrl);
+
+        return tokenAddress;
+    }
+
 }
 
 
