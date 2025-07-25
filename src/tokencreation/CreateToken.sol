@@ -526,6 +526,18 @@ contract TokenFactory {
         _;
     }
 
+    /**
+     * @notice Creates a new ERC20 token with the specified parameters
+     * @dev Deploys a new TokenCreation contract and records its information
+     *      Requires payment of the creation fee and validates input parameters
+     * @param name The human-readable name of the token (must not be empty)
+     * @param symbol The ticker symbol of the token (must not be empty)
+     * @param decimals The number of decimal places for the token (typically 18)
+     * @param totalSupply The total supply of tokens to create (must be > 0)
+     * @param description A text description of the token's purpose
+     * @param imageUrl A URL pointing to an image representing the token
+     * @return The address of the newly created token contract
+     */
      function createToken(
         string memory name,
         string memory symbol,
