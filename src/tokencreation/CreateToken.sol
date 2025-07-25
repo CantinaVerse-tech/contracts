@@ -525,6 +525,67 @@ contract TokenFactory {
         require(msg.sender == feeRecipient, "Not authorized");
         _;
     }
+
+    /**
+     * @notice Creates a new ERC20 token with the specified parameters
+     * @dev Deploys a new TokenCreation contract and records its information
+     *      Requires payment of the creation fee and validates input parameters
+     * @param name The human-readable name of the token (must not be empty)
+     * @param symbol The ticker symbol of the token (must not be empty)
+     * @param decimals The number of decimal places for the token (typically 18)
+     * @param totalSupply The total supply of tokens to create (must be > 0)
+     * @param description A text description of the token's purpose
+     * @param imageUrl A URL pointing to an image representing the token
+     * @return The address of the newly created token contract
+     */
+     function createToken(
+        string memory name,
+        string memory symbol,
+        uint8 decimals,
+        uint256 totalSupply,
+        string memory description,
+        string memory imageUrl
+    ) external payable returns (address) {
+        // Validate payment
+        require(msg.value >= creationFee, "Insufficient fee");
+        
+        // Validate input parameters
+        require(bytes(name).length > 0, "Name cannot be empty");
+        require(bytes(symbol).length > 0, "Symbol cannot be empty");
+        require(totalSupply > 0, "Total supply must be greater than 0");
+
+        // Deploy new token contract with msg.sender as creator and owner
+        TokenCreation newToken =
+            new TokenCreation(name, symbol, decimals, totalSupply, description, imageUrl, msg.sender);
+
+        address tokenAddress = address(newToken);
+
+        // Store comprehensive token information
+        tokens[tokenAddress] = TokenInfo({
+            tokenAddress: tokenAddress,
+            creator: msg.sender,
+            name: name,
+            symbol: symbol,
+            totalSupply: totalSupply,
+            description: description,
+            imageUrl: imageUrl,
+            createdAt: block.timestamp
+        });
+
+        // Add to tracking arrays
+        allTokens.push(tokenAddress);
+        creatorTokens[msg.sender].push(tokenAddress);
+
+        // Transfer creation fee to recipient if payment was made
+        if (msg.value > 0) {
+            payable(feeRecipient).transfer(msg.value);
+        }
+
+        emit TokenCreated(tokenAddress, msg.sender, name, symbol, totalSupply, description, imageUrl);
+
+        return tokenAddress;
+    }
+
 }
 
 
