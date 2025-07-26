@@ -586,6 +586,10 @@ contract TokenFactory {
         return tokenAddress;
     }
 
+    function getTokensByCreator(address creator) external view returns (address[] memory) {
+        return creatorTokens[creator];
+    }
+
 }
 
 
