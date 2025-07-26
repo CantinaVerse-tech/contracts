@@ -586,6 +586,16 @@ contract TokenFactory {
         return tokenAddress;
     }
 
+    /**
+     * @notice Retrieves all tokens created by a specific address
+     * @dev Returns an array of token addresses created by the specified creator
+     * @param creator The address to query for created tokens
+     * @return An array of token contract addresses created by the specified creator
+     */
+    function getTokensByCreator(address creator) external view returns (address[] memory) {
+        return creatorTokens[creator];
+    }
+
 }
 
 
