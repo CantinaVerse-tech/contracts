@@ -596,6 +596,9 @@ contract TokenFactory {
         return creatorTokens[creator];
     }
 
+    function getTotalTokens() external view returns (uint256) {
+        return allTokens.length;
+    }
 }
 
 
