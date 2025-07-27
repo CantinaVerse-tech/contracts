@@ -596,6 +596,11 @@ contract TokenFactory {
         return creatorTokens[creator];
     }
 
+    /**
+     * @notice Returns the total number of tokens created through this factory
+     * @dev Provides a count of all tokens ever created, useful for pagination
+     * @return The total number of tokens created
+     */
     function getTotalTokens() external view returns (uint256) {
         return allTokens.length;
     }
