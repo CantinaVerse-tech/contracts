@@ -604,6 +604,10 @@ contract TokenFactory {
     function getTotalTokens() external view returns (uint256) {
         return allTokens.length;
     }
+
+    function getTokenInfo(address tokenAddress) external view returns (TokenInfo memory) {
+        return tokens[tokenAddress];
+    }
 }
 
 
