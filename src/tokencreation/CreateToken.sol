@@ -605,6 +605,12 @@ contract TokenFactory {
         return allTokens.length;
     }
 
+    /**
+     * @notice Retrieves comprehensive information about a specific token
+     * @dev Returns the complete TokenInfo struct for the given token address
+     * @param tokenAddress The address of the token to query
+     * @return TokenInfo struct containing all stored information about the token
+     */
     function getTokenInfo(address tokenAddress) external view returns (TokenInfo memory) {
         return tokens[tokenAddress];
     }
