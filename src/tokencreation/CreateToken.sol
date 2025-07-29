@@ -615,6 +615,14 @@ contract TokenFactory {
         return tokens[tokenAddress];
     }
 
+    /**
+     * @notice Retrieves a paginated list of all created tokens
+     * @dev Supports pagination to efficiently handle large numbers of tokens
+     *      Returns tokens in chronological order (oldest first)
+     * @param offset The starting index for pagination (0-based)
+     * @param limit The maximum number of tokens to return
+     * @return An array of TokenInfo structs for the requested page
+     */
     function getTokens(uint256 offset, uint256 limit) external view returns (TokenInfo[] memory) {
         uint256 totalTokens = allTokens.length;
 
