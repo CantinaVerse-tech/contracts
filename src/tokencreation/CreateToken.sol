@@ -614,6 +614,20 @@ contract TokenFactory {
     function getTokenInfo(address tokenAddress) external view returns (TokenInfo memory) {
         return tokens[tokenAddress];
     }
+
+    function getTokens(uint256 offset, uint256 limit) external view returns (TokenInfo[] memory) {
+        uint256 totalTokens = allTokens.length;
+
+        // Return empty array if offset is beyond available tokens
+        if (offset >= totalTokens) {
+            return new TokenInfo[](0);
+        }
+
+        // Calculate the end index, ensuring it doesn't exceed total tokens
+        uint256 end = offset + limit;
+        if (end > totalTokens) {
+            end = totalTokens;
+        }
 }
 
 
