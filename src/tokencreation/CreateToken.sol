@@ -637,7 +637,12 @@ contract TokenFactory {
             end = totalTokens;
         }
 
-        function updateCreationFee(uint256 newFee) external onlyOwner {
+    /**
+     * @notice Updates the fee required to create new tokens
+     * @dev Can only be called by the contract owner (fee recipient)
+     * @param newFee The new creation fee in wei (can be 0 for free creation)
+     */   
+    function updateCreationFee(uint256 newFee) external onlyOwner {
         creationFee = newFee;
         emit CreationFeeUpdated(newFee);
     }
