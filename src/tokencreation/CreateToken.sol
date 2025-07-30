@@ -636,6 +636,11 @@ contract TokenFactory {
         if (end > totalTokens) {
             end = totalTokens;
         }
+
+        function updateCreationFee(uint256 newFee) external onlyOwner {
+        creationFee = newFee;
+        emit CreationFeeUpdated(newFee);
+    }
 }
 
 
