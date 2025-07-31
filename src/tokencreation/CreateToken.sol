@@ -646,6 +646,12 @@ contract TokenFactory {
         creationFee = newFee;
         emit CreationFeeUpdated(newFee);
     }
+
+    function updateFeeRecipient(address newRecipient) external onlyOwner {
+        require(newRecipient != address(0), "Invalid recipient");
+        feeRecipient = newRecipient;
+        emit FeeRecipientUpdated(newRecipient);
+    }
 }
 
 
