@@ -646,6 +646,18 @@ contract TokenFactory {
         creationFee = newFee;
         emit CreationFeeUpdated(newFee);
     }
+
+    /**
+     * @notice Updates the address that receives creation fees
+     * @dev Can only be called by the current fee recipient
+     *      The new recipient also becomes the contract owner
+     * @param newRecipient The new fee recipient address (cannot be zero address)
+     */
+    function updateFeeRecipient(address newRecipient) external onlyOwner {
+        require(newRecipient != address(0), "Invalid recipient");
+        feeRecipient = newRecipient;
+        emit FeeRecipientUpdated(newRecipient);
+    }
 }
 
 
