@@ -12,4 +12,17 @@ contract MathChallenge {
 
     event Attempt(address indexed student, uint256 answer, bool correct, uint256 attemptCount);
     event ProblemSolved(address indexed student, uint256 finalAttempts);
+
+    constructor(
+        string memory _problem,
+        uint256 _answer,
+        string memory _hint,
+        uint256 _difficulty
+    ) {
+        // Initialize problem parameters
+        problem = _problem;
+        correctAnswer = _answer; // Immutable - cannot be changed after deployment
+        hint = _hint;
+        difficulty = _difficulty;
+    }
 }
