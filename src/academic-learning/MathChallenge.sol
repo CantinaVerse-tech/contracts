@@ -28,8 +28,15 @@ contract MathChallenge {
     /// @notice Difficulty rating of the problem on a 1-5 scale
     /// @dev 1 = Very Easy, 2 = Easy, 3 = Medium, 4 = Hard, 5 = Very Hard
     uint256 public difficulty; // 1-5 scale
+
+    /*//////////////////////////////////////////////////////////////
+                                MAPPINGS
+    //////////////////////////////////////////////////////////////*/
     
+    /// @notice Tracks the number of attempts each student has made
+    /// @dev Maps student address to their attempt count for this specific problem
     mapping(address => uint256) public attempts;
+
     mapping(address => bool) public solved;
 
     event Attempt(address indexed student, uint256 answer, bool correct, uint256 attemptCount);
