@@ -9,7 +9,14 @@ pragma solidity ^0.8.19;
  * @custom:version 1.0.0
  */
 contract MathChallenge {
+    /*//////////////////////////////////////////////////////////////
+                                STORAGE
+    //////////////////////////////////////////////////////////////*/
+    
+    /// @notice The mathematical problem statement presented to students
+    /// @dev Stored as a string to allow complex mathematical expressions and formatting
     string public problem;
+
     uint256 public immutable correctAnswer;
     string public hint;
     uint256 public difficulty; // 1-5 scale
