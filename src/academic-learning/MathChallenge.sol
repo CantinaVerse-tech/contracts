@@ -17,7 +17,10 @@ contract MathChallenge {
     /// @dev Stored as a string to allow complex mathematical expressions and formatting
     string public problem;
 
+    /// @notice The correct numerical answer to the mathematical problem
+    /// @dev Immutable to prevent tampering after deployment, ensuring problem integrity
     uint256 public immutable correctAnswer;
+
     string public hint;
     uint256 public difficulty; // 1-5 scale
     
