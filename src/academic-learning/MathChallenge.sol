@@ -21,7 +21,10 @@ contract MathChallenge {
     /// @dev Immutable to prevent tampering after deployment, ensuring problem integrity
     uint256 public immutable correctAnswer;
 
+    /// @notice A hint to help students solve the problem
+    /// @dev Can be updated by adding a setter function if needed for dynamic hints
     string public hint;
+
     uint256 public difficulty; // 1-5 scale
     
     mapping(address => uint256) public attempts;
