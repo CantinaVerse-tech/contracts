@@ -25,6 +25,8 @@ contract MathChallenge {
     /// @dev Can be updated by adding a setter function if needed for dynamic hints
     string public hint;
 
+    /// @notice Difficulty rating of the problem on a 1-5 scale
+    /// @dev 1 = Very Easy, 2 = Easy, 3 = Medium, 4 = Hard, 5 = Very Hard
     uint256 public difficulty; // 1-5 scale
     
     mapping(address => uint256) public attempts;
