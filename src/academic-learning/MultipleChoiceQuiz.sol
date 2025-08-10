@@ -10,4 +10,5 @@ contract MultipleChoiceQuiz {
     }
 
   string public quizTitle;
+  Question[] public questions;
 }
