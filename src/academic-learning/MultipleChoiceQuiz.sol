@@ -18,4 +18,6 @@ contract MultipleChoiceQuiz {
   mapping(address => uint256) public scores;
   mapping(address => bool) public passed;
 
+  event QuizSubmitted(address indexed student, uint256 score, bool passed);
+
 }
