@@ -8,4 +8,6 @@ contract MultipleChoiceQuiz {
         uint8 correctAnswer; // Index of correct option (0-based)
         string explanation;
     }
+
+  string public quizTitle;
 }
