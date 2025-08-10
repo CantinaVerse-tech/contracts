@@ -19,5 +19,11 @@ contract MultipleChoiceQuiz {
   mapping(address => bool) public passed;
 
   event QuizSubmitted(address indexed student, uint256 score, bool passed);
-
+  constructor(
+        string memory _title,
+        uint256 _passingScore
+    ) {
+        quizTitle = _title;
+        passingScore = _passingScore;
+    }
 }
