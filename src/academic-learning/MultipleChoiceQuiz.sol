@@ -11,4 +11,5 @@ contract MultipleChoiceQuiz {
 
   string public quizTitle;
   Question[] public questions;
+  uint256 public passingScore; // Percentage needed to pass (0-100)
 }
