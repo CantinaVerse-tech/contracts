@@ -15,5 +15,6 @@ contract MultipleChoiceQuiz {
 
   mapping(address => mapping(uint256 => uint8)) public studentAnswers;
   mapping(address => bool) public hasSubmitted;
+  mapping(address => uint256) public scores;
 
 }
