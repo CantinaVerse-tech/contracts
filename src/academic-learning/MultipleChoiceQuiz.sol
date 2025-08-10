@@ -14,5 +14,6 @@ contract MultipleChoiceQuiz {
   uint256 public passingScore; // Percentage needed to pass (0-100)
 
   mapping(address => mapping(uint256 => uint8)) public studentAnswers;
+  mapping(address => bool) public hasSubmitted;
 
 }
