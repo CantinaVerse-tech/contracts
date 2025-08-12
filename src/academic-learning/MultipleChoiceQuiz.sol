@@ -43,4 +43,24 @@ function addQuestion(
             explanation: _explanation
         }));
     }
+
+function submitQuiz(uint8[] calldata answers) external {
+        require(!hasSubmitted[msg.sender], "Quiz already submitted");
+        require(answers.length == questions.length, "Answer count mismatch");
+        
+        uint256 correct = 0;
+        
+        for (uint256 i = 0; i < questions.length; i++) {
+            studentAnswers[msg.sender][i] = answers[i];
+            if (answers[i] == questions[i].correctAnswer) {
+                correct++;
+            }
+        }
+        
+        hasSubmitted[msg.sender] = true;
+        scores[msg.sender] = (correct * 100) / questions.length;
+        passed[msg.sender] = scores[msg.sender] >= passingScore;
+        
+        emit QuizSubmitted(msg.sender, scores[msg.sender], passed[msg.sender]);
+    }
 }
