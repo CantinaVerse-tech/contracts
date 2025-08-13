@@ -63,4 +63,24 @@ function submitQuiz(uint8[] calldata answers) external {
         
         emit QuizSubmitted(msg.sender, scores[msg.sender], passed[msg.sender]);
     }
+
+    function getQuestion(uint256 index) external view returns (
+        string memory question,
+        string[] memory options
+    ) {
+        require(index < questions.length, "Question does not exist");
+        return (questions[index].question, questions[index].options);
+    }
+    
+    function getQuestionCount() external view returns (uint256) {
+        return questions.length;
+    }
+    
+    function getResults(address student) external view returns (
+        uint256 score,
+        bool hasPassed,
+        bool submitted
+    ) {
+        return (scores[student], passed[student], hasSubmitted[student]);
+    }
 }
