@@ -1,6 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
+/**
+ * @title MultipleChoiceQuiz
+ * @author CantinaVerse-Tech
+ * @notice A smart contract for creating and managing multiple-choice quizzes with scoring and pass/fail functionality
+ * @dev This contract allows quiz creation, student submissions, and result tracking with immutable quiz data
+ * @custom:version 1.0.0
+ */
 contract MultipleChoiceQuiz {
     struct Question {
         string question;
