@@ -9,6 +9,18 @@ pragma solidity ^0.8.19;
  * @custom:version 1.0.0
  */
 contract MultipleChoiceQuiz {
+    /*//////////////////////////////////////////////////////////////
+                               STRUCTS
+    //////////////////////////////////////////////////////////////*/
+
+    /**
+     * @notice Represents a single multiple-choice question
+     * @dev All question data is stored on-chain and immutable after creation
+     * @param question The question text to be displayed to students
+     * @param options Array of possible answer choices for the question
+     * @param correctAnswer Zero-based index of the correct option in the options array
+     * @param explanation Detailed explanation provided after quiz submission
+     */
     struct Question {
         string question;
         string[] options;
