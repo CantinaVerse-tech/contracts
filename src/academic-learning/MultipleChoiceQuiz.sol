@@ -28,9 +28,21 @@ contract MultipleChoiceQuiz {
         string explanation;
     }
 
-  string public quizTitle;
-  Question[] public questions;
-  uint256 public passingScore; // Percentage needed to pass (0-100)
+    /*//////////////////////////////////////////////////////////////
+                           STATE VARIABLES
+    //////////////////////////////////////////////////////////////*/
+
+    /// @notice The title/name of this quiz instance
+    /// @dev Set once during contract deployment and cannot be changed
+    string public quizTitle;
+
+    /// @notice Array storing all questions for this quiz
+    /// @dev Questions can only be added, never modified or removed
+    Question[] public questions;
+
+    /// @notice Minimum percentage score required to pass the quiz (0-100)
+    /// @dev Set during deployment and used to determine pass/fail status
+    uint256 public passingScore;
 
   mapping(address => mapping(uint256 => uint8)) public studentAnswers;
   mapping(address => bool) public hasSubmitted;
