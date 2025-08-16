@@ -36,7 +36,10 @@ contract MultipleChoiceQuiz {
     /// @dev Set once during contract deployment and cannot be changed
     string public quizTitle;
 
-  Question[] public questions;
+    /// @notice Array storing all questions for this quiz
+    /// @dev Questions can only be added, never modified or removed
+    Question[] public questions;
+
   uint256 public passingScore; // Percentage needed to pass (0-100)
 
   mapping(address => mapping(uint256 => uint8)) public studentAnswers;
