@@ -40,7 +40,9 @@ contract MultipleChoiceQuiz {
     /// @dev Questions can only be added, never modified or removed
     Question[] public questions;
 
-  uint256 public passingScore; // Percentage needed to pass (0-100)
+    /// @notice Minimum percentage score required to pass the quiz (0-100)
+    /// @dev Set during deployment and used to determine pass/fail status
+    uint256 public passingScore;
 
   mapping(address => mapping(uint256 => uint8)) public studentAnswers;
   mapping(address => bool) public hasSubmitted;
