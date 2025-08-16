@@ -28,7 +28,14 @@ contract MultipleChoiceQuiz {
         string explanation;
     }
 
-  string public quizTitle;
+    /*//////////////////////////////////////////////////////////////
+                           STATE VARIABLES
+    //////////////////////////////////////////////////////////////*/
+
+    /// @notice The title/name of this quiz instance
+    /// @dev Set once during contract deployment and cannot be changed
+    string public quizTitle;
+
   Question[] public questions;
   uint256 public passingScore; // Percentage needed to pass (0-100)
 
