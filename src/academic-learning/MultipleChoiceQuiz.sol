@@ -52,7 +52,10 @@ contract MultipleChoiceQuiz {
     /// @dev Structure: studentAnswers[studentAddress][questionIndex] = selectedAnswerIndex
     mapping(address => mapping(uint256 => uint8)) public studentAnswers;
 
-  mapping(address => bool) public hasSubmitted;
+    /// @notice Tracks whether a student has already submitted their quiz
+    /// @dev Prevents multiple submissions from the same address
+    mapping(address => bool) public hasSubmitted;
+
   mapping(address => uint256) public scores;
   mapping(address => bool) public passed;
 
