@@ -94,14 +94,34 @@ contract MultipleChoiceQuiz {
         passingScore = _passingScore;
     }
 
-function addQuestion(
+    /*//////////////////////////////////////////////////////////////
+                           EXTERNAL FUNCTIONS
+    //////////////////////////////////////////////////////////////*/
+
+    /**
+     * @notice Adds a new question to the quiz
+     * @dev Questions are immutable once added. The correct answer index must be valid.
+     * @param _question The question text to display
+     * @param _options Array of possible answer choices
+     * @param _correctAnswer Zero-based index of the correct option (must be < options.length)
+     * @param _explanation Explanation text shown after submission
+     * 
+     * Requirements:
+     * - _correctAnswer must be a valid index within _options array
+     * - Can be called multiple times to build the complete quiz
+     * 
+     * @custom:security No access control - anyone can add questions. Consider adding onlyOwner modifier for production use.
+     */
+    function addQuestion(
         string memory _question,
         string[] memory _options,
         uint8 _correctAnswer,
         string memory _explanation
     ) external {
+        // Validate that the correct answer index exists within the options array
         require(_correctAnswer < _options.length, "Invalid correct answer index");
         
+        // Add the new question to storage
         questions.push(Question({
             question: _question,
             options: _options,
