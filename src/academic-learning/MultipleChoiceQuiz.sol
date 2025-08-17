@@ -56,7 +56,10 @@ contract MultipleChoiceQuiz {
     /// @dev Prevents multiple submissions from the same address
     mapping(address => bool) public hasSubmitted;
 
-  mapping(address => uint256) public scores;
+    /// @notice Maps student address to their calculated score (0-100)
+    /// @dev Score is calculated as (correctAnswers / totalQuestions) * 100
+    mapping(address => uint256) public scores;
+
   mapping(address => bool) public passed;
 
   event QuizSubmitted(address indexed student, uint256 score, bool passed);
