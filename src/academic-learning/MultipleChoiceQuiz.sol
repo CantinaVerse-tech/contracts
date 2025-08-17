@@ -215,6 +215,16 @@ contract MultipleChoiceQuiz {
         return questions.length;
     }
     
+    /**
+     * @notice Retrieves a student's quiz results and submission status
+     * @dev Can be called for any address, including addresses that haven't taken the quiz
+     * @param student The address of the student to check
+     * @return score The student's percentage score (0-100), or 0 if not submitted
+     * @return hasPassed Whether the student achieved a passing score, false if not submitted
+     * @return submitted Whether the student has submitted their quiz
+     * 
+     * @custom:note For students who haven't submitted, score will be 0 and hasPassed will be false
+     */
     function getResults(address student) external view returns (
         uint256 score,
         bool hasPassed,
