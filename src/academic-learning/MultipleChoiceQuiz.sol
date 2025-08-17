@@ -76,8 +76,17 @@ contract MultipleChoiceQuiz {
      */
     event QuizSubmitted(address indexed student, uint256 score, bool passed);
 
+    /*//////////////////////////////////////////////////////////////
+                              CONSTRUCTOR
+    //////////////////////////////////////////////////////////////*/
 
-  constructor(
+    /**
+     * @notice Initializes a new quiz with a title and passing score requirement
+     * @dev The quiz starts empty - questions must be added separately using addQuestion()
+     * @param _title The display title for this quiz
+     * @param _passingScore Minimum percentage (0-100) required to pass the quiz
+     */
+    constructor(
         string memory _title,
         uint256 _passingScore
     ) {
