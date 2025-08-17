@@ -44,7 +44,14 @@ contract MultipleChoiceQuiz {
     /// @dev Set during deployment and used to determine pass/fail status
     uint256 public passingScore;
 
-  mapping(address => mapping(uint256 => uint8)) public studentAnswers;
+    /*//////////////////////////////////////////////////////////////
+                              MAPPINGS
+    //////////////////////////////////////////////////////////////*/
+
+    /// @notice Maps student address to their answer for each question
+    /// @dev Structure: studentAnswers[studentAddress][questionIndex] = selectedAnswerIndex
+    mapping(address => mapping(uint256 => uint8)) public studentAnswers;
+
   mapping(address => bool) public hasSubmitted;
   mapping(address => uint256) public scores;
   mapping(address => bool) public passed;
