@@ -60,7 +60,9 @@ contract MultipleChoiceQuiz {
     /// @dev Score is calculated as (correctAnswers / totalQuestions) * 100
     mapping(address => uint256) public scores;
 
-  mapping(address => bool) public passed;
+    /// @notice Maps student address to their pass/fail status
+    /// @dev True if student's score >= passingScore, false otherwise
+    mapping(address => bool) public passed;
 
   event QuizSubmitted(address indexed student, uint256 score, bool passed);
 
