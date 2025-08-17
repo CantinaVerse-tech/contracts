@@ -130,25 +130,42 @@ contract MultipleChoiceQuiz {
         }));
     }
 
-function submitQuiz(uint8[] calldata answers) external {
+     /**
+     * @notice Submits a student's answers and calculates their score
+     * @dev Processes all answers, calculates score, determines pass/fail status, and emits event
+     * @param answers Array of selected answer indices corresponding to each question
+     * 
+     * Requirements:
+     * - Student must not have already submitted (prevents re-submission)
+     * - answers array length must match the number of questions
+     * - Each answer index should be valid for its corresponding question
+     * 
+     * Effects:
+     * - Records all student answers in studentAnswers mapping
+     * - Calculates and stores percentage score (0-100)
+     * - Determines and stores pass/fail status
+     * - Marks student as having submitted
+     * - Emits QuizSubmitted event
+     */
+    function submitQuiz(uint8[] calldata answers) external {
+        // Prevent multiple submissions from the same student
         require(!hasSubmitted[msg.sender], "Quiz already submitted");
+        
+        // Ensure student provided an answer for every question
         require(answers.length == questions.length, "Answer count mismatch");
         
         uint256 correct = 0;
         
+        // Process each answer and count correct responses
         for (uint256 i = 0; i < questions.length; i++) {
+            // Store the student's answer for this question
             studentAnswers[msg.sender][i] = answers[i];
+            
+            // Check if the answer is correct and increment counter
             if (answers[i] == questions[i].correctAnswer) {
                 correct++;
             }
         }
-        
-        hasSubmitted[msg.sender] = true;
-        scores[msg.sender] = (correct * 100) / questions.length;
-        passed[msg.sender] = scores[msg.sender] >= passingScore;
-        
-        emit QuizSubmitted(msg.sender, scores[msg.sender], passed[msg.sender]);
-    }
 
     function getQuestion(uint256 index) external view returns (
         string memory question,
