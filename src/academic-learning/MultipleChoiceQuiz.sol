@@ -64,7 +64,18 @@ contract MultipleChoiceQuiz {
     /// @dev True if student's score >= passingScore, false otherwise
     mapping(address => bool) public passed;
 
-  event QuizSubmitted(address indexed student, uint256 score, bool passed);
+    /*//////////////////////////////////////////////////////////////
+                                EVENTS
+    //////////////////////////////////////////////////////////////*/
+
+    /**
+     * @notice Emitted when a student successfully submits their quiz
+     * @param student The address of the student who submitted the quiz
+     * @param score The calculated score as a percentage (0-100)
+     * @param passed Whether the student achieved a passing score
+     */
+    event QuizSubmitted(address indexed student, uint256 score, bool passed);
+
 
   constructor(
         string memory _title,
