@@ -166,12 +166,43 @@ contract MultipleChoiceQuiz {
                 correct++;
             }
         }
+        // Mark as submitted to prevent re-submission
+        hasSubmitted[msg.sender] = true;
+        
+        // Calculate percentage score (0-100)
+        scores[msg.sender] = (correct * 100) / questions.length;
+        
+        // Determine pass/fail status based on passing score threshold
+        passed[msg.sender] = scores[msg.sender] >= passingScore;
+        
+        // Emit event with results
+        emit QuizSubmitted(msg.sender, scores[msg.sender], passed[msg.sender]);
+    }
 
+    /*//////////////////////////////////////////////////////////////
+                            VIEW FUNCTIONS
+    //////////////////////////////////////////////////////////////*/
+
+    /**
+     * @notice Retrieves a specific question and its answer options
+     * @dev Returns question text and options array, but not the correct answer or explanation
+     * @param index Zero-based index of the question to retrieve
+     * @return question The question text
+     * @return options Array of possible answer choices
+     * 
+     * Requirements:
+     * - index must be less than the total number of questions
+     * 
+     * @custom:note This function intentionally does not return correctAnswer or explanation
+     * to prevent students from cheating before submission
+     */
     function getQuestion(uint256 index) external view returns (
         string memory question,
         string[] memory options
     ) {
+        // Ensure the requested question exists
         require(index < questions.length, "Question does not exist");
+        
         return (questions[index].question, questions[index].options);
     }
     
