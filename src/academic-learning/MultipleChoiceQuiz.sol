@@ -206,6 +206,11 @@ contract MultipleChoiceQuiz {
         return (questions[index].question, questions[index].options);
     }
     
+    /**
+     * @notice Returns the total number of questions in this quiz
+     * @dev Useful for frontend applications to iterate through all questions
+     * @return The total count of questions added to this quiz
+     */
     function getQuestionCount() external view returns (uint256) {
         return questions.length;
     }
