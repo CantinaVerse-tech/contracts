@@ -5,5 +5,6 @@ contract CodingChallenge {
     string public challengeTitle;
     string public description;
     string public requirements;
+    bytes32[] public testCaseHashes; // Hashes of expected outputs
 
 }
