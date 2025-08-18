@@ -16,7 +16,10 @@ contract CodingChallenge {
     /// @dev Contains the problem statement and context for students
     string public description;
 
+    /// @notice Requirements and constraints for the challenge
+    /// @dev Lists specific requirements that solutions must meet
     string public requirements;
+
     bytes32[] public testCaseHashes; // Hashes of expected outputs
 
 }
