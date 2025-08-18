@@ -20,6 +20,7 @@ contract CodingChallenge {
     /// @dev Lists specific requirements that solutions must meet
     string public requirements;
 
-    bytes32[] public testCaseHashes; // Hashes of expected outputs
-
+    /// @notice Array of hashed expected outputs for test cases
+    /// @dev Each hash represents the keccak256 of an expected output string
+    bytes32[] public testCaseHashes;
 }
