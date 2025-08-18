@@ -12,7 +12,10 @@ contract CodingChallenge {
     /// @dev Publicly accessible string containing the challenge name
     string public challengeTitle;
 
+    /// @notice Detailed description of the coding challenge
+    /// @dev Contains the problem statement and context for students
     string public description;
+
     string public requirements;
     bytes32[] public testCaseHashes; // Hashes of expected outputs
 
