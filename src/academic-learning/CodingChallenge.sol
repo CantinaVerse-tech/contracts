@@ -23,4 +23,8 @@ contract CodingChallenge {
     /// @notice Array of hashed expected outputs for test cases
     /// @dev Each hash represents the keccak256 of an expected output string
     bytes32[] public testCaseHashes;
+
+    /// @notice Mapping of student addresses to their submission hashes
+    /// @dev Maps student address to array of hashed outputs from their latest submission
+    mapping(address => bytes32[]) public studentSubmissions;
 }
