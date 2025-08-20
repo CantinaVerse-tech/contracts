@@ -27,4 +27,7 @@ contract CodingChallenge {
     /// @notice Mapping of student addresses to their submission hashes
     /// @dev Maps student address to array of hashed outputs from their latest submission
     mapping(address => bytes32[]) public studentSubmissions;
+
+    mapping(address => bool) public completed;
+
 }
