@@ -28,6 +28,8 @@ contract CodingChallenge {
     /// @dev Maps student address to array of hashed outputs from their latest submission
     mapping(address => bytes32[]) public studentSubmissions;
 
+    /// @notice Mapping to track which students have completed the challenge
+    /// @dev Maps student address to completion status (true if completed)
     mapping(address => bool) public completed;
 
 }
