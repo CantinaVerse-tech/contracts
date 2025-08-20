@@ -32,4 +32,6 @@ contract CodingChallenge {
     /// @dev Maps student address to completion status (true if completed)
     mapping(address => bool) public completed;
 
+    mapping(address => uint256) public submissionCount;
+
 }
