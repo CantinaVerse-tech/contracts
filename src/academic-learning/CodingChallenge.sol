@@ -27,4 +27,13 @@ contract CodingChallenge {
     /// @notice Mapping of student addresses to their submission hashes
     /// @dev Maps student address to array of hashed outputs from their latest submission
     mapping(address => bytes32[]) public studentSubmissions;
+
+    /// @notice Mapping to track which students have completed the challenge
+    /// @dev Maps student address to completion status (true if completed)
+    mapping(address => bool) public completed;
+
+    /// @notice Mapping to track submission count per student
+    /// @dev Maps student address to total number of submissions made
+    mapping(address => uint256) public submissionCount;
+
 }
