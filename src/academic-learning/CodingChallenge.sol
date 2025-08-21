@@ -36,4 +36,5 @@ contract CodingChallenge {
     /// @dev Maps student address to total number of submissions made
     mapping(address => uint256) public submissionCount;
 
+    event SubmissionMade(address indexed student, uint256 submissionNumber, bool allTestsPassed);
 }
