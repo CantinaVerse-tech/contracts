@@ -36,5 +36,15 @@ contract CodingChallenge {
     /// @dev Maps student address to total number of submissions made
     mapping(address => uint256) public submissionCount;
 
+    /**
+     * @notice Emitted when a student makes a submission
+     * @dev Event fired after each submission attempt, regardless of success
+     * @param student Address of the student making the submission
+     * @param submissionNumber The sequential submission number for this student
+     * @param allTestsPassed Whether all test cases passed for this submission
+     */
     event SubmissionMade(address indexed student, uint256 submissionNumber, bool allTestsPassed);
+
+    event ChallengeSolved(address indexed student, uint256 totalSubmissions);
+
 }
