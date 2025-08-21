@@ -44,4 +44,7 @@ contract CodingChallenge {
      * @param allTestsPassed Whether all test cases passed for this submission
      */
     event SubmissionMade(address indexed student, uint256 submissionNumber, bool allTestsPassed);
+
+    event ChallengeSolved(address indexed student, uint256 totalSubmissions);
+
 }
