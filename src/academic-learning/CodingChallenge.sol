@@ -45,6 +45,12 @@ contract CodingChallenge {
      */
     event SubmissionMade(address indexed student, uint256 submissionNumber, bool allTestsPassed);
 
+   /**
+     * @notice Emitted when a student successfully completes the challenge
+     * @dev Event fired only when all test cases pass for a submission
+     * @param student Address of the student who completed the challenge
+     * @param totalSubmissions Total number of submissions it took to complete
+     */
     event ChallengeSolved(address indexed student, uint256 totalSubmissions);
 
 }
