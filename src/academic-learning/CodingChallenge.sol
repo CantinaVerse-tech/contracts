@@ -53,4 +53,20 @@ contract CodingChallenge {
      */
     event ChallengeSolved(address indexed student, uint256 totalSubmissions);
 
+    /**
+     * @notice Constructor to initialize a new coding challenge
+     * @dev Sets up the basic challenge information
+     * @param _title The title of the coding challenge
+     * @param _description Detailed description of the problem
+     * @param _requirements Specific requirements and constraints
+     */
+    constructor(
+        string memory _title,
+        string memory _description,
+        string memory _requirements
+    ) {
+        challengeTitle = _title;
+        description = _description;
+        requirements = _requirements;
+    }
 }
