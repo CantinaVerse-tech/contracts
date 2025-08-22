@@ -53,4 +53,13 @@ contract CodingChallenge {
      */
     event ChallengeSolved(address indexed student, uint256 totalSubmissions);
 
+    constructor(
+        string memory _title,
+        string memory _description,
+        string memory _requirements
+    ) {
+        challengeTitle = _title;
+        description = _description;
+        requirements = _requirements;
+    }
 }
