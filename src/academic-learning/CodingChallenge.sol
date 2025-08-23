@@ -127,4 +127,11 @@ contract CodingChallenge {
     function getTestCaseCount() external view returns (uint256) {
         return testCaseHashes.length;
     }
+
+    function getProgress(address student) external view returns (
+        uint256 submissions,
+        bool isCompleted
+    ) {
+        return (submissionCount[student], completed[student]);
+    }
 }
