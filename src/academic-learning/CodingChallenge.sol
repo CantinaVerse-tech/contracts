@@ -119,6 +119,11 @@ contract CodingChallenge {
         emit SubmissionMade(msg.sender, submissionCount[msg.sender], allPassed);
     }
 
+    /**
+     * @notice Returns the total number of test cases in this challenge
+     * @dev Simple getter for testCaseHashes array length
+     * @return The number of test cases configured for this challenge
+     */
     function getTestCaseCount() external view returns (uint256) {
         return testCaseHashes.length;
     }
