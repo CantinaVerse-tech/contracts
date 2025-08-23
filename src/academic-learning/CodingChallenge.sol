@@ -69,4 +69,76 @@ contract CodingChallenge {
         description = _description;
         requirements = _requirements;
     }
+
+    /**
+     * @notice Adds a new test case to the challenge
+     * @dev Hashes the expected output and stores it in testCaseHashes array
+     * @param expectedOutput The expected output string for this test case
+     * @custom:access Only callable by contract deployer (no access control implemented)
+     * @custom:security Consider adding access control for production use
+     */
+    function addTestCase(string memory expectedOutput) external {
+        testCaseHashes.push(keccak256(abi.encodePacked(expectedOutput)));
+    }
+
+    /**
+     * @notice Submits a solution attempt for the coding challenge
+     * @dev Validates outputs against test cases and updates student progress
+     * @param outputs Array of output strings corresponding to each test case
+     * @custom:requirements outputs.length must equal testCaseHashes.length
+     * @custom:requirements Student must not have already completed the challenge
+     * @custom:effects Increments submission count for the student
+     * @custom:effects Updates studentSubmissions mapping with hashed outputs
+     * @custom:effects Sets completed[msg.sender] to true if all tests pass
+     * @custom:events Emits SubmissionMade event for every submission
+     * @custom:events Emits ChallengeSolved event if all tests pass
+     */
+    function submitSolution(string[] calldata outputs) external {
+        require(!completed[msg.sender], "Challenge already completed");
+        require(outputs.length == testCaseHashes.length, "Output count mismatch");
+        
+        submissionCount[msg.sender]++;
+        
+        bool allPassed = true;
+        bytes32[] memory hashedOutputs = new bytes32[](outputs.length);
+        
+        for (uint256 i = 0; i < outputs.length; i++) {
+            hashedOutputs[i] = keccak256(abi.encodePacked(outputs[i]));
+            if (hashedOutputs[i] != testCaseHashes[i]) {
+                allPassed = false;
+            }
+        }
+        
+        studentSubmissions[msg.sender] = hashedOutputs;
+        
+        if (allPassed) {
+            completed[msg.sender] = true;
+            emit ChallengeSolved(msg.sender, submissionCount[msg.sender]);
+        }
+        
+        emit SubmissionMade(msg.sender, submissionCount[msg.sender], allPassed);
+    }
+
+    /**
+     * @notice Returns the total number of test cases in this challenge
+     * @dev Simple getter for testCaseHashes array length
+     * @return The number of test cases configured for this challenge
+     */
+    function getTestCaseCount() external view returns (uint256) {
+        return testCaseHashes.length;
+    }
+
+    /**
+     * @notice Retrieves progress information for a specific student
+     * @dev Returns both submission count and completion status
+     * @param student The address of the student to check progress for
+     * @return submissions Total number of submissions made by the student
+     * @return isCompleted Whether the student has completed the challenge
+     */
+    function getProgress(address student) external view returns (
+        uint256 submissions,
+        bool isCompleted
+    ) {
+        return (submissionCount[student], completed[student]);
+    }
 }
