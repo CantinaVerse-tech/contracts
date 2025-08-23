@@ -80,4 +80,30 @@ contract CodingChallenge {
     function addTestCase(string memory expectedOutput) external {
         testCaseHashes.push(keccak256(abi.encodePacked(expectedOutput)));
     }
+
+    function submitSolution(string[] calldata outputs) external {
+        require(!completed[msg.sender], "Challenge already completed");
+        require(outputs.length == testCaseHashes.length, "Output count mismatch");
+        
+        submissionCount[msg.sender]++;
+        
+        bool allPassed = true;
+        bytes32[] memory hashedOutputs = new bytes32[](outputs.length);
+        
+        for (uint256 i = 0; i < outputs.length; i++) {
+            hashedOutputs[i] = keccak256(abi.encodePacked(outputs[i]));
+            if (hashedOutputs[i] != testCaseHashes[i]) {
+                allPassed = false;
+            }
+        }
+        
+        studentSubmissions[msg.sender] = hashedOutputs;
+        
+        if (allPassed) {
+            completed[msg.sender] = true;
+            emit ChallengeSolved(msg.sender, submissionCount[msg.sender]);
+        }
+        
+        emit SubmissionMade(msg.sender, submissionCount[msg.sender], allPassed);
+    }
 }
