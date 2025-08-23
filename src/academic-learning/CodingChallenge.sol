@@ -70,6 +70,13 @@ contract CodingChallenge {
         requirements = _requirements;
     }
 
+    /**
+     * @notice Adds a new test case to the challenge
+     * @dev Hashes the expected output and stores it in testCaseHashes array
+     * @param expectedOutput The expected output string for this test case
+     * @custom:access Only callable by contract deployer (no access control implemented)
+     * @custom:security Consider adding access control for production use
+     */
     function addTestCase(string memory expectedOutput) external {
         testCaseHashes.push(keccak256(abi.encodePacked(expectedOutput)));
     }
