@@ -118,4 +118,8 @@ contract CodingChallenge {
         
         emit SubmissionMade(msg.sender, submissionCount[msg.sender], allPassed);
     }
+
+    function getTestCaseCount() external view returns (uint256) {
+        return testCaseHashes.length;
+    }
 }
