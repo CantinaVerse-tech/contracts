@@ -81,6 +81,18 @@ contract CodingChallenge {
         testCaseHashes.push(keccak256(abi.encodePacked(expectedOutput)));
     }
 
+    /**
+     * @notice Submits a solution attempt for the coding challenge
+     * @dev Validates outputs against test cases and updates student progress
+     * @param outputs Array of output strings corresponding to each test case
+     * @custom:requirements outputs.length must equal testCaseHashes.length
+     * @custom:requirements Student must not have already completed the challenge
+     * @custom:effects Increments submission count for the student
+     * @custom:effects Updates studentSubmissions mapping with hashed outputs
+     * @custom:effects Sets completed[msg.sender] to true if all tests pass
+     * @custom:events Emits SubmissionMade event for every submission
+     * @custom:events Emits ChallengeSolved event if all tests pass
+     */
     function submitSolution(string[] calldata outputs) external {
         require(!completed[msg.sender], "Challenge already completed");
         require(outputs.length == testCaseHashes.length, "Output count mismatch");
