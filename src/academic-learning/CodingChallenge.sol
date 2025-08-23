@@ -69,4 +69,8 @@ contract CodingChallenge {
         description = _description;
         requirements = _requirements;
     }
+
+    function addTestCase(string memory expectedOutput) external {
+        testCaseHashes.push(keccak256(abi.encodePacked(expectedOutput)));
+    }
 }
