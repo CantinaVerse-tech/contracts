@@ -128,6 +128,13 @@ contract CodingChallenge {
         return testCaseHashes.length;
     }
 
+    /**
+     * @notice Retrieves progress information for a specific student
+     * @dev Returns both submission count and completion status
+     * @param student The address of the student to check progress for
+     * @return submissions Total number of submissions made by the student
+     * @return isCompleted Whether the student has completed the challenge
+     */
     function getProgress(address student) external view returns (
         uint256 submissions,
         bool isCompleted
