@@ -9,4 +9,7 @@ pragma solidity ^0.8.19;
  *      Each user can make multiple attempts, and their progress is tracked individually.
  * @custom:educational This contract is designed for educational purposes to teach pattern recognition and mathematical sequences
  */
-contract SequencePuzzle {}
+contract SequencePuzzle {
+    string public puzzleDescription;
+
+}
