@@ -10,6 +10,8 @@ pragma solidity ^0.8.19;
  * @custom:educational This contract is designed for educational purposes to teach pattern recognition and mathematical sequences
  */
 contract SequencePuzzle {
+    /// @notice Human-readable description of the puzzle challenge
+    /// @dev This string provides context and instructions for the puzzle
     string public puzzleDescription;
 
 }
