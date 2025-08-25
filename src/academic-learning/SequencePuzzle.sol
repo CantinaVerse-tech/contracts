@@ -30,4 +30,6 @@ contract SequencePuzzle {
     /// @dev Maps student address to their total number of guesses
     mapping(address => uint256) public attempts;
 
+    mapping(address => bool) public solved;
+
 }
