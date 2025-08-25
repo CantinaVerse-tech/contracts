@@ -30,6 +30,8 @@ contract SequencePuzzle {
     /// @dev Maps student address to their total number of guesses
     mapping(address => uint256) public attempts;
 
+    /// @notice Tracks whether each student has successfully solved the puzzle
+    /// @dev Maps student address to boolean indicating completion status
     mapping(address => bool) public solved;
 
 }
