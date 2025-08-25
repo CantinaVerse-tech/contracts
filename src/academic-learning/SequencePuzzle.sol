@@ -14,6 +14,8 @@ contract SequencePuzzle {
     /// @dev This string provides context and instructions for the puzzle
     string public puzzleDescription;
 
+    /// @notice The mathematical sequence array that students must analyze
+    /// @dev Contains the known values in the sequence that lead to the solution
     uint256[] public sequence;
 
 }
