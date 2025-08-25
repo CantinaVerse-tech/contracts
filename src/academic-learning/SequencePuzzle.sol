@@ -14,4 +14,6 @@ contract SequencePuzzle {
     /// @dev This string provides context and instructions for the puzzle
     string public puzzleDescription;
 
+    uint256[] public sequence;
+
 }
