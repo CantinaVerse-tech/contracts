@@ -26,6 +26,8 @@ contract SequencePuzzle {
     /// @dev Only revealed to students who successfully solve the puzzle
     string public pattern;
 
+    /// @notice Tracks the number of attempts made by each student
+    /// @dev Maps student address to their total number of guesses
     mapping(address => uint256) public attempts;
 
 }
