@@ -18,4 +18,7 @@ contract SequencePuzzle {
     /// @dev Contains the known values in the sequence that lead to the solution
     uint256[] public sequence;
 
+    uint256 public immutable nextValue;
+
+
 }
