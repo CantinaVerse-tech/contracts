@@ -22,6 +22,8 @@ contract SequencePuzzle {
     /// @dev Immutable to prevent modification after deployment, ensuring puzzle integrity
     uint256 public immutable nextValue;
 
+    /// @notice Description of the mathematical pattern or rule governing the sequence
+    /// @dev Only revealed to students who successfully solve the puzzle
     string public pattern;
 
 }
