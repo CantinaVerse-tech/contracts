@@ -22,5 +22,6 @@ contract SequencePuzzle {
     /// @dev Immutable to prevent modification after deployment, ensuring puzzle integrity
     uint256 public immutable nextValue;
 
+    string public pattern;
 
 }
