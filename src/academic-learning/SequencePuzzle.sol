@@ -18,6 +18,8 @@ contract SequencePuzzle {
     /// @dev Contains the known values in the sequence that lead to the solution
     uint256[] public sequence;
 
+    /// @notice The correct answer - the next value in the sequence
+    /// @dev Immutable to prevent modification after deployment, ensuring puzzle integrity
     uint256 public immutable nextValue;
 
 
