@@ -26,4 +26,6 @@ contract SequencePuzzle {
     /// @dev Only revealed to students who successfully solve the puzzle
     string public pattern;
 
+    mapping(address => uint256) public attempts;
+
 }
