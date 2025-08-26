@@ -106,4 +106,8 @@ contract SequencePuzzle {
         
         emit Attempt(msg.sender, guess, correct, attempts[msg.sender]);
     }
+
+    function getSequence() external view returns (uint256[] memory) {
+        return sequence;
+    }
 }
