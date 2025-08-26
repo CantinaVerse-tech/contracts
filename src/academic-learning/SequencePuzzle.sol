@@ -50,6 +50,19 @@ contract SequencePuzzle {
      */
     event PuzzleSolved(address indexed student, uint256 finalAttempts);
 
+    /**
+     * @notice Initializes a new sequence puzzle with the given parameters
+     * @dev Sets up the puzzle with immutable solution to ensure integrity
+     * @param _description Human-readable description explaining the puzzle
+     * @param _sequence Array of known sequence values for students to analyze
+     * @param _nextValue The correct next value in the sequence (solution)
+     * @param _pattern Description of the mathematical pattern/rule
+     * 
+     * Requirements:
+     * - All parameters must be provided (no empty values for strings)
+     * - Sequence array should contain at least 2 values for meaningful pattern recognition
+     * - Pattern description should be accurate for educational value
+     */
     constructor(
         string memory _description,
         uint256[] memory _sequence,
