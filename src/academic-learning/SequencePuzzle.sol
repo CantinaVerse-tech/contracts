@@ -140,6 +140,23 @@ contract SequencePuzzle {
         return (attempts[student], solved[student]);
     }
 
+    /**
+     * @notice Reveals the mathematical pattern/rule to students who have solved the puzzle
+     * @dev Educational feature that provides insight into the sequence logic
+     * @param student The address of the student requesting the pattern
+     * @return The mathematical pattern description as a string
+     * 
+     * Requirements:
+     * - Student must have successfully solved the puzzle first
+     * - Only returns pattern for verified solvers
+     * 
+     * Usage:
+     * - Helps students understand the mathematical concept
+     * - Confirms their reasoning was correct
+     * - Educational tool for learning sequence patterns
+     * 
+     * @custom:educational This function serves as a reward and learning tool
+     */
     function revealPattern(address student) external view returns (string memory) {
         require(solved[student], "Must solve puzzle first");
         return pattern;
