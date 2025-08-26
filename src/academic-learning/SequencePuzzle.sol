@@ -121,6 +121,18 @@ contract SequencePuzzle {
         return sequence;
     }
 
+    /**
+     * @notice Retrieves a student's progress information
+     * @dev Returns both attempt count and completion status for any address
+     * @param student The address of the student to check progress for
+     * @return attemptCount The total number of guesses made by the student
+     * @return hasSolved Whether the student has successfully solved the puzzle
+     * 
+     * Usage:
+     * - Teachers can monitor student progress
+     * - Students can check their own statistics
+     * - Leaderboard systems can use this data
+     */
     function getProgress(address student) external view returns (
         uint256 attemptCount,
         bool hasSolved
