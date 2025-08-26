@@ -50,4 +50,15 @@ contract SequencePuzzle {
      */
     event PuzzleSolved(address indexed student, uint256 finalAttempts);
 
+    constructor(
+        string memory _description,
+        uint256[] memory _sequence,
+        uint256 _nextValue,
+        string memory _pattern
+    ) {
+        puzzleDescription = _description;
+        sequence = _sequence;
+        nextValue = _nextValue;
+        pattern = _pattern;
+    }
 }
