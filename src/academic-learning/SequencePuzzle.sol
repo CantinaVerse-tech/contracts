@@ -75,6 +75,24 @@ contract SequencePuzzle {
         pattern = _pattern;
     }
 
+    /**
+     * @notice Allows a student to submit their guess for the next value in the sequence
+     * @dev Increments attempt counter and checks if guess matches the correct answer
+     * @param guess The student's guess for the next sequence value
+     * 
+     * Requirements:
+     * - Student must not have already solved the puzzle
+     * - Guess can be any uint256 value
+     * 
+     * Effects:
+     * - Increments the student's attempt counter
+     * - Marks puzzle as solved if guess is correct
+     * - Emits Attempt event for all submissions
+     * - Emits PuzzleSolved event for correct answers
+     * 
+     * @custom:emits Attempt Always emitted with guess details
+     * @custom:emits PuzzleSolved Emitted when correct answer is submitted
+     */
     function submitGuess(uint256 guess) external {
         require(!solved[msg.sender], "Puzzle already solved");
         
