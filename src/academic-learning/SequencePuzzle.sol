@@ -139,4 +139,9 @@ contract SequencePuzzle {
     ) {
         return (attempts[student], solved[student]);
     }
+
+    function revealPattern(address student) external view returns (string memory) {
+        require(solved[student], "Must solve puzzle first");
+        return pattern;
+    }
 }
