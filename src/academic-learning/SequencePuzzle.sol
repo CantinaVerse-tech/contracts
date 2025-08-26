@@ -107,6 +107,16 @@ contract SequencePuzzle {
         emit Attempt(msg.sender, guess, correct, attempts[msg.sender]);
     }
 
+    /**
+     * @notice Returns the complete sequence array for analysis
+     * @dev Provides read-only access to the sequence values
+     * @return An array containing all the known sequence values
+     * 
+     * Usage:
+     * - Students can call this to get the full sequence for analysis
+     * - Front-end applications can display the sequence visually
+     * - No restrictions on who can call this function
+     */
     function getSequence() external view returns (uint256[] memory) {
         return sequence;
     }
