@@ -74,4 +74,18 @@ contract SequencePuzzle {
         nextValue = _nextValue;
         pattern = _pattern;
     }
+
+    function submitGuess(uint256 guess) external {
+        require(!solved[msg.sender], "Puzzle already solved");
+        
+        attempts[msg.sender]++;
+        bool correct = (guess == nextValue);
+        
+        if (correct) {
+            solved[msg.sender] = true;
+            emit PuzzleSolved(msg.sender, attempts[msg.sender]);
+        }
+        
+        emit Attempt(msg.sender, guess, correct, attempts[msg.sender]);
+    }
 }
