@@ -120,4 +120,11 @@ contract SequencePuzzle {
     function getSequence() external view returns (uint256[] memory) {
         return sequence;
     }
+
+    function getProgress(address student) external view returns (
+        uint256 attemptCount,
+        bool hasSolved
+    ) {
+        return (attempts[student], solved[student]);
+    }
 }
