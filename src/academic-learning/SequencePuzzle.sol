@@ -43,6 +43,11 @@ contract SequencePuzzle {
      */
     event Attempt(address indexed student, uint256 guess, bool correct, uint256 attemptCount);
 
+     /**
+     * @notice Emitted when a student successfully solves the puzzle
+     * @param student The address of the student who solved it
+     * @param finalAttempts The total number of attempts it took to solve
+     */
     event PuzzleSolved(address indexed student, uint256 finalAttempts);
 
 }
