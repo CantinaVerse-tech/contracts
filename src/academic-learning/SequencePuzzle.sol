@@ -34,4 +34,6 @@ contract SequencePuzzle {
     /// @dev Maps student address to boolean indicating completion status
     mapping(address => bool) public solved;
 
+    event Attempt(address indexed student, uint256 guess, bool correct, uint256 attemptCount);
+
 }
