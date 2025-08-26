@@ -43,4 +43,6 @@ contract SequencePuzzle {
      */
     event Attempt(address indexed student, uint256 guess, bool correct, uint256 attemptCount);
 
+    event PuzzleSolved(address indexed student, uint256 finalAttempts);
+
 }
