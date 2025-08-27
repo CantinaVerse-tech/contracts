@@ -6,4 +6,10 @@ pragma solidity ^0.8.19;
  * @dev English auction system with bidding, withdrawal, and settlement
  * Educational contract for learning auction mechanics
  */
-contract AuctionHouse {}
+contract AuctionHouse {
+    enum AuctionState {
+        ACTIVE,
+        ENDED,
+        CANCELLED
+    }
+}
