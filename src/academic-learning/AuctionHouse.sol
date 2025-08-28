@@ -27,4 +27,7 @@ contract AuctionHouse {
         bool settled;
         uint256 totalBids;
     }
+
+    mapping(uint256 => Auction) public auctions;
+
 }
