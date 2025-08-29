@@ -31,4 +31,5 @@ contract AuctionHouse {
     mapping(uint256 => Auction) public auctions;
     mapping(uint256 => mapping(address => uint256)) public pendingReturns;
 
+    uint256 public auctionCounter;
 }
