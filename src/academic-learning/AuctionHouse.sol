@@ -33,5 +33,6 @@ contract AuctionHouse {
 
     uint256 public auctionCounter;
     uint256 public constant AUCTION_FEE_PERCENT = 2; // 2% fee
+    address public owner;
 
 }
