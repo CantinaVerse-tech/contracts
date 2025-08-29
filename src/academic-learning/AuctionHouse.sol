@@ -31,4 +31,8 @@ contract AuctionHouse {
     mapping(uint256 => Auction) public auctions;
     mapping(uint256 => mapping(address => uint256)) public pendingReturns;
 
+    uint256 public auctionCounter;
+    uint256 public constant AUCTION_FEE_PERCENT = 2; // 2% fee
+    address public owner;
+
 }
