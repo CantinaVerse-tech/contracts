@@ -43,4 +43,7 @@ contract AuctionHouse {
         uint256 reservePrice,
         uint256 duration
     );
+
+    event BidPlaced(uint256 indexed auctionId, address indexed bidder, uint256 amount, uint256 timestamp);
+
 }
