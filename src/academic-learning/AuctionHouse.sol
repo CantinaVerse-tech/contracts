@@ -52,4 +52,7 @@ contract AuctionHouse {
 
     event AuctionCancelled(uint256 indexed auctionId);
 
+    event BidWithdrawn(uint256 indexed auctionId, address indexed bidder, uint256 amount);
+
+
 }
