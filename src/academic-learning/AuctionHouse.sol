@@ -46,4 +46,6 @@ contract AuctionHouse {
 
     event BidPlaced(uint256 indexed auctionId, address indexed bidder, uint256 amount, uint256 timestamp);
 
+    event AuctionEnded(uint256 indexed auctionId, address winner, uint256 winningBid);
+
 }
