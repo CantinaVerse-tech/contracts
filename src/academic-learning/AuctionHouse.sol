@@ -48,4 +48,6 @@ contract AuctionHouse {
 
     event AuctionEnded(uint256 indexed auctionId, address winner, uint256 winningBid);
 
+    event AuctionSettled(uint256 indexed auctionId, uint256 sellerAmount, uint256 fee);
+
 }
