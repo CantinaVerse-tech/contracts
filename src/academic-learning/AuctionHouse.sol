@@ -35,4 +35,12 @@ contract AuctionHouse {
     uint256 public constant AUCTION_FEE_PERCENT = 2; // 2% fee
     address public owner;
 
+    event AuctionCreated(
+        uint256 indexed auctionId,
+        address indexed seller,
+        string itemName,
+        uint256 startingPrice,
+        uint256 reservePrice,
+        uint256 duration
+    );
 }
