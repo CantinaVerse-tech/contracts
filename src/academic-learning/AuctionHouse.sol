@@ -50,4 +50,6 @@ contract AuctionHouse {
 
     event AuctionSettled(uint256 indexed auctionId, uint256 sellerAmount, uint256 fee);
 
+    event AuctionCancelled(uint256 indexed auctionId);
+
 }
