@@ -225,6 +225,9 @@ contract AuctionHouse {
         emit BidWithdrawn(auctionId, msg.sender, amount);
     }
 
+    /**
+     * @dev Withdraw multiple failed bids at once
+     */
     function withdrawMultipleBids(uint256[] calldata auctionIds) external {
         uint256 totalAmount = 0;
 
