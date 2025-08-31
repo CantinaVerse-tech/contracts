@@ -125,6 +125,9 @@ contract AuctionHouse {
         return auctionId;
     }
 
+    /**
+     * @dev Place a bid on an active auction
+     */
     function placeBid(uint256 auctionId) external payable auctionExists(auctionId) auctionActive(auctionId) {
         Auction storage auction = auctions[auctionId];
 
