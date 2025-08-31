@@ -212,6 +212,9 @@ contract AuctionHouse {
         emit AuctionCancelled(auctionId);
     }
 
+    /**
+     * @dev Withdraw failed bids
+     */
     function withdrawBid(uint256 auctionId) external auctionExists(auctionId) {
         uint256 amount = pendingReturns[auctionId][msg.sender];
         require(amount > 0, "No funds to withdraw");
