@@ -54,5 +54,8 @@ contract AuctionHouse {
 
     event BidWithdrawn(uint256 indexed auctionId, address indexed bidder, uint256 amount);
 
-
+    modifier onlySeller(uint256 auctionId) {
+        require(msg.sender == auctions[auctionId].seller, "Only seller can call");
+        _;
+    }
 }
