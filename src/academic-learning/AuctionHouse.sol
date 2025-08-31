@@ -81,4 +81,39 @@ contract AuctionHouse {
     constructor() {
         owner = msg.sender;
     }
+
+    function createAuction(
+        string memory itemName,
+        string memory description,
+        uint256 startingPrice,
+        uint256 reservePrice,
+        uint256 durationHours
+    ) external returns (uint256) {
+        require(bytes(itemName).length > 0, "Item name required");
+        require(startingPrice >= 0, "Starting price must 0 or greater");
+        require(reservePrice >= startingPrice, "Reserve price must be >= starting price");
+        require(durationHours > 0 && durationHours <= 168, "Duration must be 1-168 hours"); // Max 1 week
+
+        uint256 auctionId = auctionCounter++;
+        uint256 endTime = block.timestamp + (durationHours * 1 hours);
+
+        auctions[auctionId] = Auction({
+            seller: payable(msg.sender),
+            itemName: itemName,
+            description: description,
+            startingPrice: startingPrice,
+            reservePrice: reservePrice,
+            highestBid: 0,
+            highestBidder: payable(address(0)),
+            startTime: block.timestamp,
+            endTime: endTime,
+            state: AuctionState.ACTIVE,
+            settled: false,
+            totalBids: 0
+        });
+
+        emit AuctionCreated(auctionId, msg.sender, itemName, startingPrice, reservePrice, durationHours);
+
+        return auctionId;
+    }
 }
