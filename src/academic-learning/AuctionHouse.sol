@@ -198,6 +198,9 @@ contract AuctionHouse {
         emit AuctionSettled(auctionId, sellerAmount, fee);
     }
 
+    /**
+     * @dev Cancel auction (only seller, only if no bids)
+     */
     function cancelAuction(uint256 auctionId) external auctionExists(auctionId) onlySeller(auctionId) {
         Auction storage auction = auctions[auctionId];
 
