@@ -168,6 +168,9 @@ contract AuctionHouse {
         emit AuctionEnded(auctionId, auction.highestBidder, auction.highestBid);
     }
 
+    /**
+     * @dev Settle auction and transfer funds
+     */
     function settleAuction(uint256 auctionId) external auctionExists(auctionId) auctionEnded(auctionId) {
         Auction storage auction = auctions[auctionId];
 
