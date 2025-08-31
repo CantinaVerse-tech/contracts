@@ -82,6 +82,14 @@ contract AuctionHouse {
         owner = msg.sender;
     }
 
+    /**
+     * @dev Create a new auction
+     * @param itemName Name of the item being auctioned
+     * @param description Description of the item
+     * @param startingPrice Minimum starting bid
+     * @param reservePrice Minimum price for sale (can be 0)
+     * @param durationHours Duration of auction in hours
+     */
     function createAuction(
         string memory itemName,
         string memory description,
