@@ -211,4 +211,14 @@ contract AuctionHouse {
 
         emit AuctionCancelled(auctionId);
     }
+
+    function withdrawBid(uint256 auctionId) external auctionExists(auctionId) {
+        uint256 amount = pendingReturns[auctionId][msg.sender];
+        require(amount > 0, "No funds to withdraw");
+
+        pendingReturns[auctionId][msg.sender] = 0;
+        payable(msg.sender).transfer(amount);
+
+        emit BidWithdrawn(auctionId, msg.sender, amount);
+    }
 }
