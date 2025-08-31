@@ -124,4 +124,30 @@ contract AuctionHouse {
 
         return auctionId;
     }
+
+    function placeBid(uint256 auctionId) external payable auctionExists(auctionId) auctionActive(auctionId) {
+        Auction storage auction = auctions[auctionId];
+
+        require(msg.sender != auction.seller, "Seller cannot bid on own auction");
+        require(msg.value > 0, "Bid must be greater than 0");
+        require(msg.value >= auction.startingPrice, "Bid must be at least starting price");
+        require(msg.value > auction.highestBid, "Bid must be higher than current highest bid");
+
+        // If there was a previous highest bidder, add their bid to pending returns
+        if (auction.highestBidder != address(0)) {
+            pendingReturns[auctionId][auction.highestBidder] += auction.highestBid;
+        }
+
+        // Set new highest bid
+        auction.highestBid = msg.value;
+        auction.highestBidder = payable(msg.sender);
+        auction.totalBids++;
+
+        emit BidPlaced(auctionId, msg.sender, msg.value, block.timestamp);
+
+        // Auto-extend auction if bid placed in last 10 minutes
+        if (auction.endTime - block.timestamp < 10 minutes) {
+            auction.endTime = block.timestamp + 10 minutes;
+        }
+    }
 }
