@@ -77,4 +77,8 @@ contract AuctionHouse {
         );
         _;
     }
+
+    constructor() {
+        owner = msg.sender;
+    }
 }
