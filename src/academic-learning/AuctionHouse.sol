@@ -197,4 +197,15 @@ contract AuctionHouse {
 
         emit AuctionSettled(auctionId, sellerAmount, fee);
     }
+
+    function cancelAuction(uint256 auctionId) external auctionExists(auctionId) onlySeller(auctionId) {
+        Auction storage auction = auctions[auctionId];
+
+        require(auction.state == AuctionState.ACTIVE, "Auction not active");
+        require(auction.totalBids == 0, "Cannot cancel auction with bids");
+
+        auction.state = AuctionState.CANCELLED;
+
+        emit AuctionCancelled(auctionId);
+    }
 }
