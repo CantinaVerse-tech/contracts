@@ -167,4 +167,31 @@ contract AuctionHouse {
 
         emit AuctionEnded(auctionId, auction.highestBidder, auction.highestBid);
     }
+
+    function settleAuction(uint256 auctionId) external auctionExists(auctionId) auctionEnded(auctionId) {
+        Auction storage auction = auctions[auctionId];
+
+        require(!auction.settled, "Auction already settled");
+        require(auction.state == AuctionState.ENDED, "Auction not ended");
+
+        auction.settled = true;
+
+        // If reserve price not met or no bids, refund highest bidder
+        if (auction.highestBid < auction.reservePrice || auction.highestBid == 0) {
+            if (auction.highestBidder != address(0)) {
+                pendingReturns[auctionId][auction.highestBidder] += auction.highestBid;
+            }
+            return;
+        }
+
+        // Calculate fee and seller amount
+        uint256 fee = (auction.highestBid * AUCTION_FEE_PERCENT) / 100;
+        uint256 sellerAmount = auction.highestBid - fee;
+
+        // Transfer funds
+        auction.seller.transfer(sellerAmount);
+        payable(owner).transfer(fee);
+
+        emit AuctionSettled(auctionId, sellerAmount, fee);
+    }
 }
