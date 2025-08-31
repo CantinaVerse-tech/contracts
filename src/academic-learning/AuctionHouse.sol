@@ -224,4 +224,18 @@ contract AuctionHouse {
 
         emit BidWithdrawn(auctionId, msg.sender, amount);
     }
+
+    function withdrawMultipleBids(uint256[] calldata auctionIds) external {
+        uint256 totalAmount = 0;
+
+        for (uint256 i = 0; i < auctionIds.length; i++) {
+            uint256 auctionId = auctionIds[i];
+            require(auctionId < auctionCounter, "Invalid auction ID");
+
+            uint256 amount = pendingReturns[auctionId][msg.sender];
+            if (amount > 0) {
+                pendingReturns[auctionId][msg.sender] = 0;
+                totalAmount += amount;
+            }
+        }
 }
