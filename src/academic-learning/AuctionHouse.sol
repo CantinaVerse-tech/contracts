@@ -153,4 +153,15 @@ contract AuctionHouse {
             auction.endTime = block.timestamp + 10 minutes;
         }
     }
+
+    function endAuction(uint256 auctionId) external auctionExists(auctionId) {
+        Auction storage auction = auctions[auctionId];
+
+        require(auction.state == AuctionState.ACTIVE, "Auction not active");
+        require(block.timestamp >= auction.endTime, "Auction still active");
+
+        auction.state = AuctionState.ENDED;
+
+        emit AuctionEnded(auctionId, auction.highestBidder, auction.highestBid);
+    }
 }
