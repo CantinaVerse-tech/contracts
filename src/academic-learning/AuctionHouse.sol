@@ -154,6 +154,9 @@ contract AuctionHouse {
         }
     }
 
+    /**
+     * @dev End an auction (can be called by anyone after end time)
+     */
     function endAuction(uint256 auctionId) external auctionExists(auctionId) {
         Auction storage auction = auctions[auctionId];
 
