@@ -58,4 +58,9 @@ contract AuctionHouse {
         require(msg.sender == auctions[auctionId].seller, "Only seller can call");
         _;
     }
+
+    modifier auctionExists(uint256 auctionId) {
+        require(auctionId < auctionCounter, "Auction does not exist");
+        _;
+    }
 }
