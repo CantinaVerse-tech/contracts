@@ -69,4 +69,12 @@ contract AuctionHouse {
         require(block.timestamp < auctions[auctionId].endTime, "Auction ended");
         _;
     }
+
+    modifier auctionEnded(uint256 auctionId) {
+        require(
+            auctions[auctionId].state == AuctionState.ENDED || block.timestamp >= auctions[auctionId].endTime,
+            "Auction not ended"
+        );
+        _;
+    }
 }
