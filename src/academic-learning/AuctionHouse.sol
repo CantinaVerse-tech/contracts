@@ -63,4 +63,10 @@ contract AuctionHouse {
         require(auctionId < auctionCounter, "Auction does not exist");
         _;
     }
+
+    modifier auctionActive(uint256 auctionId) {
+        require(auctions[auctionId].state == AuctionState.ACTIVE, "Auction not active");
+        require(block.timestamp < auctions[auctionId].endTime, "Auction ended");
+        _;
+    }
 }
