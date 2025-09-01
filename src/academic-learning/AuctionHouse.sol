@@ -241,4 +241,40 @@ contract AuctionHouse {
                 totalAmount += amount;
             }
         }
+
+    function getAuction(uint256 auctionId)
+        external
+        view
+        auctionExists(auctionId)
+        returns (
+            address seller,
+            string memory itemName,
+            string memory description,
+            uint256 startingPrice,
+            uint256 reservePrice,
+            uint256 highestBid,
+            address highestBidder,
+            uint256 startTime,
+            uint256 endTime,
+            AuctionState state,
+            bool settled,
+            uint256 totalBids
+        )
+    {
+        Auction storage auction = auctions[auctionId];
+        return (
+            auction.seller,
+            auction.itemName,
+            auction.description,
+            auction.startingPrice,
+            auction.reservePrice,
+            auction.highestBid,
+            auction.highestBidder,
+            auction.startTime,
+            auction.endTime,
+            auction.state,
+            auction.settled,
+            auction.totalBids
+        );
+    }
 }
