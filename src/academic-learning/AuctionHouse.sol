@@ -242,6 +242,9 @@ contract AuctionHouse {
             }
         }
 
+    /**
+     * @dev Get auction details
+     */
     function getAuction(uint256 auctionId)
         external
         view
