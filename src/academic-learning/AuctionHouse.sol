@@ -280,4 +280,16 @@ contract AuctionHouse {
             auction.totalBids
         );
     }
+
+    /**
+     * @dev Get pending returns for a bidder in a specific auction
+     */
+    function getPendingReturns(uint256 auctionId, address bidder)
+        external
+        view
+        auctionExists(auctionId)
+        returns (uint256)
+    {
+        return pendingReturns[auctionId][bidder];
+    }
 }
