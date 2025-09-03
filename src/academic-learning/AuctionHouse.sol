@@ -292,4 +292,8 @@ contract AuctionHouse {
     {
         return pendingReturns[auctionId][bidder];
     }
+
+    function isAuctionActive(uint256 auctionId) external view auctionExists(auctionId) returns (bool) {
+        return auctions[auctionId].state == AuctionState.ACTIVE && block.timestamp < auctions[auctionId].endTime;
+    }
 }
