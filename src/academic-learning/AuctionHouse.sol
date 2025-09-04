@@ -299,4 +299,14 @@ contract AuctionHouse {
     function isAuctionActive(uint256 auctionId) external view auctionExists(auctionId) returns (bool) {
         return auctions[auctionId].state == AuctionState.ACTIVE && block.timestamp < auctions[auctionId].endTime;
     }
+
+    /**
+     * @dev Get time remaining in auction
+     */
+    function getTimeRemaining(uint256 auctionId) external view auctionExists(auctionId) returns (uint256) {
+        if (block.timestamp >= auctions[auctionId].endTime) {
+            return 0;
+        }
+        return auctions[auctionId].endTime - block.timestamp;
+    }
 }
