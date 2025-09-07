@@ -316,4 +316,17 @@ contract AuctionHouse {
     function getTotalAuctions() external view returns (uint256) {
         return auctionCounter;
     }
+
+    function getActiveAuctions(uint256 limit) external view returns (uint256[] memory) {
+        require(limit <= 100, "Limit too high");
+
+        uint256[] memory activeAuctions = new uint256[](limit);
+        uint256 count = 0;
+
+        for (uint256 i = 0; i < auctionCounter && count < limit; i++) {
+            if (auctions[i].state == AuctionState.ACTIVE && block.timestamp < auctions[i].endTime) {
+                activeAuctions[count] = i;
+                count++;
+            }
+        }
 }
