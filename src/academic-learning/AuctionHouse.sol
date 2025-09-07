@@ -317,6 +317,9 @@ contract AuctionHouse {
         return auctionCounter;
     }
 
+    /**
+     * @dev Get active auctions (limited to prevent gas issues)
+     */
     function getActiveAuctions(uint256 limit) external view returns (uint256[] memory) {
         require(limit <= 100, "Limit too high");
 
