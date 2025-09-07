@@ -309,4 +309,8 @@ contract AuctionHouse {
         }
         return auctions[auctionId].endTime - block.timestamp;
     }
+
+    function getTotalAuctions() external view returns (uint256) {
+        return auctionCounter;
+    }
 }
