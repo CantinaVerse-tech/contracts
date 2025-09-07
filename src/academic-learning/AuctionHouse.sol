@@ -310,6 +310,9 @@ contract AuctionHouse {
         return auctions[auctionId].endTime - block.timestamp;
     }
 
+    /**
+     * @dev Get total auctions created
+     */
     function getTotalAuctions() external view returns (uint256) {
         return auctionCounter;
     }
