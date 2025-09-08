@@ -332,4 +332,13 @@ contract AuctionHouse {
                 count++;
             }
         }
+
+        // Resize array to actual count
+        uint256[] memory result = new uint256[](count);
+        for (uint256 i = 0; i < count; i++) {
+            result[i] = activeAuctions[i];
+        }
+
+        return result;
+    }
 }
