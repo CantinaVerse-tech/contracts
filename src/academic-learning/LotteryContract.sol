@@ -26,4 +26,7 @@ contract LotteryContract {
         uint256 maxTickets;
         mapping(address => uint256) ticketCount;
     }
+
+    mapping(uint256 => Lottery) public lotteries;
+
 }
