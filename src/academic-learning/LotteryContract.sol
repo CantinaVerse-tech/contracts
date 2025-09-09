@@ -6,4 +6,10 @@ pragma solidity ^0.8.19;
  * @dev Simple lottery system with ticket purchases and random winner selection
  * Educational contract for learning randomness and lottery mechanics
  */
-contract LotteryContract {}
+contract LotteryContract {
+    enum LotteryState {
+        OPEN,
+        CALCULATING,
+        CLOSED
+    }
+}
