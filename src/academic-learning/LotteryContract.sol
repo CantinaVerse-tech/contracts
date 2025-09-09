@@ -12,4 +12,18 @@ contract LotteryContract {
         CALCULATING,
         CLOSED
     }
+
+    struct Lottery {
+        uint256 id;
+        uint256 ticketPrice;
+        uint256 startTime;
+        uint256 endTime;
+        address[] players;
+        address winner;
+        uint256 prizePool;
+        LotteryState state;
+        bool prizeClaimed;
+        uint256 maxTickets;
+        mapping(address => uint256) ticketCount;
+    }
 }
