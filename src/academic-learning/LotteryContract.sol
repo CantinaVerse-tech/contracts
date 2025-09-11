@@ -28,5 +28,9 @@ contract LotteryContract {
     }
 
     mapping(uint256 => Lottery) public lotteries;
+    uint256 public currentLotteryId;
+    uint256 public constant HOUSE_FEE_PERCENT = 5; // 5% house fee
+    address public owner;
+    uint256 public totalLotteries;
 
 }
