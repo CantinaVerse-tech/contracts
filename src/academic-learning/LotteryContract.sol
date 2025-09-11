@@ -28,5 +28,15 @@ contract LotteryContract {
     }
 
     mapping(uint256 => Lottery) public lotteries;
+    uint256 public currentLotteryId;
+    uint256 public constant HOUSE_FEE_PERCENT = 5; // 5% house fee
+    address public owner;
+    uint256 public totalLotteries;
+
+    event LotteryCreated(uint256 indexed lotteryId, uint256 ticketPrice, uint256 duration, uint256 maxTickets);
+    event TicketPurchased(uint256 indexed lotteryId, address indexed player, uint256 ticketCount, uint256 totalCost);
+    event LotteryEnded(uint256 indexed lotteryId, uint256 totalPlayers, uint256 prizePool);
+    event WinnerSelected(uint256 indexed lotteryId, address indexed winner, uint256 prize);
+    event PrizeClaimed(uint256 indexed lotteryId, address indexed winner, uint256 amount);
 
 }
