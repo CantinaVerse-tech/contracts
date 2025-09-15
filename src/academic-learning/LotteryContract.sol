@@ -39,4 +39,8 @@ contract LotteryContract {
     event WinnerSelected(uint256 indexed lotteryId, address indexed winner, uint256 prize);
     event PrizeClaimed(uint256 indexed lotteryId, address indexed winner, uint256 amount);
 
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only owner can call");
+        _;
+    }
 }
