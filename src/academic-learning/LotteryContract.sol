@@ -43,4 +43,9 @@ contract LotteryContract {
         require(msg.sender == owner, "Only owner can call");
         _;
     }
+
+    modifier lotteryExists(uint256 lotteryId) {
+        require(lotteryId <= currentLotteryId, "Lottery does not exist");
+        _;
+    }
 }
