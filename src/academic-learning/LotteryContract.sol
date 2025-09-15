@@ -39,4 +39,19 @@ contract LotteryContract {
     event WinnerSelected(uint256 indexed lotteryId, address indexed winner, uint256 prize);
     event PrizeClaimed(uint256 indexed lotteryId, address indexed winner, uint256 amount);
 
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only owner can call");
+        _;
+    }
+
+    modifier lotteryExists(uint256 lotteryId) {
+        require(lotteryId <= currentLotteryId, "Lottery does not exist");
+        _;
+    }
+
+    modifier lotteryOpen(uint256 lotteryId) {
+        require(lotteries[lotteryId].state == LotteryState.OPEN, "Lottery not open");
+        require(block.timestamp < lotteries[lotteryId].endTime, "Lottery ended");
+        _;
+    }
 }
