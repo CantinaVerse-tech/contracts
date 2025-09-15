@@ -48,4 +48,10 @@ contract LotteryContract {
         require(lotteryId <= currentLotteryId, "Lottery does not exist");
         _;
     }
+
+    modifier lotteryOpen(uint256 lotteryId) {
+        require(lotteries[lotteryId].state == LotteryState.OPEN, "Lottery not open");
+        require(block.timestamp < lotteries[lotteryId].endTime, "Lottery ended");
+        _;
+    }
 }
