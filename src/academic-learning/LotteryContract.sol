@@ -59,6 +59,12 @@ contract LotteryContract {
         owner = msg.sender;
     }
 
+    /**
+     * @dev Create a new lottery
+     * @param ticketPrice Price per ticket in wei
+     * @param durationHours Duration of lottery in hours
+     * @param maxTickets Maximum number of tickets (0 for unlimited)
+     */
     function createLottery(uint256 ticketPrice, uint256 durationHours, uint256 maxTickets) external returns (uint256) {
         require(ticketPrice >= 0, "Ticket price must 0 or greater");
         require(durationHours > 0 && durationHours <= 168, "Duration must be 1-168 hours");
