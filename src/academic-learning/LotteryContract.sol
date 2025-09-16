@@ -58,4 +58,32 @@ contract LotteryContract {
     constructor() {
         owner = msg.sender;
     }
+
+    function createLottery(uint256 ticketPrice, uint256 durationHours, uint256 maxTickets) external returns (uint256) {
+        require(ticketPrice >= 0, "Ticket price must 0 or greater");
+        require(durationHours > 0 && durationHours <= 168, "Duration must be 1-168 hours");
+
+        // End current lottery if it exists and is open
+        if (currentLotteryId > 0) {
+            Lottery storage currentLottery = lotteries[currentLotteryId];
+            if (currentLottery.state == LotteryState.OPEN) {
+                _endLottery(currentLotteryId);
+            }
+        }
+
+        currentLotteryId++;
+        totalLotteries++;
+
+        Lottery storage newLottery = lotteries[currentLotteryId];
+        newLottery.id = currentLotteryId;
+        newLottery.ticketPrice = ticketPrice;
+        newLottery.startTime = block.timestamp;
+        newLottery.endTime = block.timestamp + (durationHours * 1 hours);
+        newLottery.state = LotteryState.OPEN;
+        newLottery.maxTickets = maxTickets;
+
+        emit LotteryCreated(currentLotteryId, ticketPrice, durationHours, maxTickets);
+
+        return currentLotteryId;
+    }
 }
