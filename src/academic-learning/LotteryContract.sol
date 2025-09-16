@@ -54,4 +54,8 @@ contract LotteryContract {
         require(block.timestamp < lotteries[lotteryId].endTime, "Lottery ended");
         _;
     }
+
+    constructor() {
+        owner = msg.sender;
+    }
 }
