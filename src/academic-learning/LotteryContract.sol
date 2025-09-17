@@ -92,4 +92,41 @@ contract LotteryContract {
 
         return currentLotteryId;
     }
+
+    function buyTickets(
+        uint256 lotteryId,
+        uint256 ticketCount
+    )
+        external
+        payable
+        lotteryExists(lotteryId)
+        lotteryOpen(lotteryId)
+    {
+        require(ticketCount > 0, "Must buy at least 1 ticket");
+        require(ticketCount <= 100, "Cannot buy more than 100 tickets at once");
+
+        Lottery storage lottery = lotteries[lotteryId];
+        uint256 totalCost = lottery.ticketPrice * ticketCount;
+        require(msg.value >= totalCost, "Insufficient payment");
+
+        // Check max tickets limit
+        if (lottery.maxTickets > 0) {
+            require(lottery.players.length + ticketCount <= lottery.maxTickets, "Would exceed max tickets");
+        }
+
+        // Add tickets for the player
+        for (uint256 i = 0; i < ticketCount; i++) {
+            lottery.players.push(msg.sender);
+        }
+
+        lottery.ticketCount[msg.sender] += ticketCount;
+        lottery.prizePool += totalCost;
+
+        emit TicketPurchased(lotteryId, msg.sender, ticketCount, totalCost);
+
+        // Refund excess payment
+        if (msg.value > totalCost) {
+            payable(msg.sender).transfer(msg.value - totalCost);
+        }
+    }
 }
