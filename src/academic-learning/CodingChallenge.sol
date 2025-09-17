@@ -45,7 +45,7 @@ contract CodingChallenge {
      */
     event SubmissionMade(address indexed student, uint256 submissionNumber, bool allTestsPassed);
 
-   /**
+    /**
      * @notice Emitted when a student successfully completes the challenge
      * @dev Event fired only when all test cases pass for a submission
      * @param student Address of the student who completed the challenge
@@ -60,11 +60,7 @@ contract CodingChallenge {
      * @param _description Detailed description of the problem
      * @param _requirements Specific requirements and constraints
      */
-    constructor(
-        string memory _title,
-        string memory _description,
-        string memory _requirements
-    ) {
+    constructor(string memory _title, string memory _description, string memory _requirements) {
         challengeTitle = _title;
         description = _description;
         requirements = _requirements;
@@ -96,26 +92,26 @@ contract CodingChallenge {
     function submitSolution(string[] calldata outputs) external {
         require(!completed[msg.sender], "Challenge already completed");
         require(outputs.length == testCaseHashes.length, "Output count mismatch");
-        
+
         submissionCount[msg.sender]++;
-        
+
         bool allPassed = true;
         bytes32[] memory hashedOutputs = new bytes32[](outputs.length);
-        
+
         for (uint256 i = 0; i < outputs.length; i++) {
             hashedOutputs[i] = keccak256(abi.encodePacked(outputs[i]));
             if (hashedOutputs[i] != testCaseHashes[i]) {
                 allPassed = false;
             }
         }
-        
+
         studentSubmissions[msg.sender] = hashedOutputs;
-        
+
         if (allPassed) {
             completed[msg.sender] = true;
             emit ChallengeSolved(msg.sender, submissionCount[msg.sender]);
         }
-        
+
         emit SubmissionMade(msg.sender, submissionCount[msg.sender], allPassed);
     }
 
@@ -135,10 +131,7 @@ contract CodingChallenge {
      * @return submissions Total number of submissions made by the student
      * @return isCompleted Whether the student has completed the challenge
      */
-    function getProgress(address student) external view returns (
-        uint256 submissions,
-        bool isCompleted
-    ) {
+    function getProgress(address student) external view returns (uint256 submissions, bool isCompleted) {
         return (submissionCount[student], completed[student]);
     }
 }

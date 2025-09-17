@@ -86,10 +86,7 @@ contract MultipleChoiceQuiz {
      * @param _title The display title for this quiz
      * @param _passingScore Minimum percentage (0-100) required to pass the quiz
      */
-    constructor(
-        string memory _title,
-        uint256 _passingScore
-    ) {
+    constructor(string memory _title, uint256 _passingScore) {
         quizTitle = _title;
         passingScore = _passingScore;
     }
@@ -105,41 +102,41 @@ contract MultipleChoiceQuiz {
      * @param _options Array of possible answer choices
      * @param _correctAnswer Zero-based index of the correct option (must be < options.length)
      * @param _explanation Explanation text shown after submission
-     * 
+     *
      * Requirements:
      * - _correctAnswer must be a valid index within _options array
      * - Can be called multiple times to build the complete quiz
-     * 
-     * @custom:security No access control - anyone can add questions. Consider adding onlyOwner modifier for production use.
+     *
+     * @custom:security No access control - anyone can add questions. Consider adding onlyOwner modifier for production
+     * use.
      */
     function addQuestion(
         string memory _question,
         string[] memory _options,
         uint8 _correctAnswer,
         string memory _explanation
-    ) external {
+    )
+        external
+    {
         // Validate that the correct answer index exists within the options array
         require(_correctAnswer < _options.length, "Invalid correct answer index");
-        
+
         // Add the new question to storage
-        questions.push(Question({
-            question: _question,
-            options: _options,
-            correctAnswer: _correctAnswer,
-            explanation: _explanation
-        }));
+        questions.push(
+            Question({ question: _question, options: _options, correctAnswer: _correctAnswer, explanation: _explanation })
+        );
     }
 
-     /**
+    /**
      * @notice Submits a student's answers and calculates their score
      * @dev Processes all answers, calculates score, determines pass/fail status, and emits event
      * @param answers Array of selected answer indices corresponding to each question
-     * 
+     *
      * Requirements:
      * - Student must not have already submitted (prevents re-submission)
      * - answers array length must match the number of questions
      * - Each answer index should be valid for its corresponding question
-     * 
+     *
      * Effects:
      * - Records all student answers in studentAnswers mapping
      * - Calculates and stores percentage score (0-100)
@@ -150,17 +147,17 @@ contract MultipleChoiceQuiz {
     function submitQuiz(uint8[] calldata answers) external {
         // Prevent multiple submissions from the same student
         require(!hasSubmitted[msg.sender], "Quiz already submitted");
-        
+
         // Ensure student provided an answer for every question
         require(answers.length == questions.length, "Answer count mismatch");
-        
+
         uint256 correct = 0;
-        
+
         // Process each answer and count correct responses
         for (uint256 i = 0; i < questions.length; i++) {
             // Store the student's answer for this question
             studentAnswers[msg.sender][i] = answers[i];
-            
+
             // Check if the answer is correct and increment counter
             if (answers[i] == questions[i].correctAnswer) {
                 correct++;
@@ -168,13 +165,13 @@ contract MultipleChoiceQuiz {
         }
         // Mark as submitted to prevent re-submission
         hasSubmitted[msg.sender] = true;
-        
+
         // Calculate percentage score (0-100)
         scores[msg.sender] = (correct * 100) / questions.length;
-        
+
         // Determine pass/fail status based on passing score threshold
         passed[msg.sender] = scores[msg.sender] >= passingScore;
-        
+
         // Emit event with results
         emit QuizSubmitted(msg.sender, scores[msg.sender], passed[msg.sender]);
     }
@@ -189,23 +186,20 @@ contract MultipleChoiceQuiz {
      * @param index Zero-based index of the question to retrieve
      * @return question The question text
      * @return options Array of possible answer choices
-     * 
+     *
      * Requirements:
      * - index must be less than the total number of questions
-     * 
+     *
      * @custom:note This function intentionally does not return correctAnswer or explanation
      * to prevent students from cheating before submission
      */
-    function getQuestion(uint256 index) external view returns (
-        string memory question,
-        string[] memory options
-    ) {
+    function getQuestion(uint256 index) external view returns (string memory question, string[] memory options) {
         // Ensure the requested question exists
         require(index < questions.length, "Question does not exist");
-        
+
         return (questions[index].question, questions[index].options);
     }
-    
+
     /**
      * @notice Returns the total number of questions in this quiz
      * @dev Useful for frontend applications to iterate through all questions
@@ -214,7 +208,7 @@ contract MultipleChoiceQuiz {
     function getQuestionCount() external view returns (uint256) {
         return questions.length;
     }
-    
+
     /**
      * @notice Retrieves a student's quiz results and submission status
      * @dev Can be called for any address, including addresses that haven't taken the quiz
@@ -222,14 +216,10 @@ contract MultipleChoiceQuiz {
      * @return score The student's percentage score (0-100), or 0 if not submitted
      * @return hasPassed Whether the student achieved a passing score, false if not submitted
      * @return submitted Whether the student has submitted their quiz
-     * 
+     *
      * @custom:note For students who haven't submitted, score will be 0 and hasPassed will be false
      */
-    function getResults(address student) external view returns (
-        uint256 score,
-        bool hasPassed,
-        bool submitted
-    ) {
+    function getResults(address student) external view returns (uint256 score, bool hasPassed, bool submitted) {
         return (scores[student], passed[student], hasSubmitted[student]);
     }
 }
