@@ -96,7 +96,10 @@ contract AuctionHouse {
         uint256 startingPrice,
         uint256 reservePrice,
         uint256 durationHours
-    ) external returns (uint256) {
+    )
+        external
+        returns (uint256)
+    {
         require(bytes(itemName).length > 0, "Item name required");
         require(startingPrice >= 0, "Starting price must 0 or greater");
         require(reservePrice >= startingPrice, "Reserve price must be >= starting price");
@@ -241,6 +244,7 @@ contract AuctionHouse {
                 totalAmount += amount;
             }
         }
+    }
 
     /**
      * @dev Get auction details
@@ -284,7 +288,10 @@ contract AuctionHouse {
     /**
      * @dev Get pending returns for a bidder in a specific auction
      */
-    function getPendingReturns(uint256 auctionId, address bidder)
+    function getPendingReturns(
+        uint256 auctionId,
+        address bidder
+    )
         external
         view
         auctionExists(auctionId)

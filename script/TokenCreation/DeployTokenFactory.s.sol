@@ -3,14 +3,14 @@ pragma solidity 0.8.16;
 
 import { Script, console2 } from "forge-std/Script.sol";
 import { HelperConfig } from "../HelperConfig.s.sol";
-import { VestingVault } from "../../src/tokencreation/VestingVault.sol";
+import { TokenFactory } from "../../src/tokencreation/CreateToken.sol";
 
-contract DeployVestingVault is Script {
+contract DeployTokenFactory is Script {
     function run() external {
         HelperConfig helperConfig = new HelperConfig();
         vm.startBroadcast();
-        VestingVault vestingVault = new VestingVault(0xA8c5613E1B663381D0930A782295D55306D8a434);
-        console2.log("VestingVault deployed to: ", address(vestingVault));
+        TokenFactory factoryToken = new TokenFactory(0x6A1910944a98BE050a8b5E32FC49e9291c40D9c8);
+        console2.log("TokenFactory deployed to: ", address(factoryToken));
         vm.stopBroadcast();
     }
 }

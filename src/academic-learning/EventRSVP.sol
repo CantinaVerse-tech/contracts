@@ -102,7 +102,9 @@ contract EventRSVP {
         uint256 _endTime,
         uint256 _maxAttendees,
         bool _requiresApproval
-    ) external {
+    )
+        external
+    {
         require(bytes(_title).length > 0, "Title cannot be empty");
         require(_startTime > block.timestamp + MIN_ADVANCE_NOTICE, "Event must be scheduled in advance");
         require(_endTime > _startTime, "End time must be after start time");
@@ -182,7 +184,11 @@ contract EventRSVP {
      * @param _attendee Attendee address
      * @param _approve True to approve, false to reject
      */
-    function approveRSVP(uint256 _eventId, address _attendee, bool _approve)
+    function approveRSVP(
+        uint256 _eventId,
+        address _attendee,
+        bool _approve
+    )
         external
         validEvent(_eventId)
         onlyOrganizer(_eventId)
@@ -250,7 +256,10 @@ contract EventRSVP {
      * @param _eventId Event ID
      * @param _attendee Attendee address
      */
-    function checkInAttendee(uint256 _eventId, address _attendee)
+    function checkInAttendee(
+        uint256 _eventId,
+        address _attendee
+    )
         external
         validEvent(_eventId)
         onlyOrganizer(_eventId)
@@ -274,7 +283,10 @@ contract EventRSVP {
      * @param _eventId Event ID
      * @param _status New status
      */
-    function updateEventStatus(uint256 _eventId, EventStatus _status)
+    function updateEventStatus(
+        uint256 _eventId,
+        EventStatus _status
+    )
         external
         validEvent(_eventId)
         onlyOrganizer(_eventId)
