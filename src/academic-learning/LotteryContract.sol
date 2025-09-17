@@ -93,6 +93,11 @@ contract LotteryContract {
         return currentLotteryId;
     }
 
+    /**
+     * @dev Purchase lottery tickets
+     * @param lotteryId ID of the lottery
+     * @param ticketCount Number of tickets to purchase
+     */
     function buyTickets(
         uint256 lotteryId,
         uint256 ticketCount
