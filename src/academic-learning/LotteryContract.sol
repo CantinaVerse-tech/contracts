@@ -149,4 +149,12 @@ contract LotteryContract {
 
         lottery.state = LotteryState.CALCULATING;
     }
+
+    /**
+     * @dev Select a winner for the lottery
+     * @param lotteryId ID of the lottery
+     */
+    function selectWinner(uint256 lotteryId) external onlyOwner lotteryExists(lotteryId) lotteryOpen(lotteryId) {
+        _endLottery(lotteryId);
+    }
 }
