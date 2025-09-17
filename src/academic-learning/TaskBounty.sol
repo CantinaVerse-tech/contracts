@@ -7,7 +7,7 @@ pragma solidity ^0.8.19;
  * @notice This contract is for educational purposes - allows duplicate tasks and basic bounty system
  */
 contract TaskBounty {
-        struct Task {
+    struct Task {
         uint256 id;
         address creator;
         string title;
