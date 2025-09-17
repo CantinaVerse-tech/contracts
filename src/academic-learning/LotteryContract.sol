@@ -134,4 +134,19 @@ contract LotteryContract {
             payable(msg.sender).transfer(msg.value - totalCost);
         }
     }
+
+    /**
+     * @dev End the lottery
+     * @param lotteryId ID of the lottery
+     */
+    function endLottery(uint256 lotteryId) external onlyOwner lotteryExists(lotteryId) lotteryOpen(lotteryId) {
+        _endLottery(lotteryId);
+    }
+
+    function _endLottery(uint256 lotteryId) internal {
+        Lottery storage lottery = lotteries[lotteryId];
+        require(lottery.state == LotteryState.OPEN, "Lottery not open");
+
+        lottery.state = LotteryState.CALCULATING;
+    }
 }
