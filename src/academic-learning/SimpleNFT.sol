@@ -28,4 +28,8 @@ contract SimpleNFT {
         uint256 submittedAt;
         bool isAccepted;
     }
+
+    // State variables
+    uint256 private nextTaskId;
+    uint256 private nextSubmissionId;
 }
