@@ -36,4 +36,5 @@ contract SimpleNFT {
     // Mappings
     mapping(uint256 => Task) public tasks;
     mapping(uint256 => Submission) public submissions;
+    mapping(uint256 => uint256[]) public taskSubmissions; // taskId => submission IDs
 }
