@@ -32,4 +32,7 @@ contract SimpleNFT {
     // State variables
     uint256 private nextTaskId;
     uint256 private nextSubmissionId;
+
+    // Mappings
+    mapping(uint256 => Task) public tasks;
 }
