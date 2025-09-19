@@ -6,8 +6,8 @@ pragma solidity ^0.8.19;
  * @dev A contract for posting tasks with rewards, submitting solutions, and claiming bounties
  * @notice This contract is for educational purposes - allows duplicate tasks and basic bounty system
  */
-contract SimpleNFT { 
-        struct Task {
+contract SimpleNFT {
+    struct Task {
         uint256 id;
         address creator;
         string title;
@@ -21,7 +21,7 @@ contract SimpleNFT {
         uint256 solvedAt;
     }
 
-        struct Submission {
+    struct Submission {
         uint256 taskId;
         address submitter;
         string solution;
