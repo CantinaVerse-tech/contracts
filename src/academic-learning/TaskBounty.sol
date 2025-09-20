@@ -20,4 +20,16 @@ contract TaskBounty {
         string solution;
         uint256 solvedAt;
     }
+
+    struct Submission {
+        uint256 taskId;
+        address submitter;
+        string solution;
+        uint256 submittedAt;
+        bool isAccepted;
+    }
+
+    // State variables
+    uint256 private nextTaskId;
+    uint256 private nextSubmissionId;
 }
