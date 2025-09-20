@@ -29,7 +29,7 @@ contract TaskBounty {
         bool isAccepted;
     }
 
-        // State variables
+    // State variables
     uint256 private nextTaskId;
     uint256 private nextSubmissionId;
 }
