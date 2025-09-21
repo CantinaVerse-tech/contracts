@@ -32,4 +32,6 @@ contract TaskBounty {
     // State variables
     uint256 private nextTaskId;
     uint256 private nextSubmissionId;
+
+    mapping(uint256 => Task) public tasks;
 }
