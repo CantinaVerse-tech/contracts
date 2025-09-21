@@ -36,6 +36,6 @@ contract TaskBounty {
     mapping(uint256 => Task) public tasks;
     mapping(uint256 => Submission) public submissions;
     mapping(uint256 => uint256[]) public taskSubmissions; // taskId => submission IDs
-     mapping(address => uint256[]) public userTasks; // user => task IDs created
-         mapping(address => uint256[]) public userSubmissions; // user => submission IDs
+    mapping(address => uint256[]) public userTasks; // user => task IDs created
+    mapping(address => uint256[]) public userSubmissions; // user => submission IDs
 }
