@@ -34,4 +34,5 @@ contract TaskBounty {
     uint256 private nextSubmissionId;
 
     mapping(uint256 => Task) public tasks;
+    mapping(uint256 => Submission) public submissions;
 }
