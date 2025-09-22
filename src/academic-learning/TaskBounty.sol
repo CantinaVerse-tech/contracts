@@ -38,4 +38,7 @@ contract TaskBounty {
     mapping(uint256 => uint256[]) public taskSubmissions; // taskId => submission IDs
     mapping(address => uint256[]) public userTasks; // user => task IDs created
     mapping(address => uint256[]) public userSubmissions; // user => submission IDs
+
+    // Events
+    event TaskCreated(uint256 indexed taskId, address indexed creator, string title, uint256 reward);
 }
