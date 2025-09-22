@@ -41,4 +41,7 @@ contract TaskBounty {
 
     // Events
     event TaskCreated(uint256 indexed taskId, address indexed creator, string title, uint256 reward);
+    event SolutionSubmitted(
+        uint256 indexed taskId, uint256 indexed submissionId, address indexed submitter, string solution
+    );
 }
