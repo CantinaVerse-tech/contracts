@@ -45,5 +45,6 @@ contract TaskBounty {
         uint256 indexed taskId, uint256 indexed submissionId, address indexed submitter, string solution
     );
         event BountyClaimed(uint256 indexed taskId, uint256 indexed submissionId, address indexed solver, uint256 reward);
+    event TaskDeactivated(uint256 indexed taskId, address indexed creator);
 
 }
