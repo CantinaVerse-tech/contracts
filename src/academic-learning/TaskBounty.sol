@@ -68,5 +68,4 @@ contract TaskBounty {
         require(_submissionId < nextSubmissionId, "Submission does not exist");
         _;
     }
-
 }
