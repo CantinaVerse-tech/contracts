@@ -52,4 +52,9 @@ contract TaskBounty {
         require(tasks[_taskId].creator == msg.sender, "Only task creator can perform this action");
         _;
     }
+
+    modifier taskExists(uint256 _taskId) {
+        require(_taskId < nextTaskId, "Task does not exist");
+        _;
+    }
 }
