@@ -46,4 +46,10 @@ contract TaskBounty {
     );
     event BountyClaimed(uint256 indexed taskId, uint256 indexed submissionId, address indexed solver, uint256 reward);
     event TaskDeactivated(uint256 indexed taskId, address indexed creator);
+
+    // Modifiers
+    modifier onlyTaskCreator(uint256 _taskId) {
+        require(tasks[_taskId].creator == msg.sender, "Only task creator can perform this action");
+        _;
+    }
 }
