@@ -46,4 +46,26 @@ contract TaskBounty {
     );
     event BountyClaimed(uint256 indexed taskId, uint256 indexed submissionId, address indexed solver, uint256 reward);
     event TaskDeactivated(uint256 indexed taskId, address indexed creator);
+
+    // Modifiers
+    modifier onlyTaskCreator(uint256 _taskId) {
+        require(tasks[_taskId].creator == msg.sender, "Only task creator can perform this action");
+        _;
+    }
+
+    modifier taskExists(uint256 _taskId) {
+        require(_taskId < nextTaskId, "Task does not exist");
+        _;
+    }
+
+    modifier taskActive(uint256 _taskId) {
+        require(tasks[_taskId].isActive, "Task is not active");
+        require(!tasks[_taskId].isCompleted, "Task is already completed");
+        _;
+    }
+
+    modifier submissionExists(uint256 _submissionId) {
+        require(_submissionId < nextSubmissionId, "Submission does not exist");
+        _;
+    }
 }
