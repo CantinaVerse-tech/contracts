@@ -57,4 +57,10 @@ contract TaskBounty {
         require(_taskId < nextTaskId, "Task does not exist");
         _;
     }
+
+    modifier taskActive(uint256 _taskId) {
+        require(tasks[_taskId].isActive, "Task is not active");
+        require(!tasks[_taskId].isCompleted, "Task is already completed");
+        _;
+    }
 }
