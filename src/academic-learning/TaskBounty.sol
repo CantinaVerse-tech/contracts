@@ -63,4 +63,10 @@ contract TaskBounty {
         require(!tasks[_taskId].isCompleted, "Task is already completed");
         _;
     }
+
+    modifier submissionExists(uint256 _submissionId) {
+        require(_submissionId < nextSubmissionId, "Submission does not exist");
+        _;
+    }
+
 }
