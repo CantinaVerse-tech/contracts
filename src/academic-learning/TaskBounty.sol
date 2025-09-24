@@ -68,4 +68,29 @@ contract TaskBounty {
         require(_submissionId < nextSubmissionId, "Submission does not exist");
         _;
     }
+
+    function createTask(string calldata _title, string calldata _description) external payable {
+        require(bytes(_title).length > 0, "Title cannot be empty");
+        require(bytes(_description).length > 0, "Description cannot be empty");
+
+        uint256 taskId = nextTaskId++;
+
+        tasks[taskId] = Task({
+            id: taskId,
+            creator: msg.sender,
+            title: _title,
+            description: _description,
+            reward: msg.value,
+            isCompleted: false,
+            isActive: true,
+            createdAt: block.timestamp,
+            solver: address(0),
+            solution: "",
+            solvedAt: 0
+        });
+
+        userTasks[msg.sender].push(taskId);
+
+        emit TaskCreated(taskId, msg.sender, _title, msg.value);
+    }
 }
