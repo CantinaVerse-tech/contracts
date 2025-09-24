@@ -100,6 +100,11 @@ contract TaskBounty {
         emit TaskCreated(taskId, msg.sender, _title, msg.value);
     }
 
+    /**
+     * @dev Submit a solution for a task
+     * @param _taskId ID of the task to submit solution for
+     * @param _solution The proposed solution
+     */
     function submitSolution(uint256 _taskId, string calldata _solution)
         external
         taskExists(_taskId)
