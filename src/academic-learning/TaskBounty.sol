@@ -99,4 +99,28 @@ contract TaskBounty {
 
         emit TaskCreated(taskId, msg.sender, _title, msg.value);
     }
+
+    function submitSolution(uint256 _taskId, string calldata _solution)
+        external
+        taskExists(_taskId)
+        taskActive(_taskId)
+    {
+        require(bytes(_solution).length > 0, "Solution cannot be empty");
+        require(msg.sender != tasks[_taskId].creator, "Task creator cannot submit solution");
+
+        uint256 submissionId = nextSubmissionId++;
+
+        submissions[submissionId] = Submission({
+            taskId: _taskId,
+            submitter: msg.sender,
+            solution: _solution,
+            submittedAt: block.timestamp,
+            isAccepted: false
+        });
+
+        taskSubmissions[_taskId].push(submissionId);
+        userSubmissions[msg.sender].push(submissionId);
+
+        emit SolutionSubmitted(_taskId, submissionId, msg.sender, _solution);
+    }
 }
