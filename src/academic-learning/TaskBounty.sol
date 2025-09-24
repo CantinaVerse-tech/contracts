@@ -69,6 +69,12 @@ contract TaskBounty {
         _;
     }
 
+    /**
+     * @dev Create a new task with reward
+     * @param _title Title of the task
+     * @param _description Detailed description of the task
+     * @notice Reward is sent with the transaction (msg.value). Accepts 0 or greater.
+     */
     function createTask(string calldata _title, string calldata _description) external payable {
         require(bytes(_title).length > 0, "Title cannot be empty");
         require(bytes(_description).length > 0, "Description cannot be empty");
