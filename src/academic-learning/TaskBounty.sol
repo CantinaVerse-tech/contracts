@@ -128,4 +128,31 @@ contract TaskBounty {
 
         emit SolutionSubmitted(_taskId, submissionId, msg.sender, _solution);
     }
+
+    function acceptSolution(uint256 _submissionId) external submissionExists(_submissionId) {
+        Submission storage submission = submissions[_submissionId];
+        uint256 taskId = submission.taskId;
+        Task storage task = tasks[taskId];
+
+        require(msg.sender == task.creator, "Only task creator can accept solutions");
+        require(task.isActive, "Task is not active");
+        require(!task.isCompleted, "Task is already completed");
+        require(!submission.isAccepted, "Submission already accepted");
+
+        // Update task
+        task.isCompleted = true;
+        task.solver = submission.submitter;
+        task.solution = submission.solution;
+        task.solvedAt = block.timestamp;
+
+        // Update submission
+        submission.isAccepted = true;
+
+        // Transfer reward to solver
+        if (task.reward > 0) {
+            payable(submission.submitter).transfer(task.reward);
+        }
+
+        emit BountyClaimed(taskId, _submissionId, submission.submitter, task.reward);
+    }
 }
