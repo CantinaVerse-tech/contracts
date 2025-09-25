@@ -129,6 +129,10 @@ contract TaskBounty {
         emit SolutionSubmitted(_taskId, submissionId, msg.sender, _solution);
     }
 
+    /**
+     * @dev Accept a solution and award the bounty
+     * @param _submissionId ID of the submission to accept
+     */
     function acceptSolution(uint256 _submissionId) external submissionExists(_submissionId) {
         Submission storage submission = submissions[_submissionId];
         uint256 taskId = submission.taskId;
