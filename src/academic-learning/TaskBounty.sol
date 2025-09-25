@@ -105,7 +105,10 @@ contract TaskBounty {
      * @param _taskId ID of the task to submit solution for
      * @param _solution The proposed solution
      */
-    function submitSolution(uint256 _taskId, string calldata _solution)
+    function submitSolution(
+        uint256 _taskId,
+        string calldata _solution
+    )
         external
         taskExists(_taskId)
         taskActive(_taskId)
@@ -164,7 +167,7 @@ contract TaskBounty {
      * @dev Deactivate a task (only creator can do this)
      * @param _taskId ID of the task to deactivate
      */
-        function deactivateTask(uint256 _taskId) external taskExists(_taskId) onlyTaskCreator(_taskId) {
+    function deactivateTask(uint256 _taskId) external taskExists(_taskId) onlyTaskCreator(_taskId) {
         Task storage task = tasks[_taskId];
         require(task.isActive, "Task is already inactive");
         require(!task.isCompleted, "Cannot deactivate completed task");
