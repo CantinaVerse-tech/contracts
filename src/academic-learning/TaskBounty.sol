@@ -160,6 +160,10 @@ contract TaskBounty {
         emit BountyClaimed(taskId, _submissionId, submission.submitter, task.reward);
     }
 
+    /**
+     * @dev Deactivate a task (only creator can do this)
+     * @param _taskId ID of the task to deactivate
+     */
         function deactivateTask(uint256 _taskId) external taskExists(_taskId) onlyTaskCreator(_taskId) {
         Task storage task = tasks[_taskId];
         require(task.isActive, "Task is already inactive");
