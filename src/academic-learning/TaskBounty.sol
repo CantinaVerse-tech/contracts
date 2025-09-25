@@ -159,4 +159,19 @@ contract TaskBounty {
 
         emit BountyClaimed(taskId, _submissionId, submission.submitter, task.reward);
     }
+
+        function deactivateTask(uint256 _taskId) external taskExists(_taskId) onlyTaskCreator(_taskId) {
+        Task storage task = tasks[_taskId];
+        require(task.isActive, "Task is already inactive");
+        require(!task.isCompleted, "Cannot deactivate completed task");
+
+        task.isActive = false;
+
+        // Refund reward to creator
+        if (task.reward > 0) {
+            payable(task.creator).transfer(task.reward);
+        }
+
+        emit TaskDeactivated(_taskId, msg.sender);
+    }
 }
