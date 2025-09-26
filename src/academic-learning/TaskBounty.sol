@@ -191,6 +191,11 @@ contract TaskBounty {
         return tasks[_taskId];
     }
 
+    /**
+     * @dev Get submission details
+     * @param _submissionId ID of the submission
+     * @return Submission struct
+     */
     function getSubmission(uint256 _submissionId)
         external
         view
