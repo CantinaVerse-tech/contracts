@@ -181,4 +181,27 @@ contract TaskBounty {
 
         emit TaskDeactivated(_taskId, msg.sender);
     }
+
+    /**
+     * @dev Get task details
+     * @param _taskId ID of the task
+     * @return Task struct
+     */
+    function getTask(uint256 _taskId) external view taskExists(_taskId) returns (Task memory) {
+        return tasks[_taskId];
+    }
+
+    /**
+     * @dev Get submission details
+     * @param _submissionId ID of the submission
+     * @return Submission struct
+     */
+    function getSubmission(uint256 _submissionId)
+        external
+        view
+        submissionExists(_submissionId)
+        returns (Submission memory)
+    {
+        return submissions[_submissionId];
+    }
 }
