@@ -181,4 +181,8 @@ contract TaskBounty {
 
         emit TaskDeactivated(_taskId, msg.sender);
     }
+
+    function getTask(uint256 _taskId) external view taskExists(_taskId) returns (Task memory) {
+        return tasks[_taskId];
+    }
 }
