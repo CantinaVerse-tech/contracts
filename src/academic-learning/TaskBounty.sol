@@ -204,4 +204,8 @@ contract TaskBounty {
     {
         return submissions[_submissionId];
     }
+
+    function getTaskSubmissions(uint256 _taskId) external view taskExists(_taskId) returns (uint256[] memory) {
+        return taskSubmissions[_taskId];
+    }
 }
