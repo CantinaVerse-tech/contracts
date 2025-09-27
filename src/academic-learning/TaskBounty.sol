@@ -222,4 +222,8 @@ contract TaskBounty {
     function getUserTasks(address _user) external view returns (uint256[] memory) {
         return userTasks[_user];
     }
+
+    function getUserSubmissions(address _user) external view returns (uint256[] memory) {
+        return userSubmissions[_user];
+    }
 }
