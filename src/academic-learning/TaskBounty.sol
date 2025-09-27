@@ -223,6 +223,11 @@ contract TaskBounty {
         return userTasks[_user];
     }
 
+    /**
+     * @dev Get all submission IDs by a user
+     * @param _user Address of the user
+     * @return Array of submission IDs
+     */
     function getUserSubmissions(address _user) external view returns (uint256[] memory) {
         return userSubmissions[_user];
     }
