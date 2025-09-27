@@ -205,6 +205,11 @@ contract TaskBounty {
         return submissions[_submissionId];
     }
 
+    /**
+     * @dev Get all submission IDs for a task
+     * @param _taskId ID of the task
+     * @return Array of submission IDs
+     */
     function getTaskSubmissions(uint256 _taskId) external view taskExists(_taskId) returns (uint256[] memory) {
         return taskSubmissions[_taskId];
     }
