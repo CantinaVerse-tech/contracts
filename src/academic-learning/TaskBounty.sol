@@ -214,6 +214,11 @@ contract TaskBounty {
         return taskSubmissions[_taskId];
     }
 
+    /**
+     * @dev Get all task IDs created by a user
+     * @param _user Address of the user
+     * @return Array of task IDs
+     */
     function getUserTasks(address _user) external view returns (uint256[] memory) {
         return userTasks[_user];
     }
