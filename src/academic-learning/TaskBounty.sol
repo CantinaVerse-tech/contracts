@@ -232,6 +232,10 @@ contract TaskBounty {
         return userSubmissions[_user];
     }
 
+    /**
+     * @dev Get total number of tasks
+     * @return Total task count
+     */
     function getTotalTasks() external view returns (uint256) {
         return nextTaskId;
     }
