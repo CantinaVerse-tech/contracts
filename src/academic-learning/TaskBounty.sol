@@ -248,6 +248,12 @@ contract TaskBounty {
         return nextSubmissionId;
     }
 
+    /**
+     * @dev Get active tasks (for pagination)
+     * @param _offset Starting index
+     * @param _limit Number of tasks to return
+     * @return Array of task IDs that are active
+     */
     function getActiveTasks(uint256 _offset, uint256 _limit) external view returns (uint256[] memory) {
         uint256 activeCount = 0;
 
