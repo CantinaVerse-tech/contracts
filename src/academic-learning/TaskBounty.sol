@@ -240,6 +240,10 @@ contract TaskBounty {
         return nextTaskId;
     }
 
+    /**
+     * @dev Get total number of tasks
+     * @return Total task count
+     */
     function getTotalSubmissions() external view returns (uint256) {
         return nextSubmissionId;
     }
