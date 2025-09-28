@@ -239,4 +239,8 @@ contract TaskBounty {
     function getTotalTasks() external view returns (uint256) {
         return nextTaskId;
     }
+
+    function getTotalSubmissions() external view returns (uint256) {
+        return nextSubmissionId;
+    }
 }
