@@ -231,4 +231,62 @@ contract TaskBounty {
     function getUserSubmissions(address _user) external view returns (uint256[] memory) {
         return userSubmissions[_user];
     }
+
+    /**
+     * @dev Get total number of tasks
+     * @return Total task count
+     */
+    function getTotalTasks() external view returns (uint256) {
+        return nextTaskId;
+    }
+
+    /**
+     * @dev Get total number of tasks
+     * @return Total task count
+     */
+    function getTotalSubmissions() external view returns (uint256) {
+        return nextSubmissionId;
+    }
+
+    /**
+     * @dev Get active tasks (for pagination)
+     * @param _offset Starting index
+     * @param _limit Number of tasks to return
+     * @return Array of task IDs that are active
+     */
+    function getActiveTasks(uint256 _offset, uint256 _limit) external view returns (uint256[] memory) {
+        uint256 activeCount = 0;
+
+        // Count active tasks
+        for (uint256 i = 0; i < nextTaskId; i++) {
+            if (tasks[i].isActive && !tasks[i].isCompleted) {
+                activeCount++;
+            }
+        }
+
+        if (_offset >= activeCount) {
+            return new uint256[](0);
+        }
+
+        uint256 length = _limit;
+        if (_offset + _limit > activeCount) {
+            length = activeCount - _offset;
+        }
+
+        uint256[] memory result = new uint256[](length);
+        uint256 currentIndex = 0;
+        uint256 resultIndex = 0;
+
+        for (uint256 i = 0; i < nextTaskId && resultIndex < length; i++) {
+            if (tasks[i].isActive && !tasks[i].isCompleted) {
+                if (currentIndex >= _offset) {
+                    result[resultIndex] = i;
+                    resultIndex++;
+                }
+                currentIndex++;
+            }
+        }
+
+        return result;
+    }
 }
