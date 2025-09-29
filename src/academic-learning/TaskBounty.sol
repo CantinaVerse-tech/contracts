@@ -298,4 +298,8 @@ contract TaskBounty {
         require(msg.sender == address(this), "Only contract can call this");
         payable(msg.sender).transfer(address(this).balance);
     }
+
+        function getContractBalance() external view returns (uint256) {
+        return address(this).balance;
+    }
 }
