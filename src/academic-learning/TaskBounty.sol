@@ -299,6 +299,10 @@ contract TaskBounty {
         payable(msg.sender).transfer(address(this).balance);
     }
 
+    /**
+     * @dev Get contract balance
+     * @return Contract ETH balance
+     */
         function getContractBalance() external view returns (uint256) {
         return address(this).balance;
     }
