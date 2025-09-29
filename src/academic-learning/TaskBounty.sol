@@ -289,4 +289,9 @@ contract TaskBounty {
 
         return result;
     }
+
+    function emergencyWithdraw() external {
+        require(msg.sender == address(this), "Only contract can call this");
+        payable(msg.sender).transfer(address(this).balance);
+    }
 }
