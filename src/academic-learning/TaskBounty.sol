@@ -289,4 +289,21 @@ contract TaskBounty {
 
         return result;
     }
+
+    /**
+     * @dev Emergency function to withdraw any stuck ETH (only in case of bugs)
+     * @notice This should only be used in emergency situations
+     */
+    function emergencyWithdraw() external {
+        require(msg.sender == address(this), "Only contract can call this");
+        payable(msg.sender).transfer(address(this).balance);
+    }
+
+    /**
+     * @dev Get contract balance
+     * @return Contract ETH balance
+     */
+    function getContractBalance() external view returns (uint256) {
+        return address(this).balance;
+    }
 }
