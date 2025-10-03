@@ -8,4 +8,4 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  * @title TokenCreation
  * @dev Basic ERC20 token that can be deployed by the factory
  */
-contract TokenCreation {}
+contract TokenCreation { }
