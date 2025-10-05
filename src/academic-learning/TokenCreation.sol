@@ -15,4 +15,33 @@ contract TokenCreation is ERC20, Ownable {
     string private _description;
     string private _imageUrl;
     address public creator;
+
+    event TokenCreated(address indexed token, address indexed creator, string name, string symbol, uint256 totalSupply);
+
+    constructor(
+        string memory name,
+        string memory symbol,
+        uint8 decimals_,
+        uint256 totalSupply,
+        string memory description,
+        string memory imageUrl,
+        address creator_
+    )
+        ERC20(name, symbol)
+    {
+        _decimals = decimals_;
+        maxSupply = totalSupply;
+        _description = description;
+        _imageUrl = imageUrl;
+
+
+        // Mint total supply to creator
+        _mint(creator_, totalSupply);
+
+        emit TokenCreated(address(this), creator_, name, symbol, totalSupply);
+    }
+
+    function decimals() public view override returns (uint8) {
+        return _decimals;
+    }
 }
