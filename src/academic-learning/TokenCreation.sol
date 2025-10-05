@@ -26,7 +26,10 @@ contract TokenCreation is ERC20, Ownable {
         string memory description,
         string memory imageUrl,
         address creator_
-    ) ERC20(name, symbol) Ownable(creator_) {
+    )
+        ERC20(name, symbol)
+        Ownable(creator_)
+    {
         _decimals = decimals_;
         maxSupply = totalSupply;
         _description = description;
