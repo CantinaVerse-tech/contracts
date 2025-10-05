@@ -28,13 +28,12 @@ contract TokenCreation is ERC20, Ownable {
         address creator_
     )
         ERC20(name, symbol)
-        Ownable(creator_)
     {
         _decimals = decimals_;
         maxSupply = totalSupply;
         _description = description;
         _imageUrl = imageUrl;
-        creator = creator_;
+
 
         // Mint total supply to creator
         _mint(creator_, totalSupply);
