@@ -15,4 +15,7 @@ contract TokenCreation is ERC20, Ownable {
     string private _description;
     string private _imageUrl;
     address public creator;
+
+    event TokenCreated(address indexed token, address indexed creator, string name, string symbol, uint256 totalSupply);
+
 }
