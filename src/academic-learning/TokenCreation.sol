@@ -38,4 +38,8 @@ contract TokenCreation is ERC20, Ownable {
 
         emit TokenCreated(address(this), creator_, name, symbol, totalSupply);
     }
+
+    function decimals() public view override returns (uint8) {
+        return _decimals;
+    }
 }
