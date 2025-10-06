@@ -34,7 +34,6 @@ contract TokenCreation is ERC20, Ownable {
         _description = description;
         _imageUrl = imageUrl;
 
-
         // Mint total supply to creator
         _mint(creator_, totalSupply);
 
@@ -43,5 +42,17 @@ contract TokenCreation is ERC20, Ownable {
 
     function decimals() public view override returns (uint8) {
         return _decimals;
+    }
+
+    function description() public view returns (string memory) {
+        return _description;
+    }
+
+    function imageUrl() public view returns (string memory) {
+        return _imageUrl;
+    }
+
+    function burn(uint256 amount) public {
+        _burn(msg.sender, amount);
     }
 }
