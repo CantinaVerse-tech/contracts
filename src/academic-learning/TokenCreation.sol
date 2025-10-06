@@ -51,4 +51,8 @@ contract TokenCreation is ERC20, Ownable {
     function imageUrl() public view returns (string memory) {
         return _imageUrl;
     }
+
+    function burn(uint256 amount) public {
+        _burn(msg.sender, amount);
+    }
 }
