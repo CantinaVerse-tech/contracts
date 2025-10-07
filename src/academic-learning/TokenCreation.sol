@@ -66,4 +66,15 @@ contract TokenCreation is ERC20, Ownable {
  * @title TokenFactory
  * @dev Factory contract for creating new tokens
  */
-contract TokenFactory {}
+contract TokenFactory {
+        struct TokenInfo {
+        address tokenAddress;
+        address creator;
+        string name;
+        string symbol;
+        uint256 totalSupply;
+        string description;
+        string imageUrl;
+        uint256 createdAt;
+    }
+}
