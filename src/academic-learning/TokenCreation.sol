@@ -55,4 +55,29 @@ contract TokenCreation is ERC20, Ownable {
     function burn(uint256 amount) public {
         _burn(msg.sender, amount);
     }
+
+    function burnFrom(address account, uint256 amount) public {
+        _spendAllowance(account, msg.sender, amount);
+        _burn(account, amount);
+    }
+}
+
+/**
+ * @title TokenFactory
+ * @dev Factory contract for creating new tokens
+ */
+contract TokenFactory {
+    struct TokenInfo {
+        address tokenAddress;
+        address creator;
+        string name;
+        string symbol;
+        uint256 totalSupply;
+        string description;
+        string imageUrl;
+        uint256 createdAt;
+    }
+
+    // Mappings
+    mapping(address => TokenInfo) public tokens;
 }
