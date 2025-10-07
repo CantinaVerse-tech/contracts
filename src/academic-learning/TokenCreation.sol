@@ -77,4 +77,7 @@ contract TokenFactory {
         string imageUrl;
         uint256 createdAt;
     }
+
+    // Mappings
+        mapping(address => TokenInfo) public tokens;
 }
