@@ -61,3 +61,9 @@ contract TokenCreation is ERC20, Ownable {
         _burn(account, amount);
     }
 }
+
+/**
+ * @title TokenFactory
+ * @dev Factory contract for creating new tokens
+ */
+contract TokenFactory {}
