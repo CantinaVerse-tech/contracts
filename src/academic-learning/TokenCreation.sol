@@ -67,7 +67,7 @@ contract TokenCreation is ERC20, Ownable {
  * @dev Factory contract for creating new tokens
  */
 contract TokenFactory {
-        struct TokenInfo {
+    struct TokenInfo {
         address tokenAddress;
         address creator;
         string name;
@@ -79,5 +79,5 @@ contract TokenFactory {
     }
 
     // Mappings
-        mapping(address => TokenInfo) public tokens;
+    mapping(address => TokenInfo) public tokens;
 }
